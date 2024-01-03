@@ -2,11 +2,12 @@
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Services.Contracts;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/users")]
     public class UsersAPIController : ControllerBase
@@ -22,6 +23,7 @@ namespace AutomotiveForumSystem.Controllers
             this.authManager = authManager;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Create([FromBody] UserCreateDTO userDTO)
         {
@@ -65,7 +67,7 @@ namespace AutomotiveForumSystem.Controllers
         }        
         
         [HttpDelete]
-        public IActionResult Delete([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] int id)
+        public IActionResult Delete([FromHeader(Name = "Authorization")] string authorizationHeader)
         {
             try
             {

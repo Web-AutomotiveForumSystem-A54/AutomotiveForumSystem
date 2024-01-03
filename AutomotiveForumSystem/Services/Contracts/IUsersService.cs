@@ -15,11 +15,11 @@ namespace AutomotiveForumSystem.Services.Contracts
 
         List<User> GetByFirstName(string firstName);
 
-        User Block(User requestingUser, User user);
+        User Block(User user);
 
-        User Unblock(User requestingUser, User user);
+        User Unblock(User user);
 
-        User SetAdmin(User requestingUser, User user);
+        User SetAdmin(User user);
 
         User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
 

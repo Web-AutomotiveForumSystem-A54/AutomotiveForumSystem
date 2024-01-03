@@ -42,27 +42,24 @@ namespace AutomotiveForumSystem.Services
             return this.users.GetByFirstName(firstName);
         }
 
-        public User Block(User requestingUser, User user)
+        public User Block(User user)
         {
-            this.CheckRequestingUserAdmin(requestingUser);
             this.CheckUserDeleted(user);
             this.CheckUserBlocked(user);
 
             return this.users.Block(user);
         }
 
-        public User Unblock(User requestingUser, User user)
+        public User Unblock(User user)
         {
-            this.CheckRequestingUserAdmin(requestingUser);
             this.CheckUserDeleted(user);
             this.CheckUserUnblocked(user);
 
             return this.users.Unblock(user);
         }
 
-        public User SetAdmin(User requestingUser, User user)
+        public User SetAdmin(User user)
         {
-            this.CheckRequestingUserAdmin(requestingUser);
             this.CheckUserAdmin(user);
             this.CheckUserDeleted(user);
             this.CheckUserBlocked(user);
@@ -117,12 +114,6 @@ namespace AutomotiveForumSystem.Services
         {
             if (user.IsDeleted) 
                 throw new EntityNotFoundException("Account does not exist.");
-        }
-
-        private void CheckRequestingUserAdmin(User requestingUser)
-        {
-            if (!requestingUser.IsAdmin) 
-                throw new AuthorizationException("You are not granted with admin rights.");
         }
 
         private void CheckUserAdmin(User user)

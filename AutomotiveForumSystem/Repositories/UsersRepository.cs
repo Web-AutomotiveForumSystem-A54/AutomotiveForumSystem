@@ -48,8 +48,14 @@ namespace AutomotiveForumSystem.Repositories
 
         public List<User> GetByFirstName(string firstName)
         {
-            return this.GetAll().FindAll(u => u.FirstName == firstName)
-                ?? throw new EntityNotFoundException($"No user with first name {firstName} exists.");
+            var users = this.GetAll().FindAll(u => u.FirstName == firstName);
+
+            if (users.Count == 0)
+            {
+                throw new EntityNotFoundException($"No users with first name {firstName} exist.");
+            }
+
+            return users;
         }
 
         public User Block(User user)
