@@ -49,6 +49,7 @@ namespace AutomotiveForumSystem.Helpers
 
         public User TryGetUserFromToken(string token)
         {
+            token = token.Replace("Bearer", string.Empty);
             var username = GetUsernameFromToken(token);
             return usersService.GetByUsername(username);
         }

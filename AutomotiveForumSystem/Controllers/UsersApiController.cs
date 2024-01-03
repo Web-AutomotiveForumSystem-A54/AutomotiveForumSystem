@@ -40,11 +40,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateProfileInformation([FromHeader] string credentials, [FromBody] UserUpdateProfileInformationDTO userDTO)
+        public IActionResult UpdateProfileInformation([FromHeader(Name = "Authorization")] string authorizationHeader, [FromBody] UserUpdateProfileInformationDTO userDTO)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
+                var user = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var updatedUser = this.usersService.UpdateProfileInformation(user, userDTO);
                 var userResponse = this.userMapper.Map(updatedUser);
 
@@ -65,11 +65,11 @@ namespace AutomotiveForumSystem.Controllers
         }        
         
         [HttpDelete]
-        public IActionResult Delete([FromRoute] int id, [FromHeader] string credentials)
+        public IActionResult Delete([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] int id)
         {
             try
             {
-                var user = this.authManager.TryGetUser(credentials);
+                var user = this.authManager.TryGetUserFromToken(authorizationHeader);
                 this.usersService.Delete(user);
 
                 return Ok();

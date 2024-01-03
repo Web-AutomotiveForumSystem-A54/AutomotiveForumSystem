@@ -21,11 +21,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpGet("{username}")]
-        public IActionResult GetByUsername([FromRoute] string username, [FromHeader] string credentials)
+        public IActionResult GetByUsername([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] string username)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var user = this.usersService.GetByUsername(username);
                 var response = this.userMapper.Map(user);
 
@@ -42,11 +42,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpGet("{email}")]
-        public IActionResult GetByEmail([FromRoute] string email, [FromHeader] string credentials)
+        public IActionResult GetByEmail([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] string email)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var user = this.usersService.GetByEmail(email);
                 var response = this.userMapper.Map(user);
 
@@ -63,11 +63,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpGet("{firstName}")]
-        public IActionResult GetByFirstName([FromRoute] string firstName, [FromHeader] string credentials)
+        public IActionResult GetByFirstName([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] string firstName)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var users = this.usersService.GetByFirstName(firstName);
                 var response = this.userMapper.Map(users);
 
@@ -84,11 +84,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpPut("block/{id}")]
-        public IActionResult Block([FromRoute] int id, [FromHeader] string credentials)
+        public IActionResult Block([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] int id)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var userToBlock = this.usersService.GetById(id);
                 var blockedUser = this.usersService.Block(requestingUser, userToBlock);
                 var response = this.userMapper.Map(blockedUser);
@@ -114,11 +114,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpPut("unblock/{id}")]
-        public IActionResult Unblock([FromRoute] int id, [FromHeader] string credentials)
+        public IActionResult Unblock([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] int id)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var userToUnblock = this.usersService.GetById(id);
                 var unblockedUser = this.usersService.Unblock(requestingUser, userToUnblock);
                 var response = this.userMapper.Map(unblockedUser);
@@ -144,11 +144,11 @@ namespace AutomotiveForumSystem.Controllers
         }
 
         [HttpPut("setAdmin/{id}")]
-        public IActionResult SetAdmin([FromRoute] int id, [FromHeader] string credentials)
+        public IActionResult SetAdmin([FromHeader(Name = "Authorization")] string authorizationHeader, [FromRoute] int id)
         {
             try
             {
-                var requestingUser = this.authManager.TryGetUser(credentials);
+                var requestingUser = this.authManager.TryGetUserFromToken(authorizationHeader);
                 var userToSetAsAdmin = this.usersService.GetById(id);
                 var admin = this.usersService.SetAdmin(requestingUser, userToSetAsAdmin);
                 var response = this.userMapper.Map(admin);
