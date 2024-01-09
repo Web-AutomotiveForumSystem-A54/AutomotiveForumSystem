@@ -1,0 +1,19 @@
+﻿@model List<AutomotiveForumSystem.Models.PostDtos.PostResponseDto>
+<body>
+
+	<h1>Welcome to Automotive Forum System</h1>
+	<h3>The current time is @DateTime.Now</h3>
+
+	<hr />
+	
+	@{
+		foreach (var post in Model)
+		{
+			<h2>@post.Title</h2>
+			<p>@post.Content</p>
+			<p>Category: @post.CategoryName</p>
+		}
+	}
+
+	
+</body>

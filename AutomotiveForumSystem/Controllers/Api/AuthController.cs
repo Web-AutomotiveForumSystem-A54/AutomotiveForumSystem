@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [Route("api/auth")]
     [ApiController]
@@ -22,9 +22,9 @@ namespace AutomotiveForumSystem.Controllers
             this.jwtService = jwtService;
         }
         [HttpPost("login")]
-        public IActionResult Login([FromHeader]string credentials)
+        public IActionResult Login([FromHeader] string credentials)
         {
-            var user = this.authManager.TryGetUser(credentials);
+            var user = authManager.TryGetUser(credentials);
             var token = jwtService.GenerateToken(user.UserName, user.IsAdmin);
             return Ok(new { Token = token });
         }

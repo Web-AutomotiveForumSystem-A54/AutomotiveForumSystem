@@ -8,7 +8,7 @@ using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [ApiController]
     [Route("api/comments")]
@@ -35,8 +35,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var commentsToReturn = this.commentsService.GetAllComments(commentQueryParameters);
-                return Ok(this.commentModelMapper.Map(commentsToReturn));
+                var commentsToReturn = commentsService.GetAllComments(commentQueryParameters);
+                return Ok(commentModelMapper.Map(commentsToReturn));
             }
             catch (Exception ex)
             {
@@ -49,8 +49,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var commentToReturn = this.commentsService.GetCommentById(id);
-                return Ok(this.commentModelMapper.Map(commentToReturn));
+                var commentToReturn = commentsService.GetCommentById(id);
+                return Ok(commentModelMapper.Map(commentToReturn));
             }
             catch (Exception ex)
             {
@@ -63,9 +63,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var replies = this.commentsService.GetAllRepliesByCommentId(id);
+                var replies = commentsService.GetAllRepliesByCommentId(id);
 
-                return Ok(this.commentModelMapper.Map(replies));
+                return Ok(commentModelMapper.Map(replies));
             }
             catch (Exception ex)
             {
@@ -81,15 +81,15 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var token = auth.Replace("Bearer ", string.Empty);
 
-                var user = this.authManager.TryGetUserFromToken(token);
-                var createdComment = this.commentModelMapper.Map(comment);
+                var user = authManager.TryGetUserFromToken(token);
+                var createdComment = commentModelMapper.Map(comment);
 
-                var post = this.postService.GetPostById(comment.PostID);
+                var post = postService.GetPostById(comment.PostID);
 
-                this.commentsService.CreateComment(user, post, createdComment, comment.CommentID);
+                commentsService.CreateComment(user, post, createdComment, comment.CommentID);
 
-                return Ok(this.commentModelMapper.Map(createdComment));
-            }                        
+                return Ok(commentModelMapper.Map(createdComment));
+            }
             catch (UserBlockedException ex)
             {
                 return Unauthorized(ex.Message);
@@ -114,9 +114,9 @@ namespace AutomotiveForumSystem.Controllers
 
                 var token = auth.Replace("Bearer ", string.Empty);
 
-                var user = this.authManager.TryGetUserFromToken(token);
+                var user = authManager.TryGetUserFromToken(token);
 
-                var updatedComment = this.commentsService.UpdateComment(user, id, content.Content);
+                var updatedComment = commentsService.UpdateComment(user, id, content.Content);
 
                 return Ok(commentModelMapper.Map(updatedComment));
             }
@@ -136,8 +136,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = this.authManager.TryGetUserFromToken(auth);
-                var result = this.commentsService.DeleteComment(user, id);
+                var user = authManager.TryGetUserFromToken(auth);
+                var result = commentsService.DeleteComment(user, id);
 
                 return Ok("Comment deleted.");
             }

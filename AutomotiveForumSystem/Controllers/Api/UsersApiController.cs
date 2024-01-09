@@ -5,7 +5,7 @@ using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [Authorize]
     [ApiController]
@@ -29,9 +29,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = this.userMapper.Map(userDTO);
-                var createdUser = this.usersService.Create(user);
-                var userResponse = this.userMapper.Map(createdUser);
+                var user = userMapper.Map(userDTO);
+                var createdUser = usersService.Create(user);
+                var userResponse = userMapper.Map(createdUser);
 
                 return StatusCode(StatusCodes.Status201Created, userResponse);
             }
@@ -46,9 +46,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = this.authManager.TryGetUserFromToken(authorizationHeader);
-                var updatedUser = this.usersService.UpdateProfileInformation(user, userDTO);
-                var userResponse = this.userMapper.Map(updatedUser);
+                var user = authManager.TryGetUserFromToken(authorizationHeader);
+                var updatedUser = usersService.UpdateProfileInformation(user, userDTO);
+                var userResponse = userMapper.Map(updatedUser);
 
                 return Ok(userResponse);
             }
@@ -64,15 +64,15 @@ namespace AutomotiveForumSystem.Controllers
             {
                 return NotFound(e.Message);
             }
-        }        
-        
+        }
+
         [HttpDelete]
         public IActionResult Delete([FromHeader(Name = "Authorization")] string authorizationHeader)
         {
             try
             {
-                var user = this.authManager.TryGetUserFromToken(authorizationHeader);
-                this.usersService.Delete(user);
+                var user = authManager.TryGetUserFromToken(authorizationHeader);
+                usersService.Delete(user);
 
                 return Ok();
             }

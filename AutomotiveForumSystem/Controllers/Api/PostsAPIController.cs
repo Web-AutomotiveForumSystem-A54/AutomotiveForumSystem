@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [Route("api/posts")]
     [ApiController]
@@ -32,7 +32,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = this.postService.GetAll(postQueryParameters);
+                var posts = postService.GetAll(postQueryParameters);
                 return Ok(postModelMapper.MapPostsToResponseDtos(posts));
             }
             catch (EntityNotFoundException ex)
@@ -47,7 +47,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var posts = this.postService.GetPostsByUser(id, postQueryParameters);
+                var posts = postService.GetPostsByUser(id, postQueryParameters);
                 return Ok(postModelMapper.MapPostsToResponseDtos(posts));
             }
             catch (EntityNotFoundException ex)
@@ -62,7 +62,7 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                return Ok(postModelMapper.MapPostToResponseDto(this.postService.GetPostById(id)));
+                return Ok(postModelMapper.MapPostToResponseDto(postService.GetPostById(id)));
             }
             catch (EntityNotFoundException ex)
             {
@@ -79,13 +79,13 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var token = authorizationHeader.Replace("Bearer ", string.Empty);
 
-                var currentUser = this.authManager.TryGetUserFromToken(token);
-                if (!this.ModelState.IsValid)
+                var currentUser = authManager.TryGetUserFromToken(token);
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                var createdPost = this.postService.CreatePost(this.postModelMapper.Map(model), currentUser);
-                var postResponseDto = this.postModelMapper.MapPostToResponseDto(createdPost);
+                var createdPost = postService.CreatePost(postModelMapper.Map(model), currentUser);
+                var postResponseDto = postModelMapper.MapPostToResponseDto(createdPost);
                 return Ok(postResponseDto);
             }
             catch (UserBlockedException ex)
@@ -107,8 +107,8 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var token = authorizationHeader.Replace("Bearer ", string.Empty);
 
-                var currentUser = this.authManager.TryGetUserFromToken(token);
-                var postToUpdate = this.postService.Update(id, this.postModelMapper.Map(model), currentUser);
+                var currentUser = authManager.TryGetUserFromToken(token);
+                var postToUpdate = postService.Update(id, postModelMapper.Map(model), currentUser);
                 return Ok(postModelMapper.MapPostToResponseDto(postToUpdate));
             }
             catch (EntityNotFoundException ex)
@@ -134,8 +134,8 @@ namespace AutomotiveForumSystem.Controllers
             {
                 var token = authorizationHeader.Replace("Bearer ", string.Empty);
 
-                var currentUser = this.authManager.TryGetUserFromToken(token);
-                this.postService.DeletePost(id, currentUser);
+                var currentUser = authManager.TryGetUserFromToken(token);
+                postService.DeletePost(id, currentUser);
                 return Ok("Post deleted successfully!");
             }
             catch (EntityNotFoundException ex)

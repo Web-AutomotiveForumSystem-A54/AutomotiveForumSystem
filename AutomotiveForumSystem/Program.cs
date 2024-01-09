@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 
 namespace AutomotiveForumSystem
@@ -21,9 +22,13 @@ namespace AutomotiveForumSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+			builder.Services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+				});
 
-            var configuration = builder.Configuration;
+			var configuration = builder.Configuration;
 
             // Configure JWT authentication
             var key = Encoding.ASCII.GetBytes("my-super-secret-key");
@@ -115,7 +120,7 @@ namespace AutomotiveForumSystem
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.
                 // Set serverName to your local instance; databaseName is the name of the database
-                string connectionString = @"Server=PLAMEN-LEGION\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;";
+                string connectionString = @"Server=DESKTOP-P2N7VNG\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;";
 
                 // Configure the application to use the locally installed SQL Server.
                 options.UseSqlServer(connectionString);
@@ -132,8 +137,17 @@ namespace AutomotiveForumSystem
             });
             app.UseAuthentication();
             app.UseAuthorization();
-            app.MapControllers();
-            app.Run();
+
+            app.UseRouting();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapDefaultControllerRoute();
+			});
+
+			app.UseStaticFiles();
+
+			app.Run();
         }
     }
 }

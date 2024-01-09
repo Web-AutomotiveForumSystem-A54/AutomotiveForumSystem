@@ -5,16 +5,16 @@ using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [ApiController]
     [Route("api/categories")]
-    public class CategoriesController : ControllerBase
+    public class CategoriesAPIController : ControllerBase
     {
         private readonly ICategoriesService categoriesService;
         private readonly ICategoryModelMapper categoryModelMapper;
 
-        public CategoriesController(ICategoriesService categoriesService,
+        public CategoriesAPIController(ICategoriesService categoriesService,
             ICategoryModelMapper categoryModelMapper)
         {
             this.categoriesService = categoriesService;
@@ -24,9 +24,9 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            var categoriesToReturn = this.categoriesService.GetAll();
+            var categoriesToReturn = categoriesService.GetAll();
 
-            return Ok(this.categoryModelMapper.Map(categoriesToReturn));
+            return Ok(categoryModelMapper.Map(categoriesToReturn));
         }
 
         [Authorize(Policy = "AdminPolicy")]
@@ -35,9 +35,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var categoryToReturn = this.categoriesService.GetCategoryById(id);
+                var categoryToReturn = categoriesService.GetCategoryById(id);
 
-                return Ok(this.categoryModelMapper.Map(categoryToReturn));
+                return Ok(categoryModelMapper.Map(categoryToReturn));
             }
             catch (EntityNotFoundException ex)
             {
@@ -51,9 +51,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var newCategory = this.categoriesService.CreateCategory(category.Name);
+                var newCategory = categoriesService.CreateCategory(category.Name);
 
-                return Ok(this.categoryModelMapper.Map(newCategory));
+                return Ok(categoryModelMapper.Map(newCategory));
             }
             catch (DuplicateEntityException ex)
             {
@@ -67,9 +67,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var newCategory = this.categoryModelMapper.Map(category);
+                var newCategory = categoryModelMapper.Map(category);
 
-                this.categoriesService.UpdateCategory(id, newCategory);
+                categoriesService.UpdateCategory(id, newCategory);
 
                 return Ok(categoryModelMapper.Map(newCategory));
             }
@@ -91,7 +91,7 @@ namespace AutomotiveForumSystem.Controllers
 
             try
             {
-                var categoryDeleted = this.categoriesService.DeleteCategory(id);
+                var categoryDeleted = categoriesService.DeleteCategory(id);
 
                 return Ok("Category deleted successfully.");
             }

@@ -4,7 +4,7 @@ using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AutomotiveForumSystem.Controllers
+namespace AutomotiveForumSystem.Controllers.Api
 {
     [Authorize(Policy = "AdminPolicy")]
     [ApiController]
@@ -25,8 +25,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = this.usersService.GetByUsername(username);
-                var response = this.userMapper.Map(user);
+                var user = usersService.GetByUsername(username);
+                var response = userMapper.Map(user);
 
                 return Ok(response);
             }
@@ -41,8 +41,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var user = this.usersService.GetByEmail(email);
-                var response = this.userMapper.Map(user);
+                var user = usersService.GetByEmail(email);
+                var response = userMapper.Map(user);
 
                 return Ok(response);
             }
@@ -57,8 +57,8 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var users = this.usersService.GetByFirstName(firstName);
-                var response = this.userMapper.Map(users);
+                var users = usersService.GetByFirstName(firstName);
+                var response = userMapper.Map(users);
 
                 return Ok(response);
             }
@@ -73,9 +73,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var userToBlock = this.usersService.GetById(id);
-                var blockedUser = this.usersService.Block(userToBlock);
-                var response = this.userMapper.Map(blockedUser);
+                var userToBlock = usersService.GetById(id);
+                var blockedUser = usersService.Block(userToBlock);
+                var response = userMapper.Map(blockedUser);
 
                 return Ok(response);
             }
@@ -94,9 +94,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var userToUnblock = this.usersService.GetById(id);
-                var unblockedUser = this.usersService.Unblock(userToUnblock);
-                var response = this.userMapper.Map(unblockedUser);
+                var userToUnblock = usersService.GetById(id);
+                var unblockedUser = usersService.Unblock(userToUnblock);
+                var response = userMapper.Map(unblockedUser);
 
                 return Ok(response);
             }
@@ -115,9 +115,9 @@ namespace AutomotiveForumSystem.Controllers
         {
             try
             {
-                var userToSetAsAdmin = this.usersService.GetById(id);
-                var admin = this.usersService.SetAdmin(userToSetAsAdmin);
-                var response = this.userMapper.Map(admin);
+                var userToSetAsAdmin = usersService.GetById(id);
+                var admin = usersService.SetAdmin(userToSetAsAdmin);
+                var response = userMapper.Map(admin);
 
                 return Ok(response);
             }
