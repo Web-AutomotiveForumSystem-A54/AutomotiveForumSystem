@@ -36,7 +36,12 @@ namespace AutomotiveForumSystem.Services
             return this.postRepository.GetAll(postQueryParameters);
         }
 
-        public Post GetPostById(int id)
+		public IList<Post> GetAll()
+		{
+			return this.postRepository.GetAll();
+		}
+
+		public Post GetPostById(int id)
         {
             return this.postRepository.GetPostById(id);
         }

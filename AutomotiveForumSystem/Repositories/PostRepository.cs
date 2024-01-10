@@ -53,7 +53,16 @@ namespace AutomotiveForumSystem.Repositories
             return postsToReturn.ToList();
         }
 
-        public Post GetPostById(int id)
+		public IList<Post> GetAll()
+		{
+			return this.applicationContext.Posts
+				.Include(p => p.Category)
+				.Include(p => p.Comments)
+				.Where(p => !p.IsDeleted)
+				.ToList();
+		}
+
+		public Post GetPostById(int id)
         {
             return applicationContext.Posts.Include(p => p.Category).FirstOrDefault(p => p.Id == id && !p.IsDeleted)
                 ?? throw new EntityNotFoundException($"Post with ID: {id} not found");
