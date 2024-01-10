@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
@@ -135,10 +134,10 @@ namespace AutomotiveForumSystem
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutomotiveForumSystem");
             });
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{

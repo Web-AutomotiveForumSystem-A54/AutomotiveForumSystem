@@ -27,7 +27,10 @@ namespace AutomotiveForumSystem.Models
         [Required]
         public DateTime CreateDate { get; set; }
 
-        public IList<Comment> Replies { get; set; } = new List<Comment>();
+		public int? ParentCommentId { get; set; }
+
+		[ForeignKey(nameof(ParentCommentId))]
+		public IList<Comment> Replies { get; set; } = new List<Comment>();
 
         [Required]
         public bool IsDeleted { get; set; }
