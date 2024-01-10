@@ -76,6 +76,11 @@ namespace AutomotiveForumSystem.Repositories
             return postsToReturn.Include(p => p.Category).ToList();
         }
 
+        public int GetTotalPostCount()
+        {
+            return this.applicationContext.Posts.Count();
+        }
+
         public Post UpdatePost(int id, Post updatedPost)
         {
             var postToUpdate = applicationContext.Posts.FirstOrDefault(p => p.Id == id && !p.IsDeleted)

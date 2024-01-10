@@ -8,7 +8,8 @@ namespace AutomotiveForumSystem.Repositories.Contracts
         IList<Post> GetAll(PostQueryParameters postQueryParameters);
         IList<Post> GetPostsByUser(int userId, PostQueryParameters postQueryParameters);
         Post GetPostById(int id);
-        Post CreatePost(Post post, User currentUser);
+        public int GetTotalPostCount();
+		Post CreatePost(Post post, User currentUser);
         Post UpdatePost(int id, Post post);
         void DeletePost(Post post);
     }
