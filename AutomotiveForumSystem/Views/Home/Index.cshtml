@@ -1,19 +1,27 @@
 ﻿@model List<AutomotiveForumSystem.Models.PostDtos.PostResponseDto>
 
-<h1>Welcome to Automotive Forum System</h1>
-<h3>The current time is @DateTime.Now</h3>
+<h4>Welcome to Automotive Forum System</h4>
+<p>The current time is @DateTime.Now</p>
 
 <hr />
 
 @{
 	foreach (var post in Model)
 	{
-		<h2>@post.Title</h2>
-		<p>@post.Content</p>
-		<p>Category: @post.CategoryName</p>
-		foreach (var comment in post.Comments)
-		{
-			<p>@comment.Content</p>
-		}
+		// <h2>@post.Title</h2>
+		// <p>@post.Content</p>
+		// <p>Category: @post.CategoryName</p>
+		// foreach (var comment in post.Comments)
+		// {
+		// 	<p>@comment.Content</p>
+		// }
+
+		<a asp-controller="Home" asp-action="Index" class="btn card bg-secondary m-5">
+			<div class="card-body d-flex justify-content-left row" style="color: #fff">
+				<h5 class="card-title row">@post.Title</h5>
+				<h6 class="card-subtitle row mb-2">@post.CategoryName</h6>
+				<p class="card-text row">@post.Content</p>
+			</div>
+		</a>
 	}
 }

@@ -39,6 +39,7 @@ namespace AutomotiveForumSystem.Controllers
 				}
 
 				ViewData["CategoryLabels"] = categoryLabels;
+				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
 
 				IList<Post> posts = this.postService.GetAll(postQueryParameters);
 				IList<PostResponseDto> response = this.postModelMapper.MapPostsToResponseDtos(posts);
