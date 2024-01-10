@@ -46,7 +46,12 @@ namespace AutomotiveForumSystem.Services
             return this.postRepository.GetPostsByUser(userId, postQueryParameters);
         }
 
-        public Post Update(int id, Post post, User currentUser)
+		public int GetTotalPostCount()
+		{
+			return this.postRepository.GetTotalPostCount();
+		}
+
+		public Post Update(int id, Post post, User currentUser)
         {
             var postToUpdate = this.postRepository.GetPostById(id);
             ValidateUserPostCreator(postToUpdate, currentUser);
