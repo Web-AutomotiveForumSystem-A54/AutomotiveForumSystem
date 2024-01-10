@@ -1,0 +1,28 @@
+﻿@model List<AutomotiveForumSystem.Models.ViewModels.PostDataViewModel>
+
+@{
+	var currentCategory = ViewData["CategoryPreview"];
+}
+
+<h4>@currentCategory</h4>
+
+<hr />
+
+@{
+	foreach (var post in Model)
+	{
+		<a asp-controller="Home" asp-action="Index" class="btn card bg-secondary m-5">
+			<div class="card-body d-flex justify-content-left row" style="color: #fff">
+				<h5 class="card-title row">@post.Title</h5>
+				<h6 class="card-subtitle row mb-2">@post.CategoryName</h6>
+
+				<div class="d-flex" style="margin-top: 0px">
+					<span><img src="~/images/like.png" alt="Post Image" class="img-fluid" /></span>
+					<span class="card-text m-1">@post.Likes</span>
+				</div>
+
+				<span class="card-text" style="text-align: right">@post.CreatedBy</span>
+			</div>
+		</a>
+	}
+}

@@ -15,34 +15,27 @@ namespace AutomotiveForumSystem.Controllers
 		private readonly IPostModelMapper postModelMapper;
 		private readonly IUsersService usersService;
 
-        public HomeController(
-			ICategoriesService categoriesService, 
-			IPostService postService, 
+		public HomeController(
+			ICategoriesService categoriesService,
+			IPostService postService,
 			IPostModelMapper postModelMapper,
 			IUsersService usersService)
-        {
+		{
 			this.categoriesService = categoriesService;
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
 			this.usersService = usersService;
-        }
+		}
 
-        [HttpGet]
+		[HttpGet]
 		public IActionResult Index()
 		{
-			PostQueryParameters postQueryParameters = new PostQueryParameters();
 			try
 			{
 				var allCategories = categoriesService.GetAll();
-				var categoryLabels = new List<CategoryLabelViewModel>();
-				foreach (var category in allCategories)
-				{
-					categoryLabels.Add(new CategoryLabelViewModel()
-					{
-						Name = category.Name,
-						PostsCount = category.Posts.Count
-					});
-				}
+				var categoryLabels = ExtractCategoriesLabels(allCategories);
+
+				PostQueryParameters postQueryParameters = new PostQueryParameters();
 
 				ViewData["CategoryLabels"] = categoryLabels;
 				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
@@ -57,6 +50,50 @@ namespace AutomotiveForumSystem.Controllers
 				ViewBag.ErrorMessage = ex.Message;
 				return View("Error");
 			}
+		}
+
+		[HttpGet]
+		public IActionResult PostsByCategory([FromRoute] int id)
+		{
+			try
+			{
+				var allCategories = categoriesService.GetAll();
+				var categoryLabels = ExtractCategoriesLabels(allCategories);
+
+				PostQueryParameters postQueryParameters = new PostQueryParameters();
+
+				ViewData["CategoryLabels"] = categoryLabels;
+				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
+				ViewData["MembersCount"] = this.usersService.GetAll().Count;
+
+				var category = categoriesService.GetCategoryById(id);
+				ViewData["CategoryPreview"] = category.Name;
+
+				IList<Post> posts = category.Posts;
+				IList<PostDataViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToDataViewModel(posts);
+				return View(postsDataViewModelList);
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewBag.ErrorMessage = ex.Message;
+				return View("Error");
+			}
+		}
+
+		private IList<CategoryLabelViewModel> ExtractCategoriesLabels(IList<Category> categories)
+		{
+			var categoryLabels = new List<CategoryLabelViewModel>();
+			foreach (var category in categories)
+			{
+				categoryLabels.Add(new CategoryLabelViewModel()
+				{
+					Id = category.Id,
+					Name = category.Name,
+					PostsCount = category.Posts.Count
+				});
+			}
+
+			return categoryLabels;
 		}
 	}
 }
