@@ -1,6 +1,7 @@
 ﻿@{
 	var categoryLabels = ViewData["CategoryLabels"] as List<CategoryLabelViewModel>;
 	var totalPostCount = (int)ViewData["TotalPostsCount"];
+	var membersCount = ViewData["MembersCount"];
 }
 
 <!DOCTYPE html>
@@ -52,7 +53,7 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarText">
 							<div class="navbar-nav me-auto mb-2 mb-lg-0">
-								<span class="navbar-text p-2">Members: 536</span>
+								<span class="navbar-text p-2">Members: @membersCount</span>
 								<span class="navbar-text p-2">Posts: @totalPostCount</span>
 							</div>
 							<span class="navbar-text">

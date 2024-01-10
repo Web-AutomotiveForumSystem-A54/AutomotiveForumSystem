@@ -24,5 +24,7 @@ namespace AutomotiveForumSystem.Services.Contracts
         User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
 
         void Delete(User userToDelete);
+
+        List<User> GetAll();
     }
 }

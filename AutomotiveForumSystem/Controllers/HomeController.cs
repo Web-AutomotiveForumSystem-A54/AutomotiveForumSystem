@@ -13,12 +13,18 @@ namespace AutomotiveForumSystem.Controllers
 		private readonly ICategoriesService categoriesService;
 		private readonly IPostService postService;
 		private readonly IPostModelMapper postModelMapper;
+		private readonly IUsersService usersService;
 
-        public HomeController(ICategoriesService categoriesService, IPostService postService, IPostModelMapper postModelMapper)
+        public HomeController(
+			ICategoriesService categoriesService, 
+			IPostService postService, 
+			IPostModelMapper postModelMapper,
+			IUsersService usersService)
         {
 			this.categoriesService = categoriesService;
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
+			this.usersService = usersService;
         }
 
         [HttpGet]
@@ -40,6 +46,7 @@ namespace AutomotiveForumSystem.Controllers
 
 				ViewData["CategoryLabels"] = categoryLabels;
 				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
+				ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
 				IList<Post> posts = this.postService.GetAll(postQueryParameters);
 				IList<PostResponseDto> response = this.postModelMapper.MapPostsToResponseDtos(posts);

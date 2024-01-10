@@ -121,5 +121,10 @@ namespace AutomotiveForumSystem.Services
             if (user.IsAdmin)
                 throw new AdminRightsAlreadyGrantedException("User has already been granted with admin rights.");
         }
+
+        public List<User> GetAll()
+        {
+            return this.users.GetAll();
+        }
     }
 }
