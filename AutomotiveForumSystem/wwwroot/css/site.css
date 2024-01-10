@@ -12,3 +12,12 @@ html {
     position: relative;
     min-height: 100%;
 }
+
+/*this is an extension of the bootstrap library clock-container class*/
+.clock-container {
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    opacity: 75%;
+    margin-bottom: 10px;
+}
