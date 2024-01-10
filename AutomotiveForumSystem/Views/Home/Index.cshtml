@@ -11,5 +11,9 @@
 		<h2>@post.Title</h2>
 		<p>@post.Content</p>
 		<p>Category: @post.CategoryName</p>
+		foreach (var comment in post.Comments)
+		{
+			<p>@comment.Content</p>
+		}
 	}
 }

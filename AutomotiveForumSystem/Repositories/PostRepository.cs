@@ -37,6 +37,7 @@ namespace AutomotiveForumSystem.Repositories
         {
             var postsToReturn = this.applicationContext.Posts
                 .Include(p => p.Category)
+                .Include(p => p.Comments)
                 .Where(p => !p.IsDeleted)
                 .AsQueryable();
 
