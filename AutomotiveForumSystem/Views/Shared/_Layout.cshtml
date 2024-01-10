@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+	var categoryLabels = ViewData["CategoryLabels"] as List<CategoryLabelViewModel>;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -8,27 +12,27 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-
 	<div class="d-flex vh-100 overflow-hidden">
 
 		<nav class="bg-dark px-2 py-2 col-auto navbar-dark">
 			<div class="px-2 py-2" style="margin-bottom:60px">
 				<a class="navbar-brand" href="#">Automotive Forum</a>
 			</div>
-			<ul class="nav m-3 flex-column px-2 navbar-text">
-				<li>
+
+			<div class="nav m-3 flex-column px-2 navbar-text position-relative">
+				<div>
 					<h5><span class="badge bg-secondary">Categories</span></h5>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#">Tuning</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Engines</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Suspension</a>
-				</li>
-			</ul>
+				</div>
+				@{
+					foreach (var @c in categoryLabels)
+					{
+						<div class="nav-item row">
+							<a style="margin-left:14px" asp-controller="Home" asp-action="Index" class="nav-link active col" aria-current="page">@c.Name</a>
+							<span style="margin-left:0px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
+						</div>
+					}
+				}
+			</div>
 
 			<footer class="footer text-muted m-4 px-2 py-2 position-fixed bottom-0">
 				<div class="text-left">

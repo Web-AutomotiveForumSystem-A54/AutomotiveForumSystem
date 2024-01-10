@@ -1,8 +1,8 @@
 ﻿using AutomotiveForumSystem.Data;
-using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Repositories.Contracts;
 using AutomotiveForumSystem.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomotiveForumSystem.Repositories
 {
@@ -19,7 +19,10 @@ namespace AutomotiveForumSystem.Repositories
 
         public IList<Category> GetAll()
         {
-            var categories = this.applicationContext.Categories.Where(c => c.IsDeleted == false);
+            // NOTE : do not include posts for final project
+            // create another method to return posts count
+            var categories = this.applicationContext.Categories.Where(c => c.IsDeleted == false)
+                .Include(c => c.Posts);
 
             return categories.ToList();
         }
