@@ -35,13 +35,11 @@ namespace AutomotiveForumSystem.Controllers
 				var allCategories = categoriesService.GetAll();
 				var categoryLabels = ExtractCategoriesLabels(allCategories);
 
-				PostQueryParameters postQueryParameters = new PostQueryParameters();
-
 				ViewData["CategoryLabels"] = categoryLabels;
-				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
+				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
 				ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
-				IList<Post> posts = this.postService.GetAll(postQueryParameters);
+				IList<Post> posts = this.postService.GetAll();
 				IList<PostDataViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToDataViewModel(posts);
 				return View(postsDataViewModelList);
 			}
@@ -60,10 +58,8 @@ namespace AutomotiveForumSystem.Controllers
 				var allCategories = categoriesService.GetAll();
 				var categoryLabels = ExtractCategoriesLabels(allCategories);
 
-				PostQueryParameters postQueryParameters = new PostQueryParameters();
-
 				ViewData["CategoryLabels"] = categoryLabels;
-				ViewData["TotalPostsCount"] = this.postService.GetAll(postQueryParameters).Count;
+				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
 				ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
 				var category = categoriesService.GetCategoryById(id);
