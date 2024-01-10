@@ -2,6 +2,7 @@
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
+using AutomotiveForumSystem.Models.ViewModels;
 
 namespace AutomotiveForumSystem.Helpers
 {
@@ -46,5 +47,33 @@ namespace AutomotiveForumSystem.Helpers
             };
             return postResponseDTO;
         }
-    }
+		public PostDataViewModel MapPostToDataViewModel(Post post)
+		{
+            var postDataViewModel = new PostDataViewModel()
+            {
+                CategoryName = post.Category.Name,
+                Title = post.Title,
+                Content = post.Content,
+                CreateDate = post.CreateDate.ToString(),
+                Likes = post.Likes,
+                CreatedBy = post.User.UserName
+			};
+			return postDataViewModel;
+		}
+
+		public List<PostDataViewModel> MapPostsToDataViewModel(IList<Post> postsToReturn)
+		{
+			return postsToReturn
+				.Select(p => new PostDataViewModel()
+				{
+					CategoryName = p.Category.Name,
+					Title = p.Title,
+					Content = p.Content,
+					CreateDate = p.CreateDate.ToString(),
+					Likes = p.Likes,
+                    CreatedBy = p.User.UserName
+				})
+				.ToList();
+		}
+	}
 }

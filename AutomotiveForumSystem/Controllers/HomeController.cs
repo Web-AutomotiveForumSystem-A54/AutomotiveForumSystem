@@ -49,8 +49,8 @@ namespace AutomotiveForumSystem.Controllers
 				ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
 				IList<Post> posts = this.postService.GetAll(postQueryParameters);
-				IList<PostResponseDto> response = this.postModelMapper.MapPostsToResponseDtos(posts);
-				return View(response);
+				IList<PostDataViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToDataViewModel(posts);
+				return View(postsDataViewModelList);
 			}
 			catch (EntityNotFoundException ex)
 			{

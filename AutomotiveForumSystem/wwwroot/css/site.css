@@ -21,3 +21,8 @@ html {
     opacity: 75%;
     margin-bottom: 10px;
 }
+
+.img-fluid{
+    width:20px;
+    height:20px;
+}
