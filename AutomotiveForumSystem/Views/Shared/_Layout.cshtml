@@ -18,6 +18,7 @@
 		<nav class="bg-dark px-2 py-2 col-auto navbar-dark">
 			<div class="px-2 py-2" style="margin-bottom:60px">
 				<a class="navbar-brand" href="#">Automotive Forum</a>
+				
 			</div>
 
 			<div class="nav m-3 flex-column px-2 navbar-text position-relative">
@@ -36,6 +37,9 @@
 			</div>
 
 			<footer class="footer text-muted m-4 px-2 py-2 position-fixed bottom-0">
+				<div class="clock-container">
+					<div id="clock"></div>
+				</div>
 				<div class="text-left">
 					<small>© Copyright @DateTime.Now.Year <br /> Automotive Forum</small>
 				</div>
@@ -54,6 +58,7 @@
 							<div class="navbar-nav me-auto mb-2 mb-lg-0">
 								<span class="navbar-text p-2">Members: 536</span>
 								<span class="navbar-text p-2">Posts: @totalPostCount</span>
+
 							</div>
 							<span class="navbar-text">
 								<button type="button" class="btn btn-outline-dark">Login</button>
