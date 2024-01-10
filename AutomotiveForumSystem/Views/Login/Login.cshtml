@@ -1,0 +1,27 @@
+﻿@model UserLoginViewModel
+@{
+	Layout = "_LoginLayout";
+}
+<div class="container col-4 border rounded" style="">
+	<div class="background">
+		<div class="shape"></div>
+		<div class="shape"></div>
+	</div>
+	<form asp-controller="Login" asp-action="Login" class="login-form" method="post">
+	<h2 style="text-align: center; padding-bottom: 20px">Login Here</h2>
+		<div class="form-floating mb-3">
+			<input asp-for="UserName" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
+			<label asp-for="UserName" class="form-label">Username</label>
+			<span asp-validation-for="UserName" class="form-error"></span>
+		</div>
+
+		<div class="form-floating mb-3">
+			<input asp-for="Password" type="password" id="floatingInput" placeholder="name@example.com" class="form-control" />
+			<label asp-for="Password" class="form-label"></label>
+			<span asp-validation-for="Password" class="form-error"></span>
+		</div>
+		<div class="d-flex justify-content-center">
+		<input type="submit" value="Log in" class="btn btn-primary login-button" />
+		</div>
+	</form>
+</div>
