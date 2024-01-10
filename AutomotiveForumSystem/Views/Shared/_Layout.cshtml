@@ -30,7 +30,7 @@
 					foreach (var @c in categoryLabels)
 					{
 						<div class="nav-item row">
-							<a style="margin-left:14px" asp-controller="Home" asp-action="Index" class="nav-link active col" aria-current="page">@c.Name</a>
+							<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
 							<span style="margin-left:0px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
 						</div>
 					}
