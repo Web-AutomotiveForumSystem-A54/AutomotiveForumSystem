@@ -105,7 +105,8 @@ html {
 .register-button-container{
     margin-top: auto;
 }
-.register-button{
+.register-button-container{
+    margin-top: 5%;
     display: flex;
     justify-content: center;
 }
