@@ -1,8 +1,12 @@
-﻿namespace AutomotiveForumSystem.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutomotiveForumSystem.Models.ViewModels
 {
 	public class UserLoginViewModel
 	{
-		public string UserName { get; set; }
+		[Required]
+		public string Username { get; set; }
+		[Required]
 		public string Password { get; set; }
 	}
 }

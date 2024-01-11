@@ -2,6 +2,8 @@
 	var categoryLabels = ViewData["CategoryLabels"] as List<CategoryLabelViewModel>;
 	var totalPostCount = ViewData["TotalPostsCount"];
 	var membersCount = ViewData["MembersCount"];
+	var currentUserName = Context.Session.GetString("CurrentUser");
+	var isUserLogged = Context.Session.GetString("IsUserlogged");
 }
 
 <!DOCTYPE html>
@@ -62,9 +64,19 @@
 							<div class="navbar-nav me-auto mb-2 mb-lg-0">
 								<span class="navbar-text p-2">Members: @membersCount</span>
 								<span class="navbar-text p-2">Posts: @totalPostCount</span>
-
 							</div>
-							<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Login">Login</a>
+
+							@{
+								if (isUserLogged != "true")
+								{
+									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Login">Login</a>
+								}
+								else
+								{
+									<p>@currentUserName</p>
+									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout">Logout</a>
+								}
+							}
 						</div>
 					</div>
 				</nav>
