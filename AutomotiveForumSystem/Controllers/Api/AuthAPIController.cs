@@ -12,11 +12,11 @@ namespace AutomotiveForumSystem.Controllers.Api
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthAPIController : ControllerBase
     {
         private readonly IAuthManager authManager;
         private readonly JwtService jwtService;
-        public AuthController(IAuthManager authManager, JwtService jwtService)
+        public AuthAPIController(IAuthManager authManager, JwtService jwtService)
         {
             this.authManager = authManager;
             this.jwtService = jwtService;
