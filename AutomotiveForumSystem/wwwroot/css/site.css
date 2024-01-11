@@ -101,3 +101,7 @@ html {
 }
 
 /*login form end*/
+
+.nav-login-button:hover{
+    color: #fff;
+}
