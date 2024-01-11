@@ -5,6 +5,7 @@ using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Models.ViewModels;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AutomotiveForumSystem.Controllers
 {

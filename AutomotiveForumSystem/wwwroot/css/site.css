@@ -89,15 +89,25 @@ html {
 }
 
 .login-button {
-    margin-top: 100px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #f5f5f5;
     color: #080710;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: pointer
+}
+.login-button-container {
+    margin-top: auto;
+}
+
+.register-button-container{
+    margin-top: auto;
+}
+.register-button{
+    display: flex;
+    justify-content: center;
 }
 
 /*login form end*/
