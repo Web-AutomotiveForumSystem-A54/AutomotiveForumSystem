@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Helpers.Contracts;
+using AutomotiveForumSystem.Models.ViewModels;
 
 namespace AutomotiveForumSystem.Helpers
 {
@@ -44,5 +45,18 @@ namespace AutomotiveForumSystem.Helpers
 
             return responseList;
         }
-    }
+
+		public User Map(UserRegisterViewModel user)
+		{
+			return new User()
+			{
+				UserName = user.Username,
+				Password = user.Password,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				Email = user.Email,
+				PhoneNumber = user.PhoneNumber
+			};
+		}
+	}
 }

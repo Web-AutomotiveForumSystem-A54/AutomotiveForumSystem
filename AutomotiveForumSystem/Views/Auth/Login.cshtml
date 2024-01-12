@@ -1,35 +1,46 @@
 ﻿@model UserLoginViewModel
 @{
-	Layout = "_LoginLayout";
+    Layout = "_LoginLayout";
+    var justRegistered = Context.Session.GetString("isRegistered");
 }
 <div class="container col-4 border rounded" style="">
-	<div class="background">
-		<div class="shape"></div>
-		<div class="shape"></div>
-	</div>
-	<form asp-controller="Auth" asp-action="Login" class="d-flex flex-column justify-content-between login-form" method="post">
-	<div>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form asp-controller="Auth" asp-action="Login" class="d-flex flex-column justify-content-between login-form" method="post">
+        <div>
+            @{
+                if (justRegistered == "true")
+                {
+                    <h2 style="text-align: center; padding-bottom: 20px; color:green;">Registration successful. Please login.</h2>
+                    Context.Session.Remove("isRegistered");
+                }
+                else
+                {
+                    <h2 style="text-align: center; padding-bottom: 20px">Login</h2>
+                }
+            }
 
-	<h2 style="text-align: center; padding-bottom: 20px">Login Here</h2>
-		<div class="form-floating mb-3">
-			<input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
-			<label asp-for="Username" class="form-label">Username</label>
-		</div>
+            <div class="form-floating mb-3">
+                <input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
+                <label asp-for="Username" class="form-label">Username</label>
+            </div>
 
-		<div class="form-floating mb-3">
-			<input asp-for="Password" type="password" id="floatingInput" placeholder="" class="form-control" />
-			<label asp-for="Password" class="form-label"></label>
-		</div>
-			<span asp-validation-for="Username" asp-validation-for="Password" class="form-error" style="color: #7B0828"></span>
-	</div>
+            <div class="form-floating mb-3">
+                <input asp-for="Password" type="password" id="floatingInput" placeholder="" class="form-control" />
+                <label asp-for="Password" class="form-label"></label>
+            </div>
+            <span asp-validation-for="Username" asp-validation-for="Password" class="form-error" style="color: #7B0828"></span>
+        </div>
 
-	<div>
-		<div class="login-button-container">
-		<input type="submit" value="Log in" class="btn btn-primary login-button" />
-		</div>
-		<div class="register-button-container">
-			<a href="#" class="btn btn-outline-dark register-button">Register</a>
-		</div>
-	</div>
-	</form>
+        <div>
+            <div class="login-button-container">
+                <input type="submit" value="Log in" class="btn btn-primary login-button" />
+            </div>
+            <div class="register-button-container">
+                <a asp-controller="Auth" asp-action="Register" class="btn btn-outline-dark register-button">Register</a>
+            </div>
+        </div>
+    </form>
 </div>

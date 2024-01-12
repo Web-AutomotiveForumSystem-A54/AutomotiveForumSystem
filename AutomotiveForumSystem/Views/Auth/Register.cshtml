@@ -1,0 +1,55 @@
+﻿@model UserRegisterViewModel
+@{
+	Layout = "_LoginLayout";
+}
+<div class="container container-md container-sm border rounded" style="">
+	<div class="background">
+		<div class="shape"></div>
+		<div class="shape"></div>
+	</div>
+	<form asp-controller="Auth" asp-action="Register" class="d-flex flex-column justify-content-between register-form" method="post">
+		<div>
+			<h2 style="text-align: center; padding-bottom: 20px">Register Here</h2>
+			<div class="form-floating mb-3">
+				<input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
+				<label asp-for="Username" class="form-label">Username</label>
+				<span asp-validation-for="Username" class="form-error ms-2" style="color: #7B0828; height: 14px;"></span>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input asp-for="Password" type="password" id="floatingInput" placeholder="" class="form-control" required />
+				<label asp-for="Password" class="form-label"></label>
+				<span asp-validation-for="Password" class="form-error ms-2" style="color: #7B0828"></span>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input asp-for="FirstName" type="text" id="floatingInput" placeholder="" class="form-control" />
+				<label asp-for="FirstName" class="form-label">First name</label>
+				<span asp-validation-for="FirstName" class="form-error ms-2" style="color: #7B0828"></span>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input asp-for="LastName" type="text" id="floatingInput" placeholder="" class="form-control" />
+				<label asp-for="LastName" class="form-label">Last name</label>
+				<span asp-validation-for="LastName" class="form-error ms-2" style="color: #7B0828"></span>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input asp-for="Email" type="email" id="floatingInput" placeholder="" class="form-control" />
+				<label asp-for="Email" class="form-label">Email</label>
+				<span asp-validation-for="Email" class="form-error ms-2" style="color: #7B0828"></span>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input asp-for="PhoneNumber" type="tel" id="floatingInput" placeholder="" class="form-control" pattern="\+*\d+" />
+				<label asp-for="PhoneNumber" class="form-label">Phone number (optional)</label>
+			</div>
+		</div>
+
+		<div>
+			<div class="login-button-container">
+				<input type="submit" value="Register" class="btn btn-primary login-button" />
+			</div>
+		</div>
+	</form>
+</div>

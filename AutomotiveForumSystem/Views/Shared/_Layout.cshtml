@@ -3,7 +3,6 @@
 	var totalPostCount = ViewData["TotalPostsCount"];
 	var membersCount = ViewData["MembersCount"];
 	var currentUserName = Context.Session.GetString("CurrentUser");
-	var isUserLogged = Context.Session.GetString("IsUserlogged");
 }
 
 <!DOCTYPE html>
@@ -67,14 +66,14 @@
 							</div>
 
 							@{
-								if (isUserLogged != "true")
+								if (currentUserName == null)
 								{
 									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Login">Login</a>
 								}
 								else
 								{
 									<p>@currentUserName</p>
-									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout">Logout</a>
+									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
 								}
 							}
 						</div>

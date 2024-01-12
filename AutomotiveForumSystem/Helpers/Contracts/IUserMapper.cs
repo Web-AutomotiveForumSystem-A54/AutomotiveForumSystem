@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Models.ViewModels;
 
 namespace AutomotiveForumSystem.Helpers.Contracts
 {
@@ -9,6 +10,8 @@ namespace AutomotiveForumSystem.Helpers.Contracts
 
         UserResponseDTO Map(User user);
 
-        List<UserResponseDTO> Map(List<User> users);
+		User Map(UserRegisterViewModel user);
+
+		List<UserResponseDTO> Map(List<User> users);
     }
 }
