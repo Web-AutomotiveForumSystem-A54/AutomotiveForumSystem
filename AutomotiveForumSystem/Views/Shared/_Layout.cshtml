@@ -16,21 +16,25 @@
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-	<div class="d-flex vh-100 overflow-hidden">
+	<div class="d-flex vh-100 overflow-hidden" style="background-color: #18181b">
 
-		<nav class="bg-dark px-2 py-2 col-auto navbar-dark">
+		<nav class="bg-dark px-2 py-2 col-auto navbar-dark" style="">
 			<div class="px-2 py-2" style="margin-bottom:60px">
 				<a class="navbar-brand" asp-controller="Home" asp-action="Index">Automotive Forum</a>
 
 			</div>
 
 			<div class="nav m-3 flex-column px-2 navbar-text position-relative">
-				<div>
+				@* <div>
 					<h5><span class="badge bg-secondary">Categories</span></h5>
-				</div>
+				</div> *@
 				@{
 					if (categoryLabels != null)
 					{
+						<div class="nav-item row">
+						<a asp-controller="Home" asp-action="Index" class="nav-link active col" aria-current="page" style="margin-left:14px; font-weight: bold">All Categories</a>
+						<span style="margin-left:0px; margin-top: 10px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@totalPostCount</span>
+						</div>
 						foreach (var @c in categoryLabels)
 						{
 							<div class="nav-item row">
@@ -54,7 +58,7 @@
 
 		<div class="container-fluid col px-0">
 			<header>
-				<nav class="navbar navbar-expand-lg navbar-light fs-5" style="background-color: #DCE0D9;">
+				<nav class="navbar navbar-expand-lg navbar-light fs-5 bg-dark" @* style="background-color: #DCE0D9;" *@>
 					<div class="container-fluid">
 
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,14 +66,14 @@
 						</button>
 						<div class="collapse navbar-collapse" id="navbarText">
 							<div class="navbar-nav me-auto mb-2 mb-lg-0">
-								<span class="navbar-text p-2">Members: @membersCount</span>
-								<span class="navbar-text p-2">Posts: @totalPostCount</span>
+								<span class="navbar-text p-2" style="color: #fff;">Members: @membersCount</span>
+								<span class="navbar-text p-2" style="color: #fff;">Posts: @totalPostCount</span>
 							</div>
-
+							
 							@{
 								if (isUserLogged != "true")
 								{
-									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Login">Login</a>
+									<a class="btn btn-secondary" asp-controller="Auth" asp-action="Login">Login</a> /* type="button" class="navbar-text btn btn-outline-light nav-login-button" */
 								}
 								else
 								{
@@ -83,7 +87,7 @@
 			</header>
 
 			<main role="main" style="overflow-y:auto; height:100%">
-				<div class="mx-5 my-5" style="padding-bottom: 2%">
+				<div class="mx-5 my-5 animated-element" style="padding-bottom: 2%">
 
 					@RenderBody()
 				</div>

@@ -113,6 +113,56 @@ html {
 
 /*login form end*/
 
-.nav-login-button:hover{
+
+/* CSS for the animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply the animation to the elements you want to animate */
+.animated-element {
+    animation: fadeIn 0.3s ease-out;
+}
+
+    /* Optional: You can delay the animation on individual elements for a staggered effect */
+    .animated-element:nth-child(2) {
+        animation-delay: 0.3s;
+    }
+
+    .animated-element:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+a{
+    text-decoration: none;
+}
+
+/*.nav-login-button-custom {
     color: #fff;
+}*/
+.button-link a{
+    position: relative;
+    padding-bottom: 0.75rem;
+    color: #fff;
+}
+.button-link a::after{
+    content:"";
+    position:absolute;
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #1d4ed8;
+    transition: all 0.3s ease;
+}
+.button-link a:hover::after{
+    width: 70%;
 }
