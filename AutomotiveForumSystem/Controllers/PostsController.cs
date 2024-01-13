@@ -1,5 +1,8 @@
 ﻿using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
+using AutomotiveForumSystem.Models;
+using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Models.ViewModels;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,25 +12,31 @@ namespace AutomotiveForumSystem.Controllers
 	{
 		private readonly IPostService postService;
 		private readonly IPostModelMapper postModelMapper;
+		private readonly ICommentsService commentsService;
 		private readonly ICategoriesService categoriesService;
 		private readonly ICategoryModelMapper categoryModelMapper;
 		private readonly IUsersService usersService;
 
 		public PostsController(IPostService postService, 
-			IPostModelMapper postModelMapper, 
+			IPostModelMapper postModelMapper,
+			ICommentsService commentsService,
 			ICategoriesService categoriesService, 
 			ICategoryModelMapper categoryModelMapper, 
 			IUsersService usersService)
         {
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
+			this.commentsService = commentsService;
 			this.categoriesService = categoriesService;
 			this.categoryModelMapper = categoryModelMapper;
 			this.usersService = usersService;
 		}
-        [HttpGet]
+        
+		[HttpGet]
 		public IActionResult Index([FromRoute]int id)
 		{
+			ViewData["PostId"] = id;
+
 			var post = this.postService.GetPostById(id);
 			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
 
@@ -39,6 +48,23 @@ namespace AutomotiveForumSystem.Controllers
 			ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
 			return View(postDataViewModel);
+		}
+
+		[HttpPost]
+		public IActionResult CreateComment([FromRoute] int postId, PostDataViewModel postModel)
+		{
+			var user = usersService.GetByUsername("jonkata");
+			var post = postService.GetPostById(postModel.Id);
+			var newComment = new Comment()
+			{
+				PostID = post.Id,
+				UserID = user.Id,
+				Content = post.Content,
+				CreateDate = DateTime.Now,
+			};
+			commentsService.CreateComment(user, post, newComment, null);
+
+			return RedirectToAction("Index", "Posts", post.Id);
 		}
 	}
 }

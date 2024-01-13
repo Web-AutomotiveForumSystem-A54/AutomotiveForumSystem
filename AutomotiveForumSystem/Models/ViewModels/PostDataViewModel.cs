@@ -1,4 +1,6 @@
-﻿namespace AutomotiveForumSystem.Models.ViewModels
+﻿using AutomotiveForumSystem.Models.DTOs;
+
+namespace AutomotiveForumSystem.Models.ViewModels
 {
 	public class PostDataViewModel
 	{

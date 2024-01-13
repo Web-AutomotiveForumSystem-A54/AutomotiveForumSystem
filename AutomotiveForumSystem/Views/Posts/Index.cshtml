@@ -1,21 +1,53 @@
 ﻿@model PostDataViewModel
 
-<div class="bg-secondary rounded text-light p-3 overflow-hidden d-flex flex-column">
-	<div class="d-flex justify-content-center row">
+@{
+	var commentModel = ViewData["Comment"] as CommentCreateDTO;
+	var postId = ViewData["PostId"];
+	
+}
+
+<div class="rounded text-light p-3 overflow-hidden d-flex flex-column">
+	<div class="bg-dark shadow mb-4 rounded bg-opacity-100 d-flex justify-content-center row  p-3">
 		<h3>@Model.Title</h3>
 		<h5>@Model.Content</h5>
-		<div class="d-flex justify-content-between mt-4">
-			<p class="text-center">@Model.CreateDate</p>
-			<p class="text-center">@Model.CreatedBy</p>
+		<div class="d-flex flex-column justify-content-between mt-4">
+			<div class="d-flex">
+				<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
+				<p class="ps-2">@Model.CreatedBy</p>
+			</div>
+			<div>
+				<p class="mb-md-0">@Model.CreateDate</p>
+				@* <button>Button	</button> *@
+			</div>
 		</div>
 	</div>
-	<div class="">
+	<div>
+		<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="postId" class="rounded m-2" method="post">
+			<div class="form-floating mb-3">
+				<input asp-for="@Model.Content" type="text" id="floatingInput" placeholder="Post reply" class="form-control" required />
+			</div>
+			<div class="login-button-container">
+				@{
+					Model.Id = (int)postId;
+					<input type="submit" value="Create" class="btn btn-primary login-button" />
+				}
+			</div>
+		</form>
+	</div>
+	<div>
 		@{
-			<hr />
 			foreach (var comment in Model.Comments)
 			{
-				<p>@comment.Content</p>
-				<hr />
+				<div class="bg-light shadow mb-4 bg-opacity-25 d-flex row justify-content-between rounded-3 m-2 p-3">
+					<p>@comment.Content</p>
+					<div>
+						<div class="d-flex align-items-end justify-content-between">
+							<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
+							<label class="col text-start m-auto ps-2">@comment.User.UserName</label>
+							<label class="col text-end m-auto">@comment.CreateDate</label>
+						</div>
+					</div>					
+				</div>
 			}
 		}
 	</div>
