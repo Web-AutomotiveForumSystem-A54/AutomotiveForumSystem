@@ -9,8 +9,8 @@ namespace AutomotiveForumSystem.Helpers.Contracts
         Post Map(PostCreateDTO model);
         List<PostResponseDto> MapPostsToResponseDtos(IList<Post> postsToReturn);
         PostResponseDto MapPostToResponseDto(Post post);
-        public List<PostDataViewModel> MapPostsToDataViewModel(IList<Post> postsToReturn);
-        public PostDataViewModel MapPostToDataViewModel(Post post);
-
+        List<PostPreViewModel> MapPostsToPreViewModel(IList<Post> postsToReturn);
+        PostPreViewModel MapPostToPreViewModel(Post post);
+        PostDataViewModel MapPostToDataViewModel(Post post);
 	}
 }

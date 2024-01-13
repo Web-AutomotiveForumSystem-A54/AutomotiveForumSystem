@@ -1,4 +1,5 @@
 ﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.PostDtos;
@@ -15,17 +16,20 @@ namespace AutomotiveForumSystem.Controllers
 		private readonly IPostService postService;
 		private readonly IPostModelMapper postModelMapper;
 		private readonly IUsersService usersService;
+		private readonly ICategoryModelMapper categoryModelMapper;
 
 		public HomeController(
 			ICategoriesService categoriesService,
 			IPostService postService,
 			IPostModelMapper postModelMapper,
-			IUsersService usersService)
+			IUsersService usersService,
+			ICategoryModelMapper categoryModelMapper)
 		{
 			this.categoriesService = categoriesService;
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
 			this.usersService = usersService;
+			this.categoryModelMapper = categoryModelMapper;
 		}
 
 		[HttpGet]
@@ -33,15 +37,16 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = categoriesService.GetAll();
-				var categoryLabels = ExtractCategoriesLabels(allCategories);
+				var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
+
 
 				ViewData["CategoryLabels"] = categoryLabels;
 				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
 				ViewData["MembersCount"] = this.usersService.GetAll().Count;
 
 				IList<Post> posts = this.postService.GetAll();
-				IList<PostDataViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToDataViewModel(posts);
+				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 				return View(postsDataViewModelList);
 			}
 			catch (EntityNotFoundException ex)
@@ -56,8 +61,8 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = categoriesService.GetAll();
-				var categoryLabels = ExtractCategoriesLabels(allCategories);
+				var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
 				ViewData["CategoryLabels"] = categoryLabels;
 				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
@@ -67,7 +72,7 @@ namespace AutomotiveForumSystem.Controllers
 				ViewData["CategoryPreview"] = category.Name;
 
 				IList<Post> posts = category.Posts;
-				IList<PostDataViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToDataViewModel(posts);
+				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 				return View(postsDataViewModelList);
 			}
 			catch (EntityNotFoundException ex)
@@ -77,20 +82,5 @@ namespace AutomotiveForumSystem.Controllers
 			}
 		}
 
-		private IList<CategoryLabelViewModel> ExtractCategoriesLabels(IList<Category> categories)
-		{
-			var categoryLabels = new List<CategoryLabelViewModel>();
-			foreach (var category in categories)
-			{
-				categoryLabels.Add(new CategoryLabelViewModel()
-				{
-					Id = category.Id,
-					Name = category.Name,
-					PostsCount = category.Posts.Count
-				});
-			}
-
-			return categoryLabels;
-		}
 	}
 }

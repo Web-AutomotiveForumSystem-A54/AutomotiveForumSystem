@@ -1,5 +1,6 @@
 ﻿using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Models.ViewModels;
 
 namespace AutomotiveForumSystem.Helpers.Contracts
 {
@@ -8,5 +9,6 @@ namespace AutomotiveForumSystem.Helpers.Contracts
         Category Map(CategoryDTO category);
         CategoryDTO Map(Category category);
         IList<CategoryDTO> Map(IList<Category> category);
+        IList<CategoryLabelViewModel> ExtractCategoriesLabels(IList<Category> category);
     }
 }

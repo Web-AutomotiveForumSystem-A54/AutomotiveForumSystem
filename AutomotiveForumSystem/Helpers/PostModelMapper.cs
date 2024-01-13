@@ -47,10 +47,11 @@ namespace AutomotiveForumSystem.Helpers
             };
             return postResponseDTO;
         }
-		public PostDataViewModel MapPostToDataViewModel(Post post)
+		public PostPreViewModel MapPostToPreViewModel(Post post)
 		{
-            var postDataViewModel = new PostDataViewModel()
+            var postPreViewModel = new PostPreViewModel()
             {
+                Id = post.Id,
                 CategoryName = post.Category.Name,
                 Title = post.Title,
                 Content = post.Content,
@@ -58,14 +59,15 @@ namespace AutomotiveForumSystem.Helpers
                 Likes = post.Likes,
                 CreatedBy = post.User.UserName
 			};
-			return postDataViewModel;
+			return postPreViewModel;
 		}
 
-		public List<PostDataViewModel> MapPostsToDataViewModel(IList<Post> postsToReturn)
+		public List<PostPreViewModel> MapPostsToPreViewModel(IList<Post> postsToReturn)
 		{
 			return postsToReturn
-				.Select(p => new PostDataViewModel()
+				.Select(p => new PostPreViewModel()
 				{
+                    Id = p.Id,
 					CategoryName = p.Category.Name,
 					Title = p.Title,
 					Content = p.Content,
@@ -74,6 +76,22 @@ namespace AutomotiveForumSystem.Helpers
                     CreatedBy = p.User.UserName
 				})
 				.ToList();
+		}
+
+		public PostDataViewModel MapPostToDataViewModel(Post post)
+		{
+			var postDataViewModel = new PostDataViewModel()
+			{
+                Id = post.Id,
+				CategoryName = post.Category.Name,
+				Title = post.Title,
+				Content = post.Content,
+				CreateDate = post.CreateDate.ToString(),
+				Likes = post.Likes,
+				CreatedBy = post.User.UserName,
+                Comments = post.Comments,
+			};
+			return postDataViewModel;
 		}
 	}
 }

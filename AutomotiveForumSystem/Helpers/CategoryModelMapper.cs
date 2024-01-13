@@ -1,6 +1,7 @@
 ﻿using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Models.ViewModels;
 
 namespace AutomotiveForumSystem.Helpers
 {
@@ -35,10 +36,26 @@ namespace AutomotiveForumSystem.Helpers
                 categoriesToReturn.Add(new CategoryDTO()
                 {
                     Name = category.Name
-                }); ;
+                });
             }
 
             return categoriesToReturn;
         }
-    }
+
+		public IList<CategoryLabelViewModel> ExtractCategoriesLabels(IList<Category> categories)
+		{
+			var categoryLabels = new List<CategoryLabelViewModel>();
+			foreach (var category in categories)
+			{
+				categoryLabels.Add(new CategoryLabelViewModel()
+				{
+					Id = category.Id,
+					Name = category.Name,
+					PostsCount = category.Posts.Count
+				});
+			}
+
+			return categoryLabels;
+		}
+	}
 }

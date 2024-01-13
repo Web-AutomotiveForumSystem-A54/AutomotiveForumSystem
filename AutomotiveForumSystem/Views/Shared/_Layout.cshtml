@@ -24,12 +24,13 @@
 			</div>
 
 			<div class="nav m-3 flex-column px-2 navbar-text position-relative">
-				<div>
-					<h5><span class="badge bg-secondary">Categories</span></h5>
-				</div>
+				
 				@{
 					if (categoryLabels != null)
 					{
+						<div>
+							<h5><span class="badge bg-secondary">Categories</span></h5>
+						</div>
 						foreach (var @c in categoryLabels)
 						{
 							<div class="nav-item row">
@@ -82,7 +83,7 @@
 			</header>
 
 			<main role="main" style="overflow-y:auto; height:100%">
-				<div class="mx-5 my-5" style="padding-bottom: 2%">
+				<div class="mx-5 my-5" style="padding-bottom: 2%;">
 
 					@RenderBody()
 				</div>

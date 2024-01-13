@@ -62,14 +62,7 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult Register()
 		{
-			var registerViewModel = new UserRegisterViewModel()
-			{
-				Username = "UserTwo",
-				Password = "1234",
-				FirstName = "User",
-				LastName = "Userov",
-				Email = "usertwo@abv.bg"
-			};
+			var registerViewModel = new UserRegisterViewModel();
 			return View(registerViewModel);
 		}
 

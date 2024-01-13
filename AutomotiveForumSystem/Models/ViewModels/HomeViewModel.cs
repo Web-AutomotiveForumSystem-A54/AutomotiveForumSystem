@@ -3,6 +3,6 @@
 	public class HomeViewModel
 	{
 		public List<CategoryLabelViewModel> Categories { get; set; } = new List<CategoryLabelViewModel>();
-		public List<PostDataViewModel> Posts { get; set; } = new List<PostDataViewModel>();
+		public List<PostPreViewModel> Posts { get; set; } = new List<PostPreViewModel>();
 	}
 }

@@ -1,0 +1,22 @@
+﻿@model PostDataViewModel
+
+<div class="bg-secondary rounded text-light p-3 overflow-hidden d-flex flex-column">
+	<div class="d-flex justify-content-center row">
+		<h3>@Model.Title</h3>
+		<h5>@Model.Content</h5>
+		<div class="d-flex justify-content-between mt-4">
+			<p class="text-center">@Model.CreateDate</p>
+			<p class="text-center">@Model.CreatedBy</p>
+		</div>
+	</div>
+	<div class="">
+		@{
+			<hr />
+			foreach (var comment in Model.Comments)
+			{
+				<p>@comment.Content</p>
+				<hr />
+			}
+		}
+	</div>
+</div>
