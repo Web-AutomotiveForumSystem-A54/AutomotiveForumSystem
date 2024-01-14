@@ -35,8 +35,6 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult Index([FromRoute]int id)
 		{
-			ViewData["PostId"] = id;
-
 			var post = this.postService.GetPostById(id);
 			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
 
@@ -51,20 +49,36 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateComment([FromRoute] int postId, PostDataViewModel postModel)
+		public IActionResult CreateComment(int postId, PostDataViewModel postModel)
 		{
 			var user = usersService.GetByUsername("jonkata");
-			var post = postService.GetPostById(postModel.Id);
+			var post = postService.GetPostById(postId);
 			var newComment = new Comment()
 			{
 				PostID = post.Id,
 				UserID = user.Id,
-				Content = post.Content,
+				Content = postModel.Comment.Content,
 				CreateDate = DateTime.Now,
 			};
 			commentsService.CreateComment(user, post, newComment, null);
 
-			return RedirectToAction("Index", "Posts", post.Id);
+			return RedirectToAction("Index", "Posts", new { id = post.Id });
+		}
+
+		[HttpPost]
+		public IActionResult UpdateComment(int commentId, PostDataViewModel postModel)
+		{
+			//this.applicationContext.Posts.Add(post);
+			//currentUser.Posts.Add(post);
+			//applicationContext.SaveChanges();
+
+			var post = postService.GetPostById(postModel.Id);
+			post.Comments[commentId].Content = postModel.Comment.Content;
+			//var createdPost = applicationContext.Posts
+			//.Include(p => p.Category)
+			//.FirstOrDefault(p => p.Id == post.Id);
+
+			return RedirectToAction("Index", "Posts", new { id = postModel.Id });
 		}
 	}
 }

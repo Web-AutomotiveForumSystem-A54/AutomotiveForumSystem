@@ -18,5 +18,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 		public int Likes { get; set; }
 
 		public List<Comment> Comments { get; set; } = new();
+
+		public CommentCreateDTO Comment { get; set; } = new CommentCreateDTO();
 	}
 }

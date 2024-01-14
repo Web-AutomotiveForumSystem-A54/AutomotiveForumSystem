@@ -13,6 +13,7 @@
 	<title>Automotive Forum</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<div class="d-flex vh-100 overflow-hidden">
@@ -94,6 +95,15 @@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	<script>
+		// Initialize tooltips
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		})
+	</script>
+
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

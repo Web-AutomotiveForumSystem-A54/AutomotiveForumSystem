@@ -1,39 +1,108 @@
 ﻿@model PostDataViewModel
 
 @{
-	var commentModel = ViewData["Comment"] as CommentCreateDTO;
-	var postId = ViewData["PostId"];
-	
+	var currentUserName = Context.Session.GetString("CurrentUser");
+	// var commentModel = ViewData["Comment"] as CommentCreateDTO;
+	var postId2 = Model.Id;
+	int commentIdToEdit = 15;
+
+	void btn_click(int id)
+	{
+		commentIdToEdit = id;
+		// Model.Comment.CommentID = id;
+		// Model.Comment.Content = Model.Comments[id].Content;
+		<a data-bs-toggle="modal" data-bs-target="#editComment">
+		</a>
+	}
 }
 
 <div class="rounded text-light p-3 overflow-hidden d-flex flex-column">
-	<div class="bg-dark shadow mb-4 rounded bg-opacity-100 d-flex justify-content-center row  p-3">
+	<div class="bg-dark sticky shadow mb-4 rounded bg-opacity-100 d-flex justify-content-center row  p-3">
 		<h3>@Model.Title</h3>
 		<h5>@Model.Content</h5>
-		<div class="d-flex flex-column justify-content-between mt-4">
-			<div class="d-flex">
-				<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
-				<p class="ps-2">@Model.CreatedBy</p>
+
+		<div class="d-flex justify-content-between mb-md-2">
+			<div class="d-flex flex-column justify-content-between mt-4">
+				<div class="d-flex">
+					<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
+					<p class="ps-2">@Model.CreatedBy</p>
+				</div>
+				<div>
+					<p class="mb-md-0">@Model.CreateDate</p>
+					@* <button>Button	</button> *@
+				</div>
 			</div>
-			<div>
-				<p class="mb-md-0">@Model.CreateDate</p>
-				@* <button>Button	</button> *@
-			</div>
+			@{
+				if (currentUserName != null)
+				{
+					<div class="d-flex flex-column mb-md-0 justify-content-end login-button-container m-2">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createReply">Post reply</button>
+					</div>
+				}
+			}
 		</div>
 	</div>
 	<div>
-		<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="postId" class="rounded m-2" method="post">
+		<!--
+		<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="@postId2" class="rounded m-2" method="post">
 			<div class="form-floating mb-3">
-				<input asp-for="@Model.Content" type="text" id="floatingInput" placeholder="Post reply" class="form-control" required />
+				<input asp-for="@Model.Comment.Content" type="text" id="floatingInput" placeholder="Post reply" class="form-control" required />
 			</div>
 			<div class="login-button-container">
-				@{
-					Model.Id = (int)postId;
-					<input type="submit" value="Create" class="btn btn-primary login-button" />
-				}
+				<input type="submit" value="Create" class="btn btn-primary login-button" />
 			</div>
 		</form>
+		-->
+		@*
+		<div class="login-button-container m-2">
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Post reply</button>
+		</div>
+		*@
+
+		<!-- POST REPLY -->
+		<div class="modal fade" id="createReply" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p class="bg-dark p-2">POST A REPLY</p>
+						<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="@postId2" method="post">
+							<div class="form-floating mb-3">
+								@* <input asp-for="@Model.Comment.Content" type="text" id="floatingInput" placeholder="Post reply" class="form-control" required /> *@
+								<textarea asp-for="@Model.Comment.Content" type="text" id="floatingInput" placeholder="Reply here" class="form-control" style="min-height:200px;" required></textarea>
+							</div>
+							<div class="d-flex justify-content-center login-button-container">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<input type="submit" value="Create" class="btn btn-primary ms-5" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- EDIT COMMENT -->
+		<div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="editCommentLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p class="bg-dark p-2">EDIT COMMENT</p>
+						<form asp-controller="Posts" asp-action="UpdateComment" asp-route-commentId="@Model.Comment.CommentID" method="post">
+							<div class="form-floating mb-3">
+								@* <input asp-for="@Model.Comment.Content" type="text" id="floatingInput" placeholder="Post reply" class="form-control" required /> *@
+								<textarea asp-for="@Model.Comment.CommentID" type="text" id="floatingInput" placeholder="Reply here" class="form-control" style="min-height:200px;" required></textarea>
+							</div>
+							<div class="d-flex justify-content-center login-button-container">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<input type="submit" value="Create" class="btn btn-primary ms-5" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
+
 	<div>
 		@{
 			foreach (var comment in Model.Comments)
@@ -42,11 +111,25 @@
 					<p>@comment.Content</p>
 					<div>
 						<div class="d-flex align-items-end justify-content-between">
-							<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
-							<label class="col text-start m-auto ps-2">@comment.User.UserName</label>
-							<label class="col text-end m-auto">@comment.CreateDate</label>
+							<div d-flex align-items-end justify-content-start ps-4">
+								<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
+								<label class="col text-start m-auto ps-2">@comment.User.UserName</label>
+							</div>
+							<div d-flex align-items-end justify-content-start ps-4">
+								@{
+									if (currentUserName != null && currentUserName == comment.User.UserName)
+									{
+										// <img src="~/images/icon-edit.png" ps-2 src="~/images/icon-edit.png" class="bg-primary rounded-circle p-1" style="width:28px; height:28px" />
+										// <a asp-controller="Home" asp-action="Index" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+										// </a>
+
+										<button id="@comment.Id" type="button" class="btn btn-primary" OnClick=@{btn_click(comment.Id);}>Edit</button>
+									}
+								}
+								<label class="col text-end ps-2 m-auto">@comment.CreateDate.ToString("MM/dd HH:mm")</label>
+							</div>
 						</div>
-					</div>					
+					</div>
 				</div>
 			}
 		}
