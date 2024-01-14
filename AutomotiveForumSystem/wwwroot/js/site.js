@@ -7,8 +7,12 @@
     document.getElementById('clock').textContent = timeString;
 }
 
-// Update the clock every second
 setInterval(updateClock, 1000);
 
-// Initial update
 updateClock();
+
+function setEditComment(commentId, commentContent) {
+        $('#editCommentContent').val(commentContent);
+        $('#editCommentForm').attr('action', '/Posts/UpdateComment?commentId=' + commentId);
+        $('#editComment').modal('show');
+    }

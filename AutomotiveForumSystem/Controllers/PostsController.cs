@@ -66,19 +66,16 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UpdateComment(int commentId, PostDataViewModel postModel)
+		public IActionResult UpdateComment([FromQuery]int commentId, PostDataViewModel postModel)
 		{
-			//this.applicationContext.Posts.Add(post);
-			//currentUser.Posts.Add(post);
-			//applicationContext.SaveChanges();
+			
+			var comment = this.commentsService.GetCommentById(commentId);
+			var postId = comment.PostID;
+			var user = comment.User;
+			this.commentsService.UpdateComment(user, commentId, postModel.Comment.Content);
+			
 
-			var post = postService.GetPostById(postModel.Id);
-			post.Comments[commentId].Content = postModel.Comment.Content;
-			//var createdPost = applicationContext.Posts
-			//.Include(p => p.Category)
-			//.FirstOrDefault(p => p.Id == post.Id);
-
-			return RedirectToAction("Index", "Posts", new { id = postModel.Id });
+			return RedirectToAction("Index", "Posts", new { id = postId });
 		}
 	}
 }
