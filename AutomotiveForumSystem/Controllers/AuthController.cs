@@ -23,7 +23,11 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult Login()
 		{
-			var loginViewMode = new UserLoginViewModel();
+			var loginViewMode = new UserLoginViewModel()
+			{
+				Username = "jonkata",
+				Password = "1234"
+			};
 			return View(loginViewMode);
 		}
 

@@ -15,14 +15,16 @@ namespace AutomotiveForumSystem.Helpers
     {
         private readonly IUsersService usersService;
         private readonly string jwtSecret;
+		private const string CurrentUserKey = "CurrentUser";
 
-        public AuthManager(IUsersService usersService, string jwtSecret)
+		public AuthManager(IUsersService usersService, string jwtSecret)
         {
             this.usersService = usersService;
             this.jwtSecret = jwtSecret;
-        }       
+		}
 
-        public User TryGetUser(string credentials)
+
+		public User TryGetUser(string credentials)
         {
             try
             {

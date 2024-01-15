@@ -38,7 +38,7 @@ namespace AutomotiveForumSystem.Repositories
 			var postsToReturn = this.applicationContext.Posts
 				.Include(p => p.Category)
 				.Include(p => p.Comments)
-				.Where(p => !p.IsDeleted)
+				.Where(p => !p.IsDeleted)//TODO: should this be in the service or repo
 				.AsQueryable();
 
 			if (!string.IsNullOrEmpty(postQueryParameters.Category))
@@ -87,7 +87,7 @@ namespace AutomotiveForumSystem.Repositories
 
 		public int GetTotalPostCount()
 		{
-			return this.applicationContext.Posts.Count();
+			return this.applicationContext.Posts.Where(p => !p.IsDeleted).Count();
 		}
 
 		public Post UpdatePost(int id, Post updatedPost)

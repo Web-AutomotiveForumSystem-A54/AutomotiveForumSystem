@@ -3,7 +3,7 @@
     Layout = "_LoginLayout";
     var justRegistered = Context.Session.GetString("isRegistered");
 }
-<div class="container col-4 border rounded" style="">
+<div class="container col-4" style="">
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -18,17 +18,18 @@
                 }
                 else
                 {
-                    <h2 style="text-align: center; padding-bottom: 20px">Login</h2>
+                    <h2 class="text-light" style="text-align: center; padding-bottom: 20px;">Login</h2>
                 }
             }
 
             <div class="form-floating mb-3">
-                <input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
+                <input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control bg-light" required />
                 <label asp-for="Username" class="form-label">Username</label>
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Password" type="password" id="floatingInput" placeholder="" class="form-control" />
+                @* change type text to type password*@
+                <input asp-for="Password" type="text" id="floatingInput" placeholder="" class="form-control bg-light" />
                 <label asp-for="Password" class="form-label"></label>
             </div>
             <span asp-validation-for="Username" asp-validation-for="Password" class="form-error" style="color: #7B0828"></span>
@@ -39,7 +40,7 @@
                 <input type="submit" value="Log in" class="btn btn-primary login-button" />
             </div>
             <div class="register-button-container">
-                <a asp-controller="Auth" asp-action="Register" class="btn btn-outline-dark register-button">Register</a>
+                <a asp-controller="Auth" asp-action="Register" class="btn btn-outline-light register-button">Register</a>
             </div>
         </div>
     </form>

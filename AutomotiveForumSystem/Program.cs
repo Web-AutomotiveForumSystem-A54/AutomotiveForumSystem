@@ -112,11 +112,13 @@ namespace AutomotiveForumSystem
             builder.Services.AddScoped<ICommentModelMapper, CommentModelMapper>();
             builder.Services.AddScoped<IPostModelMapper, PostModelMapper>();
             var secretKey = configuration["JwtSettings:SecretKey"];
-            builder.Services.AddScoped<IAuthManager>(provider =>
+
+			builder.Services.AddScoped<IAuthManager>(provider =>
                 new AuthManager(
                     provider.GetRequiredService<IUsersService>(),
                     secretKey
                 ));
+
 
             builder.Services.AddTransient<JwtService>(provider => new JwtService(secretKey));
 

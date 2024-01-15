@@ -20,12 +20,17 @@
 
 		<nav class="bg-dark px-2 py-2 col-auto navbar-dark">
 			<div class="px-2 py-2" style="margin-bottom:60px">
-				<a class="navbar-brand" asp-controller="Home" asp-action="Index">Automotive Forum</a>
+				<a class="navbar-brand mx-0" asp-controller="Home" asp-action="Index">Automotive Forum</a>
 
 			</div>
 
-			<div class="nav m-3 flex-column px-2 navbar-text position-relative">
+			<div class="nav m-auto d-flex flex-column p-4 navbar-text justify-content-center align-items-center">
 				
+				<div class="m-2">
+					<a asp-controller="Posts" asp-action="CreatePost">
+						<button class="btn btn-light">Create Post</button>
+					</a>
+				</div>
 				@{
 					if (categoryLabels != null)
 					{
@@ -41,7 +46,10 @@
 						}
 					}
 				}
+			
+
 			</div>
+
 
 			<footer class="footer text-muted m-4 px-2 py-2 position-fixed bottom-0">
 				<div class="clock-container">

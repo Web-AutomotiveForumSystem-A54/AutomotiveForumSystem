@@ -51,7 +51,7 @@ namespace AutomotiveForumSystem.Helpers
 				{
 					Id = category.Id,
 					Name = category.Name,
-					PostsCount = category.Posts.Count
+					PostsCount = category.Posts.Where(p => !p.IsDeleted).Count()
 				});
 			}
 
