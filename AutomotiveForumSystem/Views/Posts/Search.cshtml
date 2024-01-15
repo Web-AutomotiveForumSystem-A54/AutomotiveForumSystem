@@ -1,0 +1,45 @@
+﻿@model List<PostPreViewModel> 
+
+
+@{
+	var searchQuery = ViewData["SearchQuery"];
+
+	if (Model.Count == 0)
+	{
+		<h2 class="text-light">No results match your search parameters! :(</h2>
+	}
+	foreach (var post in Model)
+	{
+		<a asp-controller="Posts" asp-action="Index" asp-route-id="@post.Id" class="btn card bg-dark sticky shadow m-5">
+			<div class="card-body d-flex justify-content-left row" style="color: #fff">
+
+				@{
+					var searchWords = searchQuery.ToString().Split(' ');
+
+					var highlightedTitle = post.Title;
+
+					foreach (var searchWord in searchWords)
+					{
+						highlightedTitle = System.Text.RegularExpressions.Regex.Replace(
+						highlightedTitle,
+						@$"\b{System.Text.RegularExpressions.Regex.Escape(searchWord)}\b",
+						match => $"<span style='background-color: #D0C88E; color: #000; padding: 2px; margin: 0 2px;'>{match.Value}</span>",
+						System.Text.RegularExpressions.RegexOptions.IgnoreCase
+						);
+					}
+					}
+				<h5 class="card-title row highlighted-title">
+					@Html.Raw(highlightedTitle)
+				</h5>
+				<h6 class="card-subtitle row mb-2">@post.CategoryName</h6>
+
+				<div class="d-flex">
+					<span><img src="~/images/like.png" alt="Post Image" class="img-fluid" /></span>
+					<span class="card-text m-1">@post.Likes</span>
+				</div>
+
+				<span class="card-text" style="text-align: right">@post.CreatedBy</span>
+			</div>
+		</a>
+	}
+}

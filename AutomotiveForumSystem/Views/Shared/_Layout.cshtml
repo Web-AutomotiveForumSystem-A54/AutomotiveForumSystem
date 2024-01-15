@@ -75,9 +75,9 @@
 								<span class="navbar-text p-2">Posts: @totalPostCount</span>
 								<div class="d-flex">
 
-								<form class="d-flex">
-									<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-									<button class="btn btn-outline-success" type="submit">Search</button>
+								<form asp-controller="Posts" asp-action="Search" method="get" class="d-flex">
+									<input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+									<button class="btn btn-outline-dark" type="submit">Search</button>
 								</form>
 								</div>
 							</div>

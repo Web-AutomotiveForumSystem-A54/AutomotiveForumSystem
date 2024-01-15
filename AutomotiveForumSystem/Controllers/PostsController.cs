@@ -3,6 +3,7 @@ using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Models.ViewModels;
 using AutomotiveForumSystem.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,22 @@ namespace AutomotiveForumSystem.Controllers
 			return View(postDataViewModel);
 		}
 
+		[HttpGet]
+		public IActionResult Search(string searchQuery)
+		{
+			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
+			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
+			InitializeViewDataForMainLayout(categoryLabels);
+			ViewData["SearchQuery"] = searchQuery;
+			var postQueryParams = new PostQueryParameters()
+			{
+				Title = searchQuery
+			};
+			var posts = this.postService.GetAll(postQueryParams);
+			var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
+			return View(postViewModelList);
+		}
+
 		[HttpPost]
 		public IActionResult CreateComment(int postId, PostDataViewModel postModel)
 		{
@@ -96,7 +113,7 @@ namespace AutomotiveForumSystem.Controllers
 			return View(postCreateModel);
 		}
 
-		
+
 
 		[HttpPost]
 		public IActionResult CreatePost(PostCreateViewModel postCreateViewModel)
@@ -135,7 +152,7 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UpdatePost([FromQuery]int postId, PostDataViewModel postDataViewModel)
+		public IActionResult UpdatePost([FromQuery] int postId, PostDataViewModel postDataViewModel)
 		{
 			var post = this.postService.GetPostById(postId);
 			var updatedPost = new Post()
@@ -145,11 +162,11 @@ namespace AutomotiveForumSystem.Controllers
 				CategoryID = postDataViewModel.CategoryId
 			};
 			this.postService.Update(postId, updatedPost, post.User);
-			return RedirectToAction("Index", "Posts", new { id = postId});
+			return RedirectToAction("Index", "Posts", new { id = postId });
 		}
 
 		[HttpGet]
-		public IActionResult DeletePost([FromQuery]int postId)
+		public IActionResult DeletePost([FromQuery] int postId)
 		{
 			var currentUsername = HttpContext.Session.GetString("CurrentUser");
 			var user = this.usersService.GetByUsername(currentUsername);

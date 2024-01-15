@@ -38,16 +38,23 @@ namespace AutomotiveForumSystem.Repositories
 			var postsToReturn = this.applicationContext.Posts
 				.Include(p => p.Category)
 				.Include(p => p.Comments)
+				.Include(p => p.User)
 				.Where(p => !p.IsDeleted)//TODO: should this be in the service or repo
-				.AsQueryable();
+				.AsEnumerable();
 
 			if (!string.IsNullOrEmpty(postQueryParameters.Category))
 			{
 				postsToReturn = postsToReturn.Where(p => p.Category.Name == postQueryParameters.Category);
 			}
+			//if (!string.IsNullOrEmpty(postQueryParameters.Title))
+			//{
+			//	postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
+			//}
+
 			if (!string.IsNullOrEmpty(postQueryParameters.Title))
 			{
-				postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
+				string[] titleKeywords = postQueryParameters.Title.Split(' ');
+				postsToReturn = postsToReturn.Where(p => titleKeywords.All(keyword => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase)));
 			}
 
 			return postsToReturn.ToList();
