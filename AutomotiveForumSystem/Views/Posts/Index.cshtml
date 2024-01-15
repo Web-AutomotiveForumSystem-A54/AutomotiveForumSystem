@@ -9,16 +9,24 @@
 	<div class="bg-dark sticky shadow mb-4 rounded bg-opacity-100 d-flex justify-content-center row  p-3">
 		<div class="d-flex justify-content-between">
 			<h3>@Model.Title</h3>
-			@{
-				if (currentUserName == Model.CreatedBy)
-				{
-					<a asp-controller="Posts" asp-action="Delete" onclick="return confirm('Are you sure you want to delete this post?')" asp-route-postId="@postId2">
+			<div class="d-flex">
 
-						<img src="~/images/icons8-bin-50.png" class="rounded-circle p-1 delete-button" style="width:40px; height:40px;" />
-					</a>
+				@{
+					if (currentUserName == Model.CreatedBy)
+					{
+						<a onclick="setEditPost(@Model.Id, '@Model.Title','@Model.Content')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Post">
+							<img src="~/images/icons8-edit-32.png" class="rounded-circle p-1" style="width:40px; height:40px;" />
+
+						</a>
+
+						<a asp-controller="Posts" asp-action="DeletePost" onclick="return confirm('Are you sure you want to delete this post?')" asp-route-postId="@postId2">
+
+							<img src="~/images/icons8-bin-50.png" class="rounded-circle p-1 delete-button" style="width:40px; height:40px;" />
+						</a>
+					}
 				}
-			}
-			@* <button class="btn btn-danger">Delete</button> *@
+			</div>
+
 
 		</div>
 		<h5>@Model.Content</h5>
@@ -87,6 +95,29 @@
 							<div class="d-flex justify-content-center login-button-container">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 								<input type="submit" value="Create" class="btn btn-primary ms-5" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- EDIT POST -->
+		<div class="modal fade" id="editPost" tabindex="-1" aria-labelledby="editPostLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p class="bg-dark p-2">EDIT POST</p>
+						<form asp-controller="Posts" asp-action="UpdatePost" asp-route-postId="@Model.Id" id="editPostForm" method="post">
+							<input type="hidden" asp-for="@Model.CategoryId" />
+
+							<div class="form-floating mb-3">
+								<textarea asp-for="@Model.Title" type="text" id="editPostTitle" placeholder="Title" class="form-control" style="height: 100px;" required></textarea>
+								<textarea asp-for="@Model.Content" type="text" id="editPostContent" placeholder="Content" class="form-control" style="height:200px;" required></textarea>
+							</div>
+							<div class="d-flex justify-content-center login-button-container">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<input type="submit" value="Edit" class="btn btn-primary ms-5" />
 							</div>
 						</form>
 					</div>

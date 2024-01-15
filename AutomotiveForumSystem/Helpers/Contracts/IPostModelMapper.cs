@@ -10,7 +10,6 @@ namespace AutomotiveForumSystem.Helpers.Contracts
         List<PostResponseDto> MapPostsToResponseDtos(IList<Post> postsToReturn);
         PostResponseDto MapPostToResponseDto(Post post);
         List<PostPreViewModel> MapPostsToPreViewModel(IList<Post> postsToReturn);
-        PostPreViewModel MapPostToPreViewModel(Post post);
         PostDataViewModel MapPostToDataViewModel(Post post);
 	}
 }

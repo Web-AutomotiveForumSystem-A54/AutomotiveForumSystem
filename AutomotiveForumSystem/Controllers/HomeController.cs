@@ -37,7 +37,7 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+				var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
 
@@ -61,7 +61,7 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+				var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
 				ViewData["CategoryLabels"] = categoryLabels;

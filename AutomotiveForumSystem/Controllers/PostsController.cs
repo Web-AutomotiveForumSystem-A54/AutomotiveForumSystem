@@ -43,12 +43,10 @@ namespace AutomotiveForumSystem.Controllers
 			var post = this.postService.GetPostById(id);
 			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
 
-			var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
-			ViewData["CategoryLabels"] = categoryLabels;
-			ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-			ViewData["MembersCount"] = this.usersService.GetAll().Count;
+			InitializeViewDataForMainLayout(categoryLabels);
 
 			return View(postDataViewModel);
 		}
@@ -90,16 +88,15 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				return RedirectToAction("Login", "Auth");
 			}
-			var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-			ViewData["CategoryLabels"] = categoryLabels;
-			ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-			ViewData["MembersCount"] = this.usersService.GetAll().Count;
+			InitializeViewDataForMainLayout(categoryLabels);
 			var postCreateModel = new PostCreateViewModel();
-			InitializeCategories(postCreateModel);
+			InitializeCategoriesInViewModel(postCreateModel);
 			return View(postCreateModel);
 		}
+
+		
 
 		[HttpPost]
 		public IActionResult CreatePost(PostCreateViewModel postCreateViewModel)
@@ -109,18 +106,10 @@ namespace AutomotiveForumSystem.Controllers
 				return RedirectToAction("Login", "Auth");
 			}
 
-			//if (!ModelState.IsValid)
-			//{
-			//	InitializeCategories(postCreateViewModel);
-			//	return View(postCreateViewModel);
-			//}
-
-			var allCategories = GlobalQueries.InitializeCategories(this.categoriesService);
+			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
-			ViewData["CategoryLabels"] = categoryLabels;
-			ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-			ViewData["MembersCount"] = this.usersService.GetAll().Count;
+			InitializeViewDataForMainLayout(categoryLabels);
 
 			try
 			{
@@ -145,8 +134,22 @@ namespace AutomotiveForumSystem.Controllers
 			}
 		}
 
+		[HttpPost]
+		public IActionResult UpdatePost([FromQuery]int postId, PostDataViewModel postDataViewModel)
+		{
+			var post = this.postService.GetPostById(postId);
+			var updatedPost = new Post()
+			{
+				Title = postDataViewModel.Title,
+				Content = postDataViewModel.Content,
+				CategoryID = postDataViewModel.CategoryId
+			};
+			this.postService.Update(postId, updatedPost, post.User);
+			return RedirectToAction("Index", "Posts", new { id = postId});
+		}
+
 		[HttpGet]
-		public IActionResult Delete([FromQuery]int postId)
+		public IActionResult DeletePost([FromQuery]int postId)
 		{
 			var currentUsername = HttpContext.Session.GetString("CurrentUser");
 			var user = this.usersService.GetByUsername(currentUsername);
@@ -154,9 +157,16 @@ namespace AutomotiveForumSystem.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		private void InitializeCategories(PostCreateViewModel postCreateViewModel)
+		private void InitializeCategoriesInViewModel(PostCreateViewModel postCreateViewModel)
 		{
 			postCreateViewModel.Categories = new SelectList(this.categoriesService.GetAll(), "Id", "Name");
+		}
+
+		private void InitializeViewDataForMainLayout(IList<CategoryLabelViewModel> categoryLabels)
+		{
+			ViewData["CategoryLabels"] = categoryLabels;
+			ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
+			ViewData["MembersCount"] = this.usersService.GetAll().Count;
 		}
 	}
 }

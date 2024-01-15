@@ -1,9 +1,12 @@
 ﻿@model List<AutomotiveForumSystem.Models.ViewModels.PostPreViewModel> // TODO: ask if we can pass Post model directly
 
-<h4>Welcome to Automotive Forum System</h4>
-<p>The current time is @DateTime.Now</p>
+<div class="text-light">
 
-<hr />
+	<h4>Welcome to Automotive Forum System</h4>
+	<p>The current time is @DateTime.Now</p>
+
+	<hr />
+</div>
 
 @{
 	foreach (var post in Model)

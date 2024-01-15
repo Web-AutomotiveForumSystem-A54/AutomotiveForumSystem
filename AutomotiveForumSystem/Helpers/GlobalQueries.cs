@@ -8,7 +8,7 @@ namespace AutomotiveForumSystem.Helpers
 {
 	public class GlobalQueries
 	{
-        public static IList<Category> InitializeCategories(ICategoriesService categoriesService)
+        public static IList<Category> InitializeCategoriesFromDatabase(ICategoriesService categoriesService)
         {
 			return categoriesService.GetAll();
         }

@@ -47,20 +47,6 @@ namespace AutomotiveForumSystem.Helpers
             };
             return postResponseDTO;
         }
-		public PostPreViewModel MapPostToPreViewModel(Post post)
-		{
-            var postPreViewModel = new PostPreViewModel()
-            {
-                Id = post.Id,
-                CategoryName = post.Category.Name,
-                Title = post.Title,
-                Content = post.Content,
-                CreateDate = post.CreateDate.ToString(),
-                Likes = post.Likes,
-                CreatedBy = post.User.UserName
-			};
-			return postPreViewModel;
-		}
 
 		public List<PostPreViewModel> MapPostsToPreViewModel(IList<Post> postsToReturn)
 		{
@@ -83,7 +69,7 @@ namespace AutomotiveForumSystem.Helpers
 			var postDataViewModel = new PostDataViewModel()
 			{
                 Id = post.Id,
-				CategoryName = post.Category.Name,
+				CategoryId = post.Category.Id,
 				Title = post.Title,
 				Content = post.Content,
 				CreateDate = post.CreateDate.ToString(),

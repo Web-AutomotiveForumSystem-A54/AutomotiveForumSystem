@@ -15,4 +15,11 @@ function setEditComment(commentId, commentContent) {
         $('#editCommentContent').val(commentContent);
         $('#editCommentForm').attr('action', '/Posts/UpdateComment?commentId=' + commentId);
         $('#editComment').modal('show');
-    }
+}
+
+function setEditPost(postId, postTitle, postContent) {
+    $('#editPostTitle').val(postTitle);
+    $('#editPostContent').val(postContent);
+    $('#editPostForm').attr('action', '/Posts/UpdatePost?postId=' + postId);
+    $('#editPost').modal('show');
+}
