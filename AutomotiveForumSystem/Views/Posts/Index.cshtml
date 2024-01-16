@@ -37,8 +37,26 @@
 					<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
 					<p class="ps-2">@Model.CreatedBy</p>
 				</div>
-				<div>
+				<div class="d-flex">
 					<p class="mb-md-0">@Model.CreateDate</p>
+					@{
+						if (currentUserName != null)
+						{
+							if (!Model.Likes.Any(l => l.User.UserName == currentUserName))
+							{
+								<a asp-controller="Posts" asp-action="LikePost" asp-route-postId="@postId2" method="get">
+									<button class="ms-2">Like</button>
+								</a>
+							}
+							else
+							{
+								<a asp-controller="Posts" asp-action="RemoveLike" asp-route-postId="@postId2" method="get">
+									<button class="ms-2">Unlike</button>
+								</a>
+							}
+						}
+					}
+
 				</div>
 			</div>
 			@{

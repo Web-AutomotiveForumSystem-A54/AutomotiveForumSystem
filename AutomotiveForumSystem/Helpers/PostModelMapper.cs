@@ -29,7 +29,6 @@ namespace AutomotiveForumSystem.Helpers
                     Content = p.Content,
                     CreateDate = p.CreateDate.ToString(),
                     Comments = p.Comments,
-                    Likes = p.Likes
                 })
                 .ToList();
         }
@@ -43,7 +42,6 @@ namespace AutomotiveForumSystem.Helpers
                 Content = post.Content,
                 CreateDate = post.CreateDate.ToString(),
                 Comments = post.Comments,
-                Likes = post.Likes
             };
             return postResponseDTO;
         }
@@ -58,7 +56,6 @@ namespace AutomotiveForumSystem.Helpers
 					Title = p.Title,
 					Content = p.Content,
 					CreateDate = p.CreateDate.ToString(),
-					Likes = p.Likes,
                     CreatedBy = p.User.UserName
 				})
 				.ToList();
@@ -73,9 +70,9 @@ namespace AutomotiveForumSystem.Helpers
 				Title = post.Title,
 				Content = post.Content,
 				CreateDate = post.CreateDate.ToString(),
-				Likes = post.Likes,
 				CreatedBy = post.User.UserName,
                 Comments = post.Comments,
+                Likes = post.Likes.ToList()
 			};
 			return postDataViewModel;
 		}

@@ -26,16 +26,18 @@ namespace AutomotiveForumSystem.Models
 
         [ForeignKey(nameof(UserID))]
         public User User { get; set; }
-
+        
         [Required]
         public DateTime CreateDate { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
         [Required]
-        public int Likes { get; set; }
+        public IList<Like> Likes { get; set; } = new List<Like>();
+
+        public int TotalLikesCount { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }
-    }
+	}
 }
