@@ -11,7 +11,7 @@
         User User { get; set; }
         DateTime CreateDate { get; set; }
         List<Comment> Comments { get; set; }
-        int Likes { get; set; }
+        IList<Like> Likes { get; set; }
         bool IsDeleted { get; set; }
     }
 }

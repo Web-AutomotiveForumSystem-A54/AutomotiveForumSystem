@@ -63,7 +63,7 @@ namespace AutomotiveForumSystem.Services
             return this.postRepository.UpdatePost(id, post);
         }
 
-        private void ValidateUserNotBlocked(User currentUser)
+		private void ValidateUserNotBlocked(User currentUser)
         {
             if (currentUser.IsBlocked)
             {
@@ -96,5 +96,7 @@ namespace AutomotiveForumSystem.Services
         {
             return currentUser.IsAdmin;
         }
-    }
+
+		
+	}
 }

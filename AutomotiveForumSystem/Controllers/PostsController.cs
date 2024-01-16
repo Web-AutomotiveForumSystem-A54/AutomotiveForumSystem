@@ -20,6 +20,7 @@ namespace AutomotiveForumSystem.Controllers
 		private readonly ICategoryModelMapper categoryModelMapper;
 		private readonly IUsersService usersService;
 		private readonly IAuthManager authManager;
+		private readonly ILikesService likesService;
 
 		public PostsController(IPostService postService,
 			IPostModelMapper postModelMapper,
@@ -27,7 +28,8 @@ namespace AutomotiveForumSystem.Controllers
 			ICategoriesService categoriesService,
 			ICategoryModelMapper categoryModelMapper,
 			IUsersService usersService,
-			IAuthManager authManager)
+			IAuthManager authManager,
+			ILikesService likesService)
 		{
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
@@ -36,6 +38,7 @@ namespace AutomotiveForumSystem.Controllers
 			this.categoryModelMapper = categoryModelMapper;
 			this.usersService = usersService;
 			this.authManager = authManager;
+			this.likesService = likesService;
 		}
 
 		[HttpGet]
@@ -172,6 +175,31 @@ namespace AutomotiveForumSystem.Controllers
 			var user = this.usersService.GetByUsername(currentUsername);
 			this.postService.DeletePost(postId, user);
 			return RedirectToAction("Index", "Home");
+		}
+
+		[HttpGet]
+		public IActionResult LikePost([FromQuery]int postId)
+		{
+			var currentUsername = HttpContext.Session.GetString("CurrentUser");
+			var user = this.usersService.GetByUsername(currentUsername);
+			var like = new Like()
+			{
+				PostId = postId,
+				UserId = user.Id,
+			};
+
+			this.likesService.LikePost(like, postId, user.Id);
+			return RedirectToAction("Index", "Posts", new { id = postId});
+		}
+
+		[HttpGet]
+		public IActionResult RemoveLike([FromQuery] int postId)
+		{
+			var currentUsername = HttpContext.Session.GetString("CurrentUser");
+			var user = this.usersService.GetByUsername(currentUsername);
+
+			this.likesService.RemoveLike(postId, user.Id);
+			return RedirectToAction("Index", "Posts", new { id = postId });
 		}
 
 		private void InitializeCategoriesInViewModel(PostCreateViewModel postCreateViewModel)

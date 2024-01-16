@@ -14,6 +14,7 @@ namespace AutomotiveForumSystem.Data
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<Comment> Comments { get; set; }
+		public DbSet<Like> Likes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -209,6 +210,18 @@ namespace AutomotiveForumSystem.Data
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<Comment>().HasData(comments);
+
+			modelBuilder.Entity<Like>()
+				.HasOne(l => l.User)
+				.WithMany(u => u.Likes)
+				.HasForeignKey(l => l.UserId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Like>()
+				.HasOne(l => l.Post)
+				.WithMany(p => p.Likes)
+				.HasForeignKey(r => r.PostId)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

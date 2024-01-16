@@ -119,8 +119,11 @@ namespace AutomotiveForumSystem
                     secretKey
                 ));
 
+			builder.Services.AddScoped<ILikesService, LikesService>();
+			builder.Services.AddScoped<ILikesRepository, LikesRepository>();
 
-            builder.Services.AddTransient<JwtService>(provider => new JwtService(secretKey));
+
+			builder.Services.AddTransient<JwtService>(provider => new JwtService(secretKey));
 
             builder.Services.AddScoped<IUserMapper, UserMapper>();
 

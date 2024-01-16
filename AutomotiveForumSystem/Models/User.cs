@@ -28,8 +28,10 @@ namespace AutomotiveForumSystem.Models
         public IList<Post> Posts { get; set; } = new List<Post>();
 
         public IList<Comment> Comments { get; set; } = new List<Comment>();
+		[Required]
+		public IList<Like> Likes { get; set; } = new List<Like>();
 
-        [Required]
+		[Required]
         public bool IsAdmin { get; set; } // true
 
         [Required]
