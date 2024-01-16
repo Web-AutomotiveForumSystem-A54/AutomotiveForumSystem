@@ -18,35 +18,49 @@
 <body>
 	<div class="d-flex vh-100 overflow-hidden">
 
-		<nav class="bg-dark px-2 py-2 col-auto navbar-dark">
-			<div class="px-2 py-2" style="margin-bottom:60px">
+		<nav class="bg-dark bg-gradient px-2 py-2 col-auto navbar-dark">
+			<div class="px-2 py-2" style="margin-bottom:10px">
 				<a class="navbar-brand mx-0" asp-controller="Home" asp-action="Index">Automotive Forum</a>
 
 			</div>
 
-			<div class="nav m-auto d-flex flex-column p-4 navbar-text justify-content-center align-items-center">
-				
-				<div class="m-2">
-					<a asp-controller="Posts" asp-action="CreatePost">
-						<button class="btn btn-light">Create Post</button>
+			<div class="nav rounded navbar-text m-auto p-4
+						d-flex flex-column
+						flex-fill justify-content-between align-items-middle">
+
+			@* <div class="nav m-auto d-flex flex-column p-4 navbar-text justify-content-center align-items-center"> *@
+				<!-- HOME BUTTON -->
+				<div class="d-flex mb-5" style="min-width:100%">
+					<a style="min-width:100%" asp-controller="Home" asp-action="Index">
+						<div style="min-width:100%"class="btn btn-light">Home</div>
 					</a>
 				</div>
-				@{
-					if (categoryLabels != null)
-					{
-						<div>
-							<h5><span class="badge bg-secondary">Categories</span></h5>
-						</div>
-						foreach (var @c in categoryLabels)
+
+				<!-- CATEGORIES -->
+				<div>
+					@{
+						if (categoryLabels != null)
 						{
-							<div class="nav-item row">
-								<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
-								<span style="margin-left:0px; margin-top: 10px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
+							<div>
+								<h5><span class="badge bg-secondary">Categories</span></h5>
 							</div>
+							foreach (var @c in categoryLabels)
+							{
+								<div class="nav-item row">
+									<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
+									<span style="margin-left:0px; margin-top: 10px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
+								</div>
+							}
 						}
 					}
-				}
-			
+				</div>
+
+				<!-- CREATE POST -->
+				<div class="mt-5" style="min-width:100%">
+					<a style="min-width:100%" asp-controller="Posts" asp-action="CreatePost">
+						<div style="min-width:100%" class="btn btn-light bg-primary">Create Post</div>
+					</a>
+				</div>
 
 			</div>
 
@@ -89,8 +103,11 @@
 								}
 								else
 								{
-									<p>@currentUserName</p>
-									<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+									<div class="d-flex align-items-center">
+
+										<p style="margin: 0; margin-right: 10px;">@currentUserName</p>
+										<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+									</div>
 								}
 							}
 						</div>
