@@ -40,7 +40,6 @@ namespace AutomotiveForumSystem.Controllers
 				var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
 
-
 				ViewData["CategoryLabels"] = categoryLabels;
 				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
 				ViewData["MembersCount"] = this.usersService.GetAll().Count;

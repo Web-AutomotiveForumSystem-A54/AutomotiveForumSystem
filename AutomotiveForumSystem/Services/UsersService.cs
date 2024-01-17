@@ -69,9 +69,6 @@ namespace AutomotiveForumSystem.Services
 
         public User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO)
         {
-            if (user.IsBlocked) throw new UserBlockedException("Your account is blocked.");
-            if (user.IsDeleted) throw new EntityNotFoundException("Account does not exists.");
-
             this.EnsureEmailIsUnique(userDTO.Email);
             return this.users.UpdateProfileInformation(user, userDTO);
         }
