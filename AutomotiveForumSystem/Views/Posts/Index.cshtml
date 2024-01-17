@@ -2,7 +2,7 @@
 
 @{
 	var currentUserName = Context.Session.GetString("CurrentUser");
-	var postId2 = Model.Id;
+	var postId = Model.Id;
 }
 
 <div class="rounded text-light p-3 overflow-hidden d-flex flex-column">
@@ -19,7 +19,7 @@
 
 						</a>
 
-						<a asp-controller="Posts" asp-action="DeletePost" onclick="return confirm('Are you sure you want to delete this post?')" asp-route-postId="@postId2">
+						<a asp-controller="Posts" asp-action="DeletePost" onclick="return confirm('Are you sure you want to delete this post?')" asp-route-postId="@postId">
 
 							<img src="~/images/icons8-bin-50.png" class="rounded-circle p-1 delete-button" style="width:40px; height:40px;" />
 						</a>
@@ -45,14 +45,14 @@
 							{
 								if (!Model.LikedByCurrentUser)
 								{
-									<a asp-controller="Posts" asp-action="LikePost" asp-route-postId="@postId2" method="get">
+									<a asp-controller="Posts" asp-action="LikePost" asp-route-postId="@postId" method="get">
 										<img src="~/images/icons8-like-50.png" class="rounded-circle p-1" style="width:30px; height:30px;" />
 
 									</a>
 								}
 								else
 								{
-									<a asp-controller="Posts" asp-action="RemoveLike" asp-route-postId="@postId2" method="get">
+									<a asp-controller="Posts" asp-action="RemoveLike" asp-route-postId="@postId" method="get">
 										<img src="~/images/icons8-like-50-filled.png" class="p-1" style="width:30px; height:30px;" />
 
 									</a>
@@ -99,7 +99,7 @@
 				<div class="modal-content">
 					<div class="modal-body">
 						<p class="bg-dark p-2">POST A REPLY</p>
-						<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="@postId2" method="post">
+						<form asp-controller="Posts" asp-action="CreateComment" asp-route-postId="@postId" method="post">
 							<div class="form-floating mb-3">
 								<textarea asp-for="@Model.Comment.Content" type="text" id="floatingInput" placeholder="Reply here" class="form-control" style="min-height:200px;" required></textarea>
 							</div>
@@ -189,7 +189,7 @@
 									<a class="px-1 text-decoration-none" onclick="setEditComment(@comment.Id, '@comment.Content')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
 										<img src="~/images/icon-edit.png" ps-2 src="~/images/icon-edit.png" class="bg-primary rounded-circle p-1" style="width:28px; height:28px" />
 									</a>
-									<a asp-controller="Posts" asp-action="DeleteComment" asp-route-postId="@postId2" asp-route-commentId="@comment.Id" class="text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+									<a asp-controller="Posts" asp-action="DeleteComment" asp-route-postId="@postId" asp-route-commentId="@comment.Id" class="text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
 										<img src="~/images/icons8-delete-24.png" ps-2 src="~/images/icon-edit.png" class="bg-danger rounded-circle p-1" style="width:28px; height:28px;" />
 									</a>
 									// <button type="button" class="btn btn-primary" onclick="setEditComment(@comment.Id, '@comment.Content')">Edit</button>
