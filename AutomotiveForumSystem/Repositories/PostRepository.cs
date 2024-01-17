@@ -75,7 +75,7 @@ namespace AutomotiveForumSystem.Repositories
 				.Include(p => p.Category)
 				.Include(p => p.Comments.Where(c => !c.IsDeleted))
 				.Include(p => p.User)
-				.Include(p => p.Likes)
+				.Include(p => p.Likes.Where(l => !l.IsDeleted))
 				.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
 				?? throw new EntityNotFoundException($"Post with ID: {id} not found");
 		}
