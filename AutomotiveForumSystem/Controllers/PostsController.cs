@@ -102,6 +102,30 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpGet]
+		public IActionResult DeleteComment([FromQuery] int postId, [FromQuery] int commentId)
+		{
+			// TODO : check if user is logged in
+
+			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+			{
+				return RedirectToAction("Login", "Auth");
+			}
+
+			try
+			{
+				var userName = HttpContext.Session.GetString("CurrentUser");
+				var user = usersService.GetByUsername(userName);
+				var comment = commentsService.DeleteComment(user, commentId);
+
+				return RedirectToAction("Index", "Posts", new { Id = postId });
+			}
+			catch (Exception ex)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+		}
+
+		[HttpGet]
 		public IActionResult CreatePost()
 		{
 			if (!HttpContext.Session.Keys.Contains("CurrentUser"))

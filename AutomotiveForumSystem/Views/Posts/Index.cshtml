@@ -179,7 +179,7 @@
 									<a class="px-1 text-decoration-none" onclick="setEditComment(@comment.Id, '@comment.Content')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
 										<img src="~/images/icon-edit.png" ps-2 src="~/images/icon-edit.png" class="bg-primary rounded-circle p-1" style="width:28px; height:28px" />
 									</a>
-									<a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id" class="text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+									<a asp-controller="Posts" asp-action="DeleteComment" asp-route-postId="@postId2" asp-route-commentId="@comment.Id" class="text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
 										<img src="~/images/icons8-delete-24.png" ps-2 src="~/images/icon-edit.png" class="bg-danger rounded-circle p-1" style="width:28px; height:28px;" />
 									</a>
 									// <button type="button" class="btn btn-primary" onclick="setEditComment(@comment.Id, '@comment.Content')">Edit</button>
