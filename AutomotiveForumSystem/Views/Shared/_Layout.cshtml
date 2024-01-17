@@ -104,8 +104,7 @@
 								else
 								{
 									<div class="d-flex align-items-center">
-
-										<p style="margin: 0; margin-right: 10px;">@currentUserName</p>
+										<a asp-controller="Users" asp-action="Index" asp-route-username="@Context.Session.GetString("CurrentUser")" style="margin: 0; margin-right: 10px;">@currentUserName</a>
 										<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
 									</div>
 								}

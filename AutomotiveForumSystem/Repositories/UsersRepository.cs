@@ -30,19 +30,19 @@ namespace AutomotiveForumSystem.Repositories
 
         public User GetById(int id)
         {
-            return this.GetAll().FirstOrDefault(u => u.Id == id)
+            return this.context.Users.FirstOrDefault(u => u.Id == id)
                 ?? throw new EntityNotFoundException($"User with id {id} does not exist.");
         }
 
         public User GetByUsername(string username)
         {
-            return this.GetAll().FirstOrDefault(u => u.UserName == username)
+            return this.context.Users.FirstOrDefault(u => u.UserName == username)
                 ?? throw new EntityNotFoundException($"User with username {username} does not exist.");
         }
 
         public User GetByEmail(string email)
         {
-            return this.GetAll().FirstOrDefault(u => u.Email == email)
+            return this.context.Users.FirstOrDefault(u => u.Email == email)
                 ?? throw new EntityNotFoundException($"User with email {email} does not exist.");
         }
 
