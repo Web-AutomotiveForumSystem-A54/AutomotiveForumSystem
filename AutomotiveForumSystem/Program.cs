@@ -54,7 +54,7 @@ namespace AutomotiveForumSystem
 				// With IdleTimeout you can change the number of seconds after which the session expires.
 				// The seconds reset every time you access the session.
 				// This only applies to the session, not the cookie.
-				options.IdleTimeout = TimeSpan.FromSeconds(60);
+				options.IdleTimeout = TimeSpan.FromHours(1);
 				options.Cookie.HttpOnly = true;
 				options.Cookie.IsEssential = true;
 			});

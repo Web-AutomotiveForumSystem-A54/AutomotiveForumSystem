@@ -71,7 +71,9 @@ namespace AutomotiveForumSystem.Controllers
 				var category = categoriesService.GetCategoryById(id);
 				ViewData["CategoryPreview"] = category.Name;
 
-				IList<Post> posts = category.Posts.Where(p => !p.IsDeleted).ToList();
+				IList<Post> posts = category.Posts
+					.Where(p => !p.IsDeleted)
+					.ToList();
 				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 				return View(postsDataViewModelList);
 			}
