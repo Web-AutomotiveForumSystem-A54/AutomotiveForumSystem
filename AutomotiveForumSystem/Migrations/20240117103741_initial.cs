@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutomotiveForumSystem.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -163,11 +163,11 @@ namespace AutomotiveForumSystem.Migrations
                 columns: new[] { "Id", "CategoryID", "Content", "CreateDate", "IsDeleted", "Title", "TotalLikesCount", "UserID" },
                 values: new object[,]
                 {
-                    { 1, 1, "Step by step tutorial.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3720), false, "This is a post about the tuning of my supra.", 0, 1 },
-                    { 2, 2, "Step by step tutorial.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3760), false, "here i will talk about the supra mk4's 2jz engine", 0, 1 },
-                    { 3, 2, "Step by step tutorial.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3763), false, "the engine is incredibly small like all japanese engines", 0, 1 },
-                    { 4, 3, "Step by step tutorial.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3766), false, "the suspension on this car is not the best but it does the job", 0, 1 },
-                    { 5, 4, "Step by step tutorial.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3768), false, "this is a very old car so there's very few electronics on it", 0, 1 }
+                    { 1, 1, "Step by step tutorial.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2310), false, "This is a post about the tuning of my supra.", 0, 1 },
+                    { 2, 2, "Step by step tutorial.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2360), false, "here i will talk about the supra mk4's 2jz engine", 0, 1 },
+                    { 3, 2, "Step by step tutorial.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2364), false, "the engine is incredibly small like all japanese engines", 0, 1 },
+                    { 4, 3, "Step by step tutorial.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2368), false, "the suspension on this car is not the best but it does the job", 0, 1 },
+                    { 5, 4, "Step by step tutorial.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2372), false, "this is a very old car so there's very few electronics on it", 0, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -175,18 +175,18 @@ namespace AutomotiveForumSystem.Migrations
                 columns: new[] { "Id", "Content", "CreateDate", "IsDeleted", "ParentCommentId", "PostID", "UserID" },
                 values: new object[,]
                 {
-                    { 1, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3789), false, null, 1, 1 },
-                    { 2, "Comment number 2 with ensured min length.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3793), false, null, 2, 2 },
-                    { 3, "Comment number 3 with ensured min length.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3795), false, null, 3, 3 },
-                    { 4, "Comment number 4 with ensured min length.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3797), false, null, 4, 1 },
-                    { 5, "Comment number 5 with ensured min length.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3799), false, null, 4, 1 },
-                    { 6, "Comment number 6 with ensured min length.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3802), false, null, 4, 1 }
+                    { 1, "Awesome. I will follow your tutorial to tune my supra.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2404), false, null, 1, 1 },
+                    { 2, "Comment number 2 with ensured min length.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2410), false, null, 2, 2 },
+                    { 3, "Comment number 3 with ensured min length.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2413), false, null, 3, 3 },
+                    { 4, "Comment number 4 with ensured min length.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2417), false, null, 4, 1 },
+                    { 5, "Comment number 5 with ensured min length.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2420), false, null, 4, 1 },
+                    { 6, "Comment number 6 with ensured min length.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2424), false, null, 4, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Comments",
                 columns: new[] { "Id", "Content", "CreateDate", "IsDeleted", "ParentCommentId", "PostID", "UserID" },
-                values: new object[] { 7, "This is a reply.", new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3804), false, 6, 4, 2 });
+                values: new object[] { 7, "This is a reply.", new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2428), false, 6, 4, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ParentCommentId",

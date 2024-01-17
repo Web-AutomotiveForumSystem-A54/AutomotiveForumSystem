@@ -45,7 +45,14 @@ namespace AutomotiveForumSystem.Controllers
 		public IActionResult Index([FromRoute] int id)
 		{
 			var post = this.postService.GetPostById(id);
+			var userName = HttpContext.Session.GetString("CurrentUser");
 			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
+			if (userName != null)
+			{
+				var user = this.usersService.GetByUsername(userName);
+				var like = post.Likes.FirstOrDefault(l => l.UserId == user.Id && l.IsDeleted == false);
+				postDataViewModel.LikedByCurrentUser = like != null;
+			}
 
 			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
 			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
@@ -202,7 +209,7 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult LikePost([FromQuery]int postId)
+		public IActionResult LikePost([FromQuery] int postId)
 		{
 			var currentUsername = HttpContext.Session.GetString("CurrentUser");
 			var user = this.usersService.GetByUsername(currentUsername);
@@ -213,16 +220,24 @@ namespace AutomotiveForumSystem.Controllers
 			};
 
 			this.likesService.LikePost(like, postId, user.Id);
-			return RedirectToAction("Index", "Posts", new { id = postId});
+			return RedirectToAction("Index", "Posts", new { id = postId });
 		}
 
 		[HttpGet]
 		public IActionResult RemoveLike([FromQuery] int postId)
 		{
-			var currentUsername = HttpContext.Session.GetString("CurrentUser");
-			var user = this.usersService.GetByUsername(currentUsername);
+			try
+			{
+				var currentUsername = HttpContext.Session.GetString("CurrentUser");
+				var user = this.usersService.GetByUsername(currentUsername);
 
-			this.likesService.RemoveLike(postId, user.Id);
+				this.likesService.RemoveLike(postId, user.Id);
+			}
+			catch (EntityNotFoundException)
+			{
+
+				throw;
+			}
 			return RedirectToAction("Index", "Posts", new { id = postId });
 		}
 

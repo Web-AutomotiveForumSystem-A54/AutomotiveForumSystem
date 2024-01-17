@@ -19,6 +19,6 @@ namespace AutomotiveForumSystem.Models
 		public Post Post { get; set; }
 
 		[Required]
-		public bool IsDeleted { get; set; }
+		public bool IsDeleted { get; set; } = false;
 	}
 }

@@ -43,7 +43,7 @@
 						@{
 							if (currentUserName != null)
 							{
-								if (!Model.Likes.Any(l => l.User.UserName == currentUserName))
+								if (!Model.LikedByCurrentUser)
 								{
 									<a asp-controller="Posts" asp-action="LikePost" asp-route-postId="@postId2" method="get">
 										<img src="~/images/icons8-like-50.png" class="rounded-circle p-1" style="width:30px; height:30px;" />

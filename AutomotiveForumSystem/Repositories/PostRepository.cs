@@ -71,10 +71,11 @@ namespace AutomotiveForumSystem.Repositories
 
 		public Post GetPostById(int id)
 		{
-			return applicationContext.Posts.Include(p => p.Category)
+			return applicationContext.Posts
+				.Include(p => p.Category)
 				.Include(p => p.Comments.Where(c => !c.IsDeleted))
 				.Include(p => p.User)
-				.Include(p => p.Likes.Where(l => !l.IsDeleted))
+				.Include(p => p.Likes)
 				.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
 				?? throw new EntityNotFoundException($"Post with ID: {id} not found");
 		}

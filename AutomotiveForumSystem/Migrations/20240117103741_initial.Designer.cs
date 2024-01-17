@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomotiveForumSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240116131308_Initial")]
-    partial class Initial
+    [Migration("20240117103741_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,7 +114,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 1,
                             Content = "Awesome. I will follow your tutorial to tune my supra.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3789),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2404),
                             IsDeleted = false,
                             PostID = 1,
                             UserID = 1
@@ -123,7 +123,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 2,
                             Content = "Comment number 2 with ensured min length.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3793),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2410),
                             IsDeleted = false,
                             PostID = 2,
                             UserID = 2
@@ -132,7 +132,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 3,
                             Content = "Comment number 3 with ensured min length.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3795),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2413),
                             IsDeleted = false,
                             PostID = 3,
                             UserID = 3
@@ -141,7 +141,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 4,
                             Content = "Comment number 4 with ensured min length.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3797),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2417),
                             IsDeleted = false,
                             PostID = 4,
                             UserID = 1
@@ -150,7 +150,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 5,
                             Content = "Comment number 5 with ensured min length.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3799),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2420),
                             IsDeleted = false,
                             PostID = 4,
                             UserID = 1
@@ -159,7 +159,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 6,
                             Content = "Comment number 6 with ensured min length.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3802),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2424),
                             IsDeleted = false,
                             PostID = 4,
                             UserID = 1
@@ -168,7 +168,7 @@ namespace AutomotiveForumSystem.Migrations
                         {
                             Id = 7,
                             Content = "This is a reply.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3804),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2428),
                             IsDeleted = false,
                             ParentCommentId = 6,
                             PostID = 4,
@@ -249,7 +249,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 1,
                             CategoryID = 1,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3720),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2310),
                             IsDeleted = false,
                             Title = "This is a post about the tuning of my supra.",
                             TotalLikesCount = 0,
@@ -260,7 +260,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 2,
                             CategoryID = 2,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3760),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2360),
                             IsDeleted = false,
                             Title = "here i will talk about the supra mk4's 2jz engine",
                             TotalLikesCount = 0,
@@ -271,7 +271,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 3,
                             CategoryID = 2,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3763),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2364),
                             IsDeleted = false,
                             Title = "the engine is incredibly small like all japanese engines",
                             TotalLikesCount = 0,
@@ -282,7 +282,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 4,
                             CategoryID = 3,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3766),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2368),
                             IsDeleted = false,
                             Title = "the suspension on this car is not the best but it does the job",
                             TotalLikesCount = 0,
@@ -293,7 +293,7 @@ namespace AutomotiveForumSystem.Migrations
                             Id = 5,
                             CategoryID = 4,
                             Content = "Step by step tutorial.",
-                            CreateDate = new DateTime(2024, 1, 16, 15, 13, 8, 705, DateTimeKind.Local).AddTicks(3768),
+                            CreateDate = new DateTime(2024, 1, 17, 12, 37, 40, 991, DateTimeKind.Local).AddTicks(2372),
                             IsDeleted = false,
                             Title = "this is a very old car so there's very few electronics on it",
                             TotalLikesCount = 0,
