@@ -56,7 +56,8 @@ namespace AutomotiveForumSystem.Helpers
 					Title = p.Title,
 					Content = p.Content,
 					CreateDate = p.CreateDate.ToString(),
-                    CreatedBy = p.User.UserName
+                    CreatedBy = p.User.UserName,
+                    Likes = p.TotalLikesCount
 				})
 				.ToList();
 		}

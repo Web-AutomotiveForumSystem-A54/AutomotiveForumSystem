@@ -46,10 +46,6 @@ namespace AutomotiveForumSystem.Repositories
 			{
 				postsToReturn = postsToReturn.Where(p => p.Category.Name == postQueryParameters.Category);
 			}
-			//if (!string.IsNullOrEmpty(postQueryParameters.Title))
-			//{
-			//	postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
-			//}
 
 			if (!string.IsNullOrEmpty(postQueryParameters.Title))
 			{
