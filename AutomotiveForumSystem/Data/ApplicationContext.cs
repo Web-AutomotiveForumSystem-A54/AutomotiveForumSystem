@@ -15,6 +15,7 @@ namespace AutomotiveForumSystem.Data
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Like> Likes { get; set; }
+		public DbSet<Tag> Tags { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -73,6 +74,42 @@ namespace AutomotiveForumSystem.Data
 
 			modelBuilder.Entity<Category>().HasData(categories);
 
+			// Seed tags
+
+			List<Tag> tags = new List<Tag>()
+			{
+				new Tag()
+				{
+					Id = 1,
+					Name = "bmw"
+				},
+
+				new Tag()
+				{
+					Id = 2,
+					Name = "volkswagen"
+				},
+
+				new Tag()
+				{
+					Id = 3,
+					Name = "engine"
+				},
+
+				new Tag()
+				{
+					Id = 4,
+					Name = "1.9"
+				},
+				new Tag()
+				{
+					Id = 5,
+					Name = "tdi"
+				}
+			};
+
+			modelBuilder.Entity<Tag>().HasData(tags);
+
 			// Seed posts
 
 			List<Post> posts = new List<Post>()
@@ -116,7 +153,6 @@ namespace AutomotiveForumSystem.Data
 					Content = "Step by step tutorial.",
 					CreateDate = DateTime.Now,
 				},
-
 
 				new Post
 				{

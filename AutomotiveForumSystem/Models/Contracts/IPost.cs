@@ -1,4 +1,6 @@
-﻿namespace AutomotiveForumSystem.Models.Contracts
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutomotiveForumSystem.Models.Contracts
 {
     public interface IPost
     {
@@ -9,7 +11,8 @@
         string Content { get; set; }
         int UserID { get; set; }
         User User { get; set; }
-        DateTime CreateDate { get; set; }
+		IList<Tag> Tags { get; set; }
+		DateTime CreateDate { get; set; }
         List<Comment> Comments { get; set; }
         IList<Like> Likes { get; set; }
         bool IsDeleted { get; set; }
