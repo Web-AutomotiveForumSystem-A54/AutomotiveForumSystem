@@ -18,61 +18,81 @@
 <body>
 	<div class="d-flex vh-100 overflow-hidden">
 
-		<nav class="bg-dark bg-gradient px-2 py-2 col-auto navbar-dark">
-			<div class="px-2 py-2" style="margin-bottom:10px">
+		<!-- SIDE BAR-->
+		<nav class="d-flex flex-column bg-dark bg-gradient px-2 py-2 col-auto navbar-dark" style="height:100%; width:300px;">
+
+			<!-- FORUM LABEL -->
+			<div class="d-flex justify-content-center" style="margin-bottom:10px">
 				<a class="navbar-brand mx-0" asp-controller="Home" asp-action="Index">Automotive Forum</a>
 
 			</div>
 
-			<div class="nav rounded navbar-text m-auto p-4
+			<!-- SIDE BAR ITEMS -->
+			<div class="d-flex flex-column justify-content-between" style="height:100%">
+				<div class="nav rounded navbar-text m-auto p-4
 						d-flex flex-column
-						flex-fill justify-content-between align-items-middle">
+						flex-fill align-items-middle">
 
-			@* <div class="nav m-auto d-flex flex-column p-4 navbar-text justify-content-center align-items-center"> *@
-				<!-- HOME BUTTON -->
-				<div class="d-flex mb-5" style="min-width:100%">
-					<a style="min-width:100%" asp-controller="Home" asp-action="Index">
-						<div style="min-width:100%"class="btn btn-light">Home</div>
-					</a>
-				</div>
+					@* <div class="nav m-auto d-flex flex-column p-4 navbar-text justify-content-center align-items-center"> *@
+					<!-- HOME BUTTON -->
+					<div class="d-flex mb-2" style="min-width:100%">
+						<a style="min-width:100%" asp-controller="Home" asp-action="Index">
+							<div style="min-width:100%" class="btn btn-light">Home</div>
+						</a>
+					</div>
 
-				<!-- CATEGORIES -->
-				<div>
-					@{
-						if (categoryLabels != null)
-						{
-							<div>
-								<h5><span class="badge bg-secondary">Categories</span></h5>
-							</div>
-							foreach (var @c in categoryLabels)
+					<!-- CREATE POST -->
+					<div class="mt-2" style="min-width:100%">
+						<a style="min-width:100%" asp-controller="Posts" asp-action="CreatePost">
+							<div style="min-width:100%; background-color: #88A3A5" class="btn text-light">Create Post</div>
+						</a>
+					</div>
+
+					<hr />
+
+					<!-- CATEGORIES AND TAGS -->
+					<div>
+						@{
+							if (categoryLabels != null)
 							{
-								<div class="nav-item row">
-									<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
-									<span style="margin-left:0px; margin-top: 10px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
+								<div>
+									<h5><span class="badge bg-secondary">Categories</span></h5>
+								</div>
+								foreach (var @c in categoryLabels)
+								{
+									<div class="nav-item row">
+										<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
+										<span style="margin-left:0px; margin-top: 10px" class="position-absolute badge col-auto start-80 rounded-pill bg-secondary">@c.PostsCount</span>
+									</div>
+								}
+
+								<hr />
+
+								<div>
+									<h5><span class="badge bg-secondary">Tags</span></h5>
+								</div>
+								<div class="d-flex flex-md-grow-0 flex-wrap">
+									@foreach (var @c in categoryLabels)
+									{
+										<h5><span class="badge bg-info mx-1 text-dark" style="font-size:12px">@c.Name</span></h5>
+										// <div class="nav-item row">
+										// 	<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
+										//
+									}
 								</div>
 							}
 						}
-					}
-				</div>
-				<hr/>
-				<!-- CREATE POST -->
-				<div class="mt-5" style="min-width:100%">
-					<a style="min-width:100%" asp-controller="Posts" asp-action="CreatePost">
-						<div style="min-width:100%; background-color: #88A3A5" class="btn text-light">Create Post</div>
-					</a>
+					</div>
+					<hr />
 				</div>
 
+				<!-- SIDEBAR FOOTER -->
+				<footer class="footer text-center text-muted py-2" style="width:100%">
+					<p class="clock-container ml-0 m-0" style="font-size:22px" id="clock"></p>
+					<small>© Copyright @DateTime.Now.Year. Automotive Forum</small>
+				</footer>
 			</div>
 
-
-			<footer class="footer text-muted m-4 px-2 py-2 position-fixed bottom-0">
-				<div class="clock-container">
-					<div id="clock"></div>
-				</div>
-				<div class="text-left">
-					<small>© Copyright @DateTime.Now.Year <br /> Automotive Forum</small>
-				</div>
-			</footer>
 		</nav>
 
 		<div class="container-fluid col px-0">
@@ -89,10 +109,10 @@
 								<span class="navbar-text p-2">Posts: @totalPostCount</span>
 								<div class="d-flex">
 
-								<form asp-controller="Posts" asp-action="Search" method="get" class="d-flex">
-									<input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-									<button class="btn btn-outline-dark" type="submit">Search</button>
-								</form>
+									<form asp-controller="Posts" asp-action="Search" method="get" class="d-flex">
+										<input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+										<button class="btn btn-outline-dark" type="submit">Search</button>
+									</form>
 								</div>
 							</div>
 
