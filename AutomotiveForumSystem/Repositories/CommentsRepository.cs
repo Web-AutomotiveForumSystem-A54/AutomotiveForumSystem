@@ -43,7 +43,7 @@ namespace AutomotiveForumSystem.Repositories
             // once the user got deleted
             if (!string.IsNullOrEmpty(commentQueryParameters.User))
             {
-                comments = comments.Where(c => c.User.UserName == commentQueryParameters.User &&
+                comments = comments.Where(c => c.User.Username == commentQueryParameters.User &&
                 !c.User.IsDeleted);
             }
 

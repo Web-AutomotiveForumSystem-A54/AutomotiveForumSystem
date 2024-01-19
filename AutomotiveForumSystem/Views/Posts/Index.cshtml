@@ -176,7 +176,7 @@
 						<div class="d-flex row align-items-end justify-content-between">
 							<div>
 								<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
-								<label class="col text-start m-auto ps-2">@comment.User.UserName</label>
+								<label class="col text-start m-auto ps-2">@comment.User.Username</label>
 							</div>
 							<div class="mt-2 p-1">
 								<label class="col text-end ps-2 m-auto">@comment.CreateDate.ToString("MM.dd HH:mm")</label>
@@ -184,7 +184,7 @@
 						</div>
 						<div>
 							@{
-								if (currentUserName != null && currentUserName == comment.User.UserName)
+								if (currentUserName != null && currentUserName == comment.User.Username)
 								{
 									<a class="px-1 text-decoration-none" onclick="setEditComment(@comment.Id, '@comment.Content')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
 										<img src="~/images/icon-edit.png" ps-2 src="~/images/icon-edit.png" class="bg-primary rounded-circle p-1" style="width:28px; height:28px" />

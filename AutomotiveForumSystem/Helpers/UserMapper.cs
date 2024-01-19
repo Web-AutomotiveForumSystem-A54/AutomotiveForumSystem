@@ -11,7 +11,7 @@ namespace AutomotiveForumSystem.Helpers
         {
             return new User()
             {
-                UserName = user.Username,
+                Username = user.Username,
                 Password = user.Password,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -24,7 +24,7 @@ namespace AutomotiveForumSystem.Helpers
         {
             return new UserResponseDTO()
             {
-                UserName = user.UserName,
+                UserName = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
@@ -50,7 +50,7 @@ namespace AutomotiveForumSystem.Helpers
 		{
 			return new User()
 			{
-				UserName = user.Username,
+				Username = user.Username,
 				Password = user.Password,
 				FirstName = user.FirstName,
 				LastName = user.LastName,
@@ -58,5 +58,16 @@ namespace AutomotiveForumSystem.Helpers
 				PhoneNumber = user.PhoneNumber
 			};
 		}
-	}
+
+        public User Map(UserUpdateProfileInformationDTO user)
+        {
+            return new User()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+        }
+    }
 }

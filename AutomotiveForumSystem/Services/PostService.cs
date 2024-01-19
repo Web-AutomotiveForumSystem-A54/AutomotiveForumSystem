@@ -67,7 +67,7 @@ namespace AutomotiveForumSystem.Services
         {
             if (currentUser.IsBlocked)
             {
-                throw new UserBlockedException($"User {currentUser.UserName} is currently blocked");
+                throw new UserBlockedException($"User {currentUser.Username} is currently blocked");
             }
         }
 

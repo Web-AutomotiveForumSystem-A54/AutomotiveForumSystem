@@ -81,7 +81,7 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpPost]
 		public IActionResult CreateComment(int postId, PostDataViewModel postModel)
 		{
-			var user = usersService.GetByUsername("jonkata");
+			var user = usersService.GetByUsername(HttpContext.Session.GetString("CurrentUser"));
 			var post = postService.GetPostById(postId);
 			var newComment = new Comment()
 			{

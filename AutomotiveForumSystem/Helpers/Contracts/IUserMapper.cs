@@ -8,6 +8,8 @@ namespace AutomotiveForumSystem.Helpers.Contracts
     {
         User Map(UserCreateDTO user);
 
+        User Map(UserUpdateProfileInformationDTO user);
+
         UserResponseDTO Map(User user);
 
 		User Map(UserRegisterViewModel user);

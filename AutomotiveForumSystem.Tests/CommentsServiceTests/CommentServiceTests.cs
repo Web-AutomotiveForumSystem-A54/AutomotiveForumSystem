@@ -103,7 +103,7 @@ namespace AutomotiveForumSystem.Tests.CommentsServiceTests
         public void CreateComment_CreatesCommentInRepository()
         {
             // Arrange
-            var user = new User { Id = 1, UserName = "SampleUser" };
+            var user = new User { Id = 1, Username = "SampleUser" };
             var post = new Post { Id = 1, Title = "SamplePost" };
             var comment = new Comment { Content = "New Comment" };
             var expectedComment = new Comment
@@ -174,7 +174,7 @@ namespace AutomotiveForumSystem.Tests.CommentsServiceTests
         public void DeleteComment_WhenUserIsCommentOwner_DeletesComment()
         {
             // Arrange
-            var user = new User { Id = 1, UserName = "SampleUser" };
+            var user = new User { Id = 1, Username = "SampleUser" };
             var commentId = 1;
             var commentToDelete = new Comment { Id = commentId, Content = "Sample Comment", UserID = user.Id };
 
@@ -197,7 +197,7 @@ namespace AutomotiveForumSystem.Tests.CommentsServiceTests
         public void DeleteComment_WhenUserIsAdmin_DeletesComment()
         {
             // Arrange
-            var user = new User { Id = 1, UserName = "AdminUser", IsAdmin = true };
+            var user = new User { Id = 1, Username = "AdminUser", IsAdmin = true };
             var commentId = 1;
             var commentToDelete = new Comment { Id = commentId, Content = "Sample Comment", UserID = 2 }; // Different user
 
@@ -220,7 +220,7 @@ namespace AutomotiveForumSystem.Tests.CommentsServiceTests
         public void DeleteComment_WhenUserIsNotCommentOwnerAndNotAdmin_ThrowsAuthorizationException()
         {
             // Arrange
-            var user = new User { Id = 1, UserName = "SampleUser" };
+            var user = new User { Id = 1, Username = "SampleUser" };
             var commentId = 1;
             var commentToDelete = new Comment { Id = commentId, Content = "Sample Comment", UserID = 2 }; // Different user
 

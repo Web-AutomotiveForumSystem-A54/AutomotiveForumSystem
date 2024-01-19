@@ -56,7 +56,7 @@ namespace AutomotiveForumSystem.Helpers
 					Title = p.Title,
 					Content = p.Content,
 					CreateDate = p.CreateDate.ToString(),
-                    CreatedBy = p.User.UserName
+                    CreatedBy = p.User.Username
 				})
 				.ToList();
 		}
@@ -70,7 +70,7 @@ namespace AutomotiveForumSystem.Helpers
 				Title = post.Title,
 				Content = post.Content,
 				CreateDate = post.CreateDate.ToString(),
-				CreatedBy = post.User.UserName,
+				CreatedBy = post.User.Username,
                 Comments = post.Comments.ToList(),
                 Likes = post.Likes.ToList()
 			};
