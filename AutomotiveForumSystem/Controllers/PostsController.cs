@@ -160,10 +160,23 @@ namespace AutomotiveForumSystem.Controllers
 
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
-			
+
 			try
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
+
+
+				List<Tag> tags = new List<Tag>();
+
+				if (postCreateViewModel.Tags != null)
+				{
+					var inputTags = postCreateViewModel.Tags.Split(' ');
+					foreach (var item in inputTags)
+					{
+						Console.WriteLine(item);
+						tags.Add(tagsService.GetByName(item));
+					}
+				}
 
 				var user = this.usersService.GetByUsername(currentUser);
 
@@ -173,6 +186,7 @@ namespace AutomotiveForumSystem.Controllers
 					Content = postCreateViewModel.Content,
 					UserID = user.Id,
 					CategoryID = postCreateViewModel.CategoryID,
+					Tags = tags
 				};
 				var createdPost = this.postService.CreatePost(post, user);
 
