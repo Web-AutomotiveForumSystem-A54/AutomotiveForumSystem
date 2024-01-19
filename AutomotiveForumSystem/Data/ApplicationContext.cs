@@ -28,7 +28,7 @@ namespace AutomotiveForumSystem.Data
 				new User()
 				{
 					Id = 1,
-					UserName = "jonkata",
+					Username = "jonkata",
 					FirstName = "John",
 					LastName = "Smith",
 					Email = "john@mail.com",
@@ -39,7 +39,7 @@ namespace AutomotiveForumSystem.Data
 				new User()
 				{
 					Id = 2,
-					UserName = "stevie",
+					Username = "stevie",
 					FirstName = "Steven",
 					LastName = "Solberg",
 					Email = "steven@mail.com",
@@ -50,7 +50,7 @@ namespace AutomotiveForumSystem.Data
 				new User()
 				{
 					Id = 3,
-					UserName = "vanko_54",
+					Username = "vanko_54",
 					FirstName = "Ivan",
 					LastName = "Ivanov",
 					Email = "ivan@mail.com",

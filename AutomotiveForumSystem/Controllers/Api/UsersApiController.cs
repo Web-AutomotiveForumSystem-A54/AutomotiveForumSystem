@@ -1,9 +1,10 @@
-﻿using AutomotiveForumSystem.Exceptions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using AutomotiveForumSystem.Exceptions;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers.Api
 {
@@ -47,7 +48,8 @@ namespace AutomotiveForumSystem.Controllers.Api
             try
             {
                 var user = authManager.TryGetUserFromToken(authorizationHeader);
-                var updatedUser = usersService.UpdateProfileInformation(user, userDTO);
+                var newUserInfo = userMapper.Map(userDTO);
+                var updatedUser = usersService.UpdateProfileInformation(user.Id, newUserInfo);
                 var userResponse = userMapper.Map(updatedUser);
 
                 return Ok(userResponse);

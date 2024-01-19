@@ -1,8 +1,7 @@
 ﻿using AutomotiveForumSystem.Data;
-using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Repositories.Contracts;
-using AutomotiveForumSystem.Models.DTOs;
 
 namespace AutomotiveForumSystem.Repositories
 {
@@ -30,19 +29,19 @@ namespace AutomotiveForumSystem.Repositories
 
         public User GetById(int id)
         {
-            return this.context.Users.FirstOrDefault(u => u.Id == id)
+            return this.GetAll().FirstOrDefault(u => u.Id == id)
                 ?? throw new EntityNotFoundException($"User with id {id} does not exist.");
         }
 
         public User GetByUsername(string username)
         {
-            return this.context.Users.FirstOrDefault(u => u.UserName == username)
+            return this.GetAll().FirstOrDefault(u => u.Username == username)
                 ?? throw new EntityNotFoundException($"User with username {username} does not exist.");
         }
 
         public User GetByEmail(string email)
         {
-            return this.context.Users.FirstOrDefault(u => u.Email == email)
+            return this.GetAll().FirstOrDefault(u => u.Email == email)
                 ?? throw new EntityNotFoundException($"User with email {email} does not exist.");
         }
 
@@ -79,12 +78,14 @@ namespace AutomotiveForumSystem.Repositories
             return user;
         }
 
-        public User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO)
+        public User UpdateProfileInformation(int id, User user)
         {
-            user.FirstName = userDTO.FirstName;
-            user.LastName = userDTO.LastName;
-            user.Email = userDTO.Email;
-            user.PhoneNumber = userDTO.PhoneNumber;
+            var userToUpdate = this.GetById(id);
+
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.PhoneNumber = user.PhoneNumber;
 
             this.context.SaveChanges();
 

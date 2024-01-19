@@ -21,7 +21,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         [TestMethod]
         public void CreatePost_WhenUserNotBlocked_CallsRepositoryCreatePostAndReturnsPost()
         {
-            var currentUser = new User { Id = 1, UserName = "testUser", IsBlocked = false };
+            var currentUser = new User { Id = 1, Username = "testUser", IsBlocked = false };
             var post = new Post { /* Initialize your post properties here */ };
 
             // Act
@@ -39,7 +39,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         public void CreatePost_WhenUserBlocked_ThrowsUserBlockedException()
         {
 
-            var currentUser = new User { Id = 1, UserName = "blockedUser", IsBlocked = true };
+            var currentUser = new User { Id = 1, Username = "blockedUser", IsBlocked = true };
             var post = new Post { /* Initialize your post properties here */ };
 
             // Act
@@ -55,7 +55,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         {
             // Arrange
             var postId = 1;
-            var currentUser = new User { Id = 1, UserName = "adminUser", IsAdmin = true };
+            var currentUser = new User { Id = 1, Username = "adminUser", IsAdmin = true };
             var postToDelete = new Post { Id = postId, UserID = currentUser.Id };
 
             // Mock repository behavior
@@ -74,7 +74,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         {
             // Arrange
             var postId = 1;
-            var currentUser = new User { Id = 1, UserName = "postCreator", IsAdmin = false };
+            var currentUser = new User { Id = 1, Username = "postCreator", IsAdmin = false };
             var postToDelete = new Post { Id = postId, UserID = currentUser.Id };
 
             // Mock repository behavior
@@ -93,7 +93,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         {
             // Arrange
             var postId = 1;
-            var currentUser = new User { Id = 2, UserName = "regularUser", IsAdmin = false };
+            var currentUser = new User { Id = 2, Username = "regularUser", IsAdmin = false };
             var postToDelete = new Post { Id = postId, UserID = 1 }; // Different user created the post
 
             // Mock repository behavior
@@ -187,7 +187,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         {
             // Arrange
             var postId = 1;
-            var currentUser = new User { Id = 1, UserName = "postCreator" };
+            var currentUser = new User { Id = 1, Username = "postCreator" };
             var postToUpdate = new Post { Id = postId, UserID = currentUser.Id };
             var updatedPost = new Post { Id = postId, Title = "Updated Title", UserID = currentUser.Id };
 
@@ -216,7 +216,7 @@ namespace AutomotiveForumSystem.Tests.PostServiceTests
         {
             // Arrange
             var postId = 1;
-            var currentUser = new User { Id = 2, UserName = "otherUser" };
+            var currentUser = new User { Id = 2, Username = "otherUser" };
             var postToUpdate = new Post { Id = postId, UserID = 1 }; // Different user created the post
 
             // Mock repository behavior

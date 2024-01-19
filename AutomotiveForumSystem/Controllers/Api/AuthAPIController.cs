@@ -25,7 +25,7 @@ namespace AutomotiveForumSystem.Controllers.Api
         public IActionResult Login([FromHeader] string credentials)
         {
             var user = authManager.TryGetUser(credentials);
-            var token = jwtService.GenerateToken(user.UserName, user.IsAdmin);
+            var token = jwtService.GenerateToken(user.Username, user.IsAdmin);
             return Ok(new { Token = token });
         }
     }

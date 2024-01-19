@@ -1,8 +1,7 @@
-﻿using AutomotiveForumSystem.Models;
-using AutomotiveForumSystem.Exceptions;
-using AutomotiveForumSystem.Services.Contracts;
+﻿using AutomotiveForumSystem.Exceptions;
+using AutomotiveForumSystem.Models;
 using AutomotiveForumSystem.Repositories.Contracts;
-using AutomotiveForumSystem.Models.DTOs;
+using AutomotiveForumSystem.Services.Contracts;
 
 namespace AutomotiveForumSystem.Services
 {
@@ -17,7 +16,7 @@ namespace AutomotiveForumSystem.Services
 
         public User Create(User user)
         {
-            this.EnsureUsernameIsUnique(user.UserName);
+            this.EnsureUsernameIsUnique(user.Username);
             this.EnsureEmailIsUnique(user.Email);
             return this.users.Create(user);
         }
@@ -67,10 +66,10 @@ namespace AutomotiveForumSystem.Services
             return this.users.SetAdmin(user);
         }
 
-        public User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO)
+        public User UpdateProfileInformation(int id, User user)
         {
-            this.EnsureEmailIsUnique(userDTO.Email);
-            return this.users.UpdateProfileInformation(user, userDTO);
+            this.EnsureEmailIsUnique(user.Email);
+            return this.users.UpdateProfileInformation(id, user);
         }
 
         public void Delete(User userToDelete)
@@ -81,7 +80,7 @@ namespace AutomotiveForumSystem.Services
         
         private void EnsureUsernameIsUnique(string username)
         {
-            var user = this.users.GetAll().FirstOrDefault(u => u.UserName == username);
+            var user = this.users.GetAll().FirstOrDefault(u => u.Username == username);
 
             if (user != null)
                 throw new DuplicateEntityException($"Username {username} is already used.");

@@ -36,12 +36,12 @@ namespace AutomotiveForumSystem.Services
         {
             if (user.IsDeleted)
             {
-                throw new EntityNotFoundException($"User with user name {user.UserName} not found.");
+                throw new EntityNotFoundException($"User with user name {user.Username} not found.");
             }
 
             if (user.IsBlocked)
             {
-                throw new UserBlockedException($"User with user name {user.UserName} is blocked.");
+                throw new UserBlockedException($"User with user name {user.Username} is blocked.");
             }
 
             comment.UserID = user.Id;

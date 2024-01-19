@@ -13,7 +13,7 @@ namespace AutomotiveForumSystem.Helpers
 
             commentDTO.Post = comment.Post.Title;
             commentDTO.Content = comment.Content;
-            commentDTO.User = comment.User.UserName;
+            commentDTO.User = comment.User.Username;
             commentDTO.CreatedDate = comment.CreateDate.ToString();
             commentDTO.Replies = new List<CommentResponseReplyDTO>();
 
@@ -24,7 +24,7 @@ namespace AutomotiveForumSystem.Helpers
                     commentDTO.Replies.Add(new CommentResponseReplyDTO()
                     {
                         Content = item.Content,
-                        User = item.User.UserName,
+                        User = item.User.Username,
                         CreatedDate = item.CreateDate.ToString(),
                     });
                 }

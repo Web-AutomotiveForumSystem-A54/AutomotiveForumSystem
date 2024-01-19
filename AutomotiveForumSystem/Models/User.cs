@@ -9,7 +9,7 @@ namespace AutomotiveForumSystem.Models
         public int Id { get; set; }
 
         [Required, MinLength(4), MaxLength(16)]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required, MinLength(4), MaxLength(32)]
         public string FirstName { get; set; }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using AutomotiveForumSystem.Models.ViewModels;
-using AutomotiveForumSystem.Services.Contracts;
+using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.PostDtos;
-using AutomotiveForumSystem.Helpers;
+using AutomotiveForumSystem.Models.ViewModels;
+using AutomotiveForumSystem.Services.Contracts;
 
 namespace AutomotiveForumSystem.Controllers
 {
@@ -45,7 +45,7 @@ namespace AutomotiveForumSystem.Controllers
 
             var model = new UserProfileViewModel
             {
-                Username = user.UserName,
+                Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,

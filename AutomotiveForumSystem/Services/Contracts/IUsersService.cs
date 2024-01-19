@@ -1,5 +1,4 @@
 ﻿using AutomotiveForumSystem.Models;
-using AutomotiveForumSystem.Models.DTOs;
 
 namespace AutomotiveForumSystem.Services.Contracts
 {
@@ -21,7 +20,7 @@ namespace AutomotiveForumSystem.Services.Contracts
 
         User SetAdmin(User user);
 
-        User UpdateProfileInformation(User user, UserUpdateProfileInformationDTO userDTO);
+        User UpdateProfileInformation(int id, User user);
 
         void Delete(User userToDelete);
 
