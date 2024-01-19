@@ -26,6 +26,9 @@ namespace AutomotiveForumSystem.Models
 
         [ForeignKey(nameof(UserID))]
         public User User { get; set; }
+
+        [Required]
+        public IList<Tag> Tags { get; set; } = new List<Tag>();
         
         [Required]
         public DateTime CreateDate { get; set; }

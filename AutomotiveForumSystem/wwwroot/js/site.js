@@ -23,3 +23,35 @@ function setEditPost(postId, postTitle, postContent) {
     $('#editPostForm').attr('action', '/Posts/UpdatePost?postId=' + postId);
     $('#editPost').modal('show');
 }
+
+function displayTags(tagsJsonString, containerId) {
+    // Parse JSON string into JavaScript array
+    var tagsArray = JSON.parse(tagsJsonString);
+
+    // Display tags using JavaScript
+    var tagsContainer = $('#' + containerId);
+    for (var i = 0; i < tagsArray.length; i++) {
+        tagsContainer.append($('<div class="badge bg-danger m-1">').text(tagsArray[i]));
+    }
+}
+
+function updateDisplayedTags() {
+    var inputText = $('#tagsInput').val();
+
+    // Get the tags container
+    var tagsContainer = $('#displayedTagsContainer');
+
+    // Clear previous tags
+    tagsContainer.empty();
+
+    // Parse JSON string into JavaScript array (assuming you have the JSON string stored in a hidden field)
+    var tagsJsonString = $('#tagsJson').val();
+    var tagsArray = JSON.parse(tagsJsonString);
+
+    // Display matching tags
+    for (var i = 0; i < tagsArray.length; i++) {
+        if (tagsArray[i].toLowerCase().includes(inputText.toLowerCase())) {
+            tagsContainer.append($('<div class="badge bg-danger m-1">').text(tagsArray[i]));
+        }
+    }
+}

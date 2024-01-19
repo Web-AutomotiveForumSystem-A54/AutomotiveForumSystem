@@ -13,6 +13,10 @@ html {
     min-height: 100%;
 }
 
+hr {
+    opacity: 0.1;
+}
+
 /*this is an extension of the bootstrap library clock-container class*/
 .clock-container {
     color: #fff;

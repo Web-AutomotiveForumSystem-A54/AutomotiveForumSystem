@@ -6,6 +6,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 	public class PostDataViewModel
 	{
 		public int Id { get; set; }
+
 		public int CategoryId { get; set; }
 
 		[Required, MinLength(16), MaxLength(64)]
@@ -19,6 +20,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 		public string CreatedBy { get; set; }
 
 		public List<Comment> Comments { get; set; } = new();
+
 		public List<Like> Likes { get; set; } = new();
 
 		public CommentCreateDTO Comment { get; set; } = new CommentCreateDTO();

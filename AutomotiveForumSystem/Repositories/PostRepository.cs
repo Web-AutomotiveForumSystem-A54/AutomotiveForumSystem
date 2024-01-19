@@ -46,10 +46,6 @@ namespace AutomotiveForumSystem.Repositories
 			{
 				postsToReturn = postsToReturn.Where(p => p.Category.Name == postQueryParameters.Category);
 			}
-			//if (!string.IsNullOrEmpty(postQueryParameters.Title))
-			//{
-			//	postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
-			//}
 
 			if (!string.IsNullOrEmpty(postQueryParameters.Title))
 			{
@@ -62,9 +58,11 @@ namespace AutomotiveForumSystem.Repositories
 
 		public IList<Post> GetAll()
 		{
+			// TODO : check if including comments is needed here
 			return this.applicationContext.Posts
 				.Include(p => p.Category)
-				.Include(p => p.Comments)
+				//.Include(p => p.Comments)
+				.Include(p => p.Tags)
 				.Where(p => !p.IsDeleted)
 				.ToList();
 		}
@@ -75,6 +73,7 @@ namespace AutomotiveForumSystem.Repositories
 				.Include(p => p.Category)
 				.Include(p => p.Comments.Where(c => !c.IsDeleted))
 				.Include(p => p.User)
+				.Include(p => p.Tags)
 				.Include(p => p.Likes.Where(l => !l.IsDeleted))
 				.FirstOrDefault(p => p.Id == id && !p.IsDeleted)
 				?? throw new EntityNotFoundException($"Post with ID: {id} not found");

@@ -2,7 +2,6 @@
 using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models;
-using AutomotiveForumSystem.Models.DTOs;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Models.ViewModels;
 using AutomotiveForumSystem.Services.Contracts;
@@ -15,6 +14,7 @@ namespace AutomotiveForumSystem.Controllers
 	{
 		private readonly IPostService postService;
 		private readonly IPostModelMapper postModelMapper;
+		private readonly ITagsService tagsService;
 		private readonly ICommentsService commentsService;
 		private readonly ICategoriesService categoriesService;
 		private readonly ICategoryModelMapper categoryModelMapper;
@@ -24,6 +24,7 @@ namespace AutomotiveForumSystem.Controllers
 
 		public PostsController(IPostService postService,
 			IPostModelMapper postModelMapper,
+			ITagsService tagsService,
 			ICommentsService commentsService,
 			ICategoriesService categoriesService,
 			ICategoryModelMapper categoryModelMapper,
@@ -33,6 +34,7 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
+			this.tagsService = tagsService;
 			this.commentsService = commentsService;
 			this.categoriesService = categoriesService;
 			this.categoryModelMapper = categoryModelMapper;
@@ -44,6 +46,9 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult Index([FromRoute] int id)
 		{
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
 			var post = this.postService.GetPostById(id);
 			var userName = HttpContext.Session.GetString("CurrentUser");
 			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
@@ -54,20 +59,15 @@ namespace AutomotiveForumSystem.Controllers
 				postDataViewModel.LikedByCurrentUser = like != null;
 			}
 
-			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-			InitializeViewDataForMainLayout(categoryLabels);
-
 			return View(postDataViewModel);
 		}
 
 		[HttpGet]
 		public IActionResult Search(string searchQuery)
 		{
-			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-			InitializeViewDataForMainLayout(categoryLabels);
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
 			ViewData["SearchQuery"] = searchQuery;
 			var postQueryParams = new PostQueryParameters()
 			{
@@ -139,9 +139,10 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				return RedirectToAction("Login", "Auth");
 			}
-			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-			InitializeViewDataForMainLayout(categoryLabels);
+
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
 			var postCreateModel = new PostCreateViewModel();
 			InitializeCategoriesInViewModel(postCreateModel);
 			return View(postCreateModel);
@@ -157,11 +158,9 @@ namespace AutomotiveForumSystem.Controllers
 				return RedirectToAction("Login", "Auth");
 			}
 
-			var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-			var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-			InitializeViewDataForMainLayout(categoryLabels);
-
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+			
 			try
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
@@ -244,13 +243,6 @@ namespace AutomotiveForumSystem.Controllers
 		private void InitializeCategoriesInViewModel(PostCreateViewModel postCreateViewModel)
 		{
 			postCreateViewModel.Categories = new SelectList(this.categoriesService.GetAll(), "Id", "Name");
-		}
-
-		private void InitializeViewDataForMainLayout(IList<CategoryLabelViewModel> categoryLabels)
-		{
-			ViewData["CategoryLabels"] = categoryLabels;
-			ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-			ViewData["MembersCount"] = this.usersService.GetAll().Count;
 		}
 	}
 }
