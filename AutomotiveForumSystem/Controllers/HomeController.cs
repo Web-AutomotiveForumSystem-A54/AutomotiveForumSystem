@@ -77,6 +77,5 @@ namespace AutomotiveForumSystem.Controllers
 				return View("Error");
 			}
 		}
-
-	}
+    }
 }
