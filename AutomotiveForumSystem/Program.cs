@@ -97,7 +97,10 @@ namespace AutomotiveForumSystem
             });
 
             builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-            builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+			builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+
+            builder.Services.AddScoped<ITagsService, TagsService>();
+			builder.Services.AddScoped<ITagsRepository, TagsRepository>();
 
             builder.Services.AddScoped<ICommentsService, CommentsService>();
             builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();

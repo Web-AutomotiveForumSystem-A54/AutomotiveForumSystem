@@ -22,7 +22,8 @@ namespace AutomotiveForumSystem.Repositories
             // NOTE : do not include posts for final project
             // create another method to return posts count
             var categories = this.applicationContext.Categories.Where(c => c.IsDeleted == false)
-                .Include(c => c.Posts);
+                .Include(c => c.Posts)
+                .ThenInclude(p => p.Tags);
 
             return categories.ToList();
         }

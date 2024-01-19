@@ -13,6 +13,7 @@ namespace AutomotiveForumSystem.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ICategoriesService categoriesService;
+		private readonly ITagsService tagsService;
 		private readonly IPostService postService;
 		private readonly IPostModelMapper postModelMapper;
 		private readonly IUsersService usersService;
@@ -20,12 +21,14 @@ namespace AutomotiveForumSystem.Controllers
 
 		public HomeController(
 			ICategoriesService categoriesService,
+			ITagsService tagsService,
 			IPostService postService,
 			IPostModelMapper postModelMapper,
 			IUsersService usersService,
 			ICategoryModelMapper categoryModelMapper)
 		{
 			this.categoriesService = categoriesService;
+			this.tagsService = tagsService;
 			this.postService = postService;
 			this.postModelMapper = postModelMapper;
 			this.usersService = usersService;
@@ -37,12 +40,8 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-				ViewData["CategoryLabels"] = categoryLabels;
-				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-				ViewData["MembersCount"] = this.usersService.GetAll().Count;
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
 
 				IList<Post> posts = this.postService.GetAll();
 				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
@@ -60,12 +59,8 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			try
 			{
-				var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-				var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-				ViewData["CategoryLabels"] = categoryLabels;
-				ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-				ViewData["MembersCount"] = this.usersService.GetAll().Count;
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
 
 				var category = categoriesService.GetCategoryById(id);
 				ViewData["CategoryPreview"] = category.Name;
