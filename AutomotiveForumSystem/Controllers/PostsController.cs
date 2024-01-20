@@ -204,19 +204,45 @@ namespace AutomotiveForumSystem.Controllers
 				return View(postCreateViewModel);
 			}
 		}
+		[HttpGet]
+		public IActionResult Edit([FromRoute]int id)
+		{
+			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+			{
+				return RedirectToAction("Login", "Auth");
+			}
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
+
+			var post = this.postService.GetPostById(id);
+			var tagNames = string.Join(" ", post.Tags.Select(tag => tag.Name));
+			var postEditViewModel = new PostEditViewModel()
+			{
+				Id = post.Id,
+				Title = post.Title,
+				Content = post.Content,
+				CategoryID = post.CategoryID,
+				UserID = post.UserID,
+				Tags = tagNames
+			};
+			InitializeCategoriesInViewModel(postEditViewModel);
+
+			return View(postEditViewModel);
+		}
 
 		[HttpPost]
-		public IActionResult UpdatePost([FromQuery] int postId, PostDataViewModel postDataViewModel)
+		public IActionResult Edit([FromRoute] int id, PostEditViewModel postEditViewModel)
 		{
-			var post = this.postService.GetPostById(postId);
+			var post = this.postService.GetPostById(id);
 			var updatedPost = new Post()
 			{
-				Title = postDataViewModel.Title,
-				Content = postDataViewModel.Content,
-				CategoryID = postDataViewModel.CategoryId
+				Title = postEditViewModel.Title,
+				Content = postEditViewModel.Content,
+				CategoryID = postEditViewModel.CategoryID
 			};
-			this.postService.Update(postId, updatedPost, post.User);
-			return RedirectToAction("Index", "Posts", new { id = postId });
+			this.postService.Update(id, updatedPost, post.User);
+			return RedirectToAction("Index", "Posts", new { id });
 		}
 
 		[HttpGet]
@@ -264,6 +290,11 @@ namespace AutomotiveForumSystem.Controllers
 		private void InitializeCategoriesInViewModel(PostCreateViewModel postCreateViewModel)
 		{
 			postCreateViewModel.Categories = new SelectList(this.categoriesService.GetAll(), "Id", "Name");
+		}
+
+		private void InitializeCategoriesInViewModel(PostEditViewModel postEditViewModel)
+		{
+			postEditViewModel.Categories = new SelectList(this.categoriesService.GetAll(), "Id", "Name");
 		}
 	}
 }
