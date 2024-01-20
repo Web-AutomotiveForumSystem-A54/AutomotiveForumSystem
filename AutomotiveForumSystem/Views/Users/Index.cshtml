@@ -4,7 +4,6 @@
     var currentUsername = Context.Session.GetString("CurrentUser");
 }
 
-
 <div class="row bg-secondary shadow rounded-3" style="height: calc(100% - 50px); overflow-y:hidden;">
     <div class="d-flex justify-content-start flex-column p-3" style="width:15%;">
         <img src="~/images/user-128-light.png" style="margin-bottom: 15px;" />
@@ -20,13 +19,17 @@
         {
             <a class="btn text-light bg-light bg-opacity-25 my-4 shadow" asp-controller="Users" asp-action="Edit" asp-route-username="@currentUsername"> Edit Profile </a>
         }
+
+        @if (Model.IsAdmin)
+        {
+            <a asp-controller="Admins" asp-action="Index" class="btn btn-secondary bg-light text-black mb-1">Search User</a>
+        }
         
     </div>
     <div class="col bg-light bg-opacity-25" style="overflow-y:auto; height: 100%">
         @foreach (var post in Model.Posts)
         {
             @Html.Partial("_PostCardTemplate", post)
-
         }       
     </div>
 </div>

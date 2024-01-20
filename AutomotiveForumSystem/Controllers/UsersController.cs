@@ -51,7 +51,8 @@ namespace AutomotiveForumSystem.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Posts = this.postMapper.MapPostsToPreViewModel(posts)
+                Posts = this.postMapper.MapPostsToPreViewModel(posts),
+                IsAdmin = user.IsAdmin
             };
 
             return View(model);
