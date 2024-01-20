@@ -2,6 +2,7 @@
 
 @{
 	var tagLabels = ViewData["TagLabels"] as List<Tag>;
+
 }
 
 <script>
@@ -60,10 +61,14 @@
 
 
 			<div>
-
-				<a href="@Context.Request.Headers.Referer.ToString()" style="text-decoration: none">
-					<a class="btn btn-danger mx-2">Cancel</a>
-				</a>
+				@if (Context.Request.Headers.Referer.ToString().Contains(Context.Request.Path))
+				{
+					<a asp-controller="Home" asp-action="Index" class="btn btn-danger mx-2" style="text-decoration: none">Cancel</a>
+				}
+				else
+				{
+					<a href="@Context.Request.Headers.Referer.ToString()" class="btn btn-danger mx-2" style="text-decoration: none">Cancel</a>
+				}
 
 				<input type="submit" value="Create" class="btn btn-primary" />
 			</div>
