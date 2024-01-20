@@ -11,10 +11,150 @@ setInterval(updateClock, 1000);
 
 updateClock();
 
+/**
+ *	Tag based
+ */
+
+// Initialize an array to store clicked tags
+var clickedTagsArray = [];
+var tagsArray = [];
+
+function AddNewTag(value) {
+
+    var button = AddTagToContainer(tagsArray.length, value);
+    // $(button).click();
+    // clickedTagsArray.push(value);
+    tagsArray.push(value);
+}
+
+function AddTagToContainer(id, value) {
+    // Create a button element
+    var button = document.createElement('button');
+
+    // Set attributes and styles for the button
+    button.type = 'button';
+    button.className = 'btn btn-outline-info text-light tag-button-element';
+    button.style.fontSize = '12px';
+    button.style.boxShadow = 'none';
+    button.dataset.id = id; // Assuming you want to set some data attribute for ID
+    button.dataset.tag = value; // Set data-tag attribute with the value from the array
+
+    // Set the button text to the value from the array
+    button.textContent = value;
+    
+    var container = document.getElementById('tags-container');
+    // Append the button to the container
+    container.appendChild(button);
+
+    $(button).on('click', BindTagClick);
+    return $(button);
+}
+
+function BindTagClick() {
+    // Get the clicked tag's text
+    var clickedTag = $(this).data('tag');
+    var clickedId = $(this).data('id');
+    
+    var b_ToToggleButton = true;
+
+    // Add the clicked tag to the array
+    if (clickedTag !== undefined && clickedTag !== null) {
+        var index = clickedTagsArray.indexOf(clickedTag);
+
+        // Check if the tag is not already in the array
+        if (index === -1) {
+            if (clickedTagsArray.length < 5)
+                clickedTagsArray.push(clickedTag);
+            else {
+                b_ToToggleButton = false;
+                alert("Up to 5 tags")
+            }
+        } else {
+            // Remove the tag from the array
+            clickedTagsArray.splice(index, 1);
+        }
+
+        console.log("Is it readonly " + document.getElementById('custom-tag-input').getAttribute('readonly'));
+        
+        // Update the input field by joining the array elements
+        $('#tags-input').val(clickedTagsArray.join(' '));
+        
+        if (clickedTagsArray.length == 5) {
+            document.getElementById('custom-tag-input').setAttribute('readonly', true);
+            document.getElementById('custom-tag-input').setAttribute('disabled', true);
+            $('#custom-tag-input').val('Up to 5 tags')
+        }
+        else {
+            document.getElementById('custom-tag-input').removeAttribute('readonly');
+            document.getElementById('custom-tag-input').removeAttribute('disabled');
+            $('#custom-tag-input').val('')
+        }
+    }
+
+
+    if (b_ToToggleButton) {
+        if ($(this).hasClass('btn-outline-info')) {
+            
+            $(this).removeClass('btn-outline-info');
+            $(this).removeClass('text-light');
+
+
+            $(this).addClass('btn-info');
+            $(this).addClass('text-dark');
+        }
+        else {
+            $(this).addClass('btn-outline-info');
+            $(this).addClass('text-light');
+
+
+            $(this).removeClass('btn-info');
+            $(this).removeClass('text-dark');
+        }
+    }
+}
+function OnCustomTagInputChanged (event) {
+
+    var charCode = event.charCode;
+
+    // Check if the entered character is a valid one (a-z, A-Z, 0-9, dash or dot)
+    if ((charCode >= 48 && charCode <= 57) ||   // 0-9
+        (charCode >= 65 && charCode <= 90) ||   // A-Z
+        (charCode >= 97 && charCode <= 122) ||  // a-z
+        charCode === 13 ||						// Enter
+        charCode === 45 ||						// dash
+        charCode === 46) {                      // dot (.)
+
+        //
+
+        if (event.which === 13) { // 13 is the key code for Enter
+            event.preventDefault(); // Prevent the default behavior of the Enter key
+
+            // Call your function with the input value
+            var inputValue = $(this).val().toLowerCase();
+
+            if (tagsArray.includes(inputValue)) {
+                alert('Tag is already created');
+            }
+            else {
+                if (clickedTagsArray.length < 5) {
+                    AddNewTag(inputValue);
+
+                    // Optionally, clear the input field after pressing Enter
+                    $(this).val('');
+                }
+            }
+        }
+    } else {
+        event.preventDefault(); // Prevent entering the invalid character
+        alert('Only english letters, numbers "-" and "." allowed.');
+    }
+}
+// 
+
 function setEditComment(commentId, commentContent) {
-        $('#editCommentContent').val(commentContent);
-        $('#editCommentForm').attr('action', '/Posts/UpdateComment?commentId=' + commentId);
-        $('#editComment').modal('show');
+    $('#editCommentContent').val(commentContent);
+    $('#editCommentForm').attr('action', '/Posts/UpdateComment?commentId=' + commentId);
+    $('#editComment').modal('show');
 }
 
 function setEditPost(postId, postTitle, postContent) {
