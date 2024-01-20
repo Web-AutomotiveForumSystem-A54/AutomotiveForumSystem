@@ -63,17 +63,13 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Search(string searchQuery)
+		public IActionResult Search(PostQueryParameters postQueryParameters)
 		{
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
 
-			ViewData["SearchQuery"] = searchQuery;
-			var postQueryParams = new PostQueryParameters()
-			{
-				Title = searchQuery
-			};
-			var posts = this.postService.GetAll(postQueryParams);
+			ViewData["SearchQuery"] = postQueryParameters.Title;
+			var posts = this.postService.GetAll(postQueryParameters);
 			var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 			return View(postViewModelList);
 		}
@@ -148,8 +144,6 @@ namespace AutomotiveForumSystem.Controllers
 			return View(postCreateModel);
 		}
 
-
-
 		[HttpPost]
 		public IActionResult CreatePost(PostCreateViewModel postCreateViewModel)
 		{
@@ -160,10 +154,36 @@ namespace AutomotiveForumSystem.Controllers
 
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
-			
+
 			try
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
+
+				List<Tag> tags = new List<Tag>();
+
+				if (postCreateViewModel.Tags != null)
+				{
+					var inputTags = postCreateViewModel.Tags.Split(' ');
+					foreach (var item in inputTags)
+					{
+						var _sent_tag = item.Replace(",", "").ToLower();
+						
+						var tag = tagsService.GetByName(_sent_tag);
+						if (tag != null)
+						{
+							tags.Add(tagsService.GetByName(_sent_tag));
+						}
+						else
+						{
+							Tag _tag = new Tag()
+							{
+								Name = _sent_tag,
+							};
+							var newTag = tagsService.Create(_tag);
+							tags.Add(_tag);
+						}
+					}
+				}
 
 				var user = this.usersService.GetByUsername(currentUser);
 
@@ -173,6 +193,7 @@ namespace AutomotiveForumSystem.Controllers
 					Content = postCreateViewModel.Content,
 					UserID = user.Id,
 					CategoryID = postCreateViewModel.CategoryID,
+					Tags = tags
 				};
 				var createdPost = this.postService.CreatePost(post, user);
 
