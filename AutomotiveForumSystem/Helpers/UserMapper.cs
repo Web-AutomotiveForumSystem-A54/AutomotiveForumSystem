@@ -69,5 +69,16 @@ namespace AutomotiveForumSystem.Helpers
                 PhoneNumber = user.PhoneNumber
             };
         }
+
+        public User Map(UserUpdateProfileInformationViewModel user)
+        {
+            return new User()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+        }
     }
 }

@@ -18,11 +18,11 @@
 
         @if (currentUsername == Model.Username)
         {
-            <a class="btn text-light bg-light bg-opacity-25 my-4 shadow" asp-controller="Users" asp-action="Edit" asp-route-username="@Model.Username"> Edit Profile </a>
+            <a class="btn text-light bg-light bg-opacity-25 my-4 shadow" asp-controller="Users" asp-action="Edit" asp-route-username="@currentUsername"> Edit Profile </a>
         }
         
     </div>
-    <div class="col bg-light bg-opacity-25 m-3 rounded-3" style="overflow-y:auto; height: 100%">
+    <div class="col bg-light bg-opacity-25" style="overflow-y:auto; height: 100%">
         @foreach (var post in Model.Posts)
         {
             @Html.Partial("_PostCardTemplate", post)

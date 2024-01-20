@@ -1,47 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using AutomotiveForumSystem.Helpers;
+﻿using AutomotiveForumSystem.Helpers;
 using AutomotiveForumSystem.Helpers.Contracts;
 using AutomotiveForumSystem.Models.PostDtos;
 using AutomotiveForumSystem.Models.ViewModels;
 using AutomotiveForumSystem.Services.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutomotiveForumSystem.Controllers
 {
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
-        private readonly IPostModelMapper mapper;
+        private readonly IPostModelMapper postMapper;
         private readonly IPostService postService;
-		private readonly ICategoriesService categoriesService;
+        private readonly ICategoriesService categoriesService;
         private readonly ICategoryModelMapper categoryModelMapper;
+        private readonly IUserMapper userMapper;
+        private readonly ITagsService tagsService;
 
-        public UsersController(IUsersService usersService, 
-            IPostModelMapper mapper, 
+        public UsersController(IUsersService usersService,
+            IPostModelMapper postMapper,
             IPostService postService,
             ICategoriesService categoriesService,
-            ICategoryModelMapper categoryModelMapper
+            ICategoryModelMapper categoryModelMapper,
+            IUserMapper userMapper,
+            ITagsService tagsService
             )
         {
             this.usersService = usersService;
-            this.mapper = mapper;
+            this.postMapper = postMapper;
             this.postService = postService;
             this.categoriesService = categoriesService;
             this.categoryModelMapper = categoryModelMapper;
+            this.userMapper = userMapper;
+            this.tagsService = tagsService;
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery]string username)
+        public IActionResult Index([FromQuery] string username)
         {
             var user = this.usersService.GetByUsername(username);
             var posts = this.postService.GetPostsByUser(user.Id, new PostQueryParameters());
 
-            var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-            var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
-
-            ViewData["CategoryLabels"] = categoryLabels;
-            ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-            ViewData["MembersCount"] = this.usersService.GetAll().Count;
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
 
             var model = new UserProfileViewModel
             {
@@ -50,7 +51,7 @@ namespace AutomotiveForumSystem.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Posts = this.mapper.MapPostsToPreViewModel(posts)
+                Posts = this.postMapper.MapPostsToPreViewModel(posts)
             };
 
             return View(model);
@@ -59,15 +60,12 @@ namespace AutomotiveForumSystem.Controllers
         [HttpGet]
         public IActionResult Edit([FromQuery] string username)
         {
-            var user = this.usersService.GetByUsername(username);
-            var allCategories = GlobalQueries.InitializeCategoriesFromDatabase(this.categoriesService);
-            var categoryLabels = this.categoryModelMapper.ExtractCategoriesLabels(allCategories);
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
 
-            ViewData["CategoryLabels"] = categoryLabels;
-            ViewData["TotalPostsCount"] = this.postService.GetTotalPostCount();
-            ViewData["MembersCount"] = this.usersService.GetAll().Count;
+            var user = this.usersService.GetByUsername(username);            
 
-            var model = new UserProfileEditInfoViewModel
+            var model = new UserUpdateProfileInformationViewModel
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -78,21 +76,31 @@ namespace AutomotiveForumSystem.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //public IActionResult Edit(UserProfileEditInfoViewModel model)
-        //{
-        //    try
-        //    {
-        //        var user = this.usersService.GetByUsername(HttpContext.Session.GetString("CurrentUsername"));
+        [HttpPost]
+        public IActionResult Edit([FromQuery] string username, UserUpdateProfileInformationViewModel model)
+        {
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
 
-        //        this.usersService.UpdateProfileInformation
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-        //    }
-        //    catch (Exception)
-        //    {
+            try
+            {
 
-        //        throw;
-        //    }
-        //}
+                var user = this.usersService.GetByUsername(username);
+
+                user = this.usersService.UpdateProfileInformation(user.Id, this.userMapper.Map(model));
+
+                return RedirectToAction("Index", "Users", new { username = user.Username });
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Email", e.Message);
+                return View(model);
+            }
+        }
     }
 }

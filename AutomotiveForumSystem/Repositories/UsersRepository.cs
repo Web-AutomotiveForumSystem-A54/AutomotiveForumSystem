@@ -89,7 +89,7 @@ namespace AutomotiveForumSystem.Repositories
 
             this.context.SaveChanges();
 
-            return user;
+            return userToUpdate;
         }
 
 

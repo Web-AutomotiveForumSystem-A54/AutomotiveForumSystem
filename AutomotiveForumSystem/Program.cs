@@ -139,7 +139,7 @@ namespace AutomotiveForumSystem
             {
                 // A connection string for establishing a connection to the locally installed SQL Server.
                 // Set serverName to your local instance; databaseName is the name of the database
-                string connectionString = @"Server=localhost\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;";
+                string connectionString = @"Server=localhost\SQLEXPRESS;Database=AutomotiveForum;Trusted_Connection=True;Connection Timeout=120;";
 
                 // Configure the application to use the locally installed SQL Server.
                 options.UseSqlServer(connectionString);
