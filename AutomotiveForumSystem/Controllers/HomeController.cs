@@ -36,16 +36,26 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Index()
+		public IActionResult Index(PostQueryParameters postQueryParameters)
 		{
 			try
 			{
 				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
-
-				IList<Post> posts = this.postService.GetAll();
-				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
-				return View(postsDataViewModelList);
+				if (postQueryParameters != null)
+				{
+					if (postQueryParameters.SortBy == "likes")
+					{
+						ViewData["IndexLabel"] = "Top 10 Most Liked Posts";
+					}
+					else if (postQueryParameters.SortBy == "date")
+					{
+						ViewData["IndexLabel"] = "Top 10 Most Recent Posts";
+					}
+				};
+				var posts = this.postService.GetAll(postQueryParameters);
+				var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
+				return View(postViewModelList);
 			}
 			catch (EntityNotFoundException ex)
 			{
@@ -77,5 +87,5 @@ namespace AutomotiveForumSystem.Controllers
 				return View("Error");
 			}
 		}
-    }
+	}
 }

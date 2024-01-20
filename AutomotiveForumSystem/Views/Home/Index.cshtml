@@ -1,13 +1,31 @@
 ﻿@model List<AutomotiveForumSystem.Models.ViewModels.PostPreViewModel> // TODO: ask if we can pass Post model directly
+@{
+	var label = ViewData["IndexLabel"];
+}
+<div class="text-light d-flex justify-content-between">
 
-<div class="text-light">
+	@if (label != null)
+	{
+		<h4>@label</h4>
+	}
+	else
+	{
+		<h4>Welcome to Automotive Forum System</h4>
+	}
+	<div>
 
-	<h4>Welcome to Automotive Forum System</h4>
-
-	<hr />
+		<a asp-controller="Home" asp-action="Index" asp-route-sortBy="date" class="btn btn-outline-light" style="text-decoration:none">Most Recent</a>
+		<a asp-controller="Home" asp-action="Index" asp-route-sortBy="likes" class="btn btn-outline-light" style="text-decoration:none">Most Liked</a>
+	</div>
 </div>
+<hr style="color: #fff;" />
+
 
 @{
+	if (Model.Count == 0)
+	{
+		<h2 class="text-light">No results match your search parameters! :(</h2>
+	}
 	foreach (var post in Model)
 	{
 		@Html.Partial("_PostCardTemplate", post)

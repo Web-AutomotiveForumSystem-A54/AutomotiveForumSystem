@@ -63,17 +63,13 @@ namespace AutomotiveForumSystem.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Search(string searchQuery)
+		public IActionResult Search(PostQueryParameters postQueryParameters)
 		{
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
 
-			ViewData["SearchQuery"] = searchQuery;
-			var postQueryParams = new PostQueryParameters()
-			{
-				Title = searchQuery
-			};
-			var posts = this.postService.GetAll(postQueryParams);
+			ViewData["SearchQuery"] = postQueryParameters.Title;
+			var posts = this.postService.GetAll(postQueryParameters);
 			var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 			return View(postViewModelList);
 		}

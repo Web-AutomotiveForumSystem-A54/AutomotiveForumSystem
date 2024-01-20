@@ -52,6 +52,21 @@ namespace AutomotiveForumSystem.Repositories
 				string[] titleKeywords = postQueryParameters.Title.Split(' ');
 				postsToReturn = postsToReturn.Where(p => titleKeywords.All(keyword => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase)));
 			}
+			if (!string.IsNullOrEmpty(postQueryParameters.Tag))
+			{
+				postsToReturn = postsToReturn.Where(p => p.Tags.Any(t => t.Name == postQueryParameters.Tag));
+			}
+			if (!string.IsNullOrEmpty(postQueryParameters.SortBy))
+			{
+				if (postQueryParameters.SortBy == "likes")
+				{
+					postsToReturn = postsToReturn.OrderByDescending(p => p.TotalLikesCount).Take(10);
+				}
+				else if (postQueryParameters.SortBy == "date")
+				{
+					postsToReturn = postsToReturn.OrderByDescending(p => p.CreateDate).Take(10);
+				}
+			}
 
 			return postsToReturn.ToList();
 		}
@@ -127,5 +142,7 @@ namespace AutomotiveForumSystem.Repositories
 			commentsRepository.DeleteComments(post.Comments);
 			applicationContext.SaveChanges();
 		}
+
+
 	}
 }

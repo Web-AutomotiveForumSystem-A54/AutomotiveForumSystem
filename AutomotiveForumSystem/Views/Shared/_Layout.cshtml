@@ -79,9 +79,9 @@
 										@{
 											bool b_Overflow = tagLabels.Count > 20;
 											int iterator = 0;
-											@foreach (var @c in tagLabels)
+											@foreach (var t in tagLabels)
 											{
-												<h5><span class="badge bg-info mx-1 text-dark" style="font-size:12px">@c.Name</span></h5>
+												<h5><a asp-controller="Home" asp-action="Index" asp-route-tag="@t.Name" class="badge bg-info mx-1 text-dark" style="font-size:12px; text-decoration:none;">@t.Name</a></h5>
 												iterator++;
 												if (iterator > 20)
 													break;
@@ -127,7 +127,7 @@
 								<div class="d-flex">
 
 									<form asp-controller="Posts" asp-action="Search" method="get" class="d-flex">
-										<input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+										<input name="title" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 										<button class="btn btn-outline-dark" type="submit">Search</button>
 									</form>
 								</div>
