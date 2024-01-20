@@ -148,8 +148,6 @@ namespace AutomotiveForumSystem.Controllers
 			return View(postCreateModel);
 		}
 
-
-
 		[HttpPost]
 		public IActionResult CreatePost(PostCreateViewModel postCreateViewModel)
 		{
@@ -165,7 +163,6 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
 
-
 				List<Tag> tags = new List<Tag>();
 
 				if (postCreateViewModel.Tags != null)
@@ -173,8 +170,22 @@ namespace AutomotiveForumSystem.Controllers
 					var inputTags = postCreateViewModel.Tags.Split(' ');
 					foreach (var item in inputTags)
 					{
-						Console.WriteLine(item);
-						tags.Add(tagsService.GetByName(item));
+						var _sent_tag = item.Replace(",", "").ToLower();
+						
+						var tag = tagsService.GetByName(_sent_tag);
+						if (tag != null)
+						{
+							tags.Add(tagsService.GetByName(_sent_tag));
+						}
+						else
+						{
+							Tag _tag = new Tag()
+							{
+								Name = _sent_tag,
+							};
+							var newTag = tagsService.Create(_tag);
+							tags.Add(_tag);
+						}
 					}
 				}
 

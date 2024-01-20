@@ -75,13 +75,25 @@
 									<div>
 										<h5><span class="badge bg-secondary">Tags</span></h5>
 									</div>
-									<div class="d-flex flex-md-grow-0 flex-wrap">
-										@foreach (var @c in tagLabels)
-										{
-											<h5><span class="badge bg-info mx-1 text-dark" style="font-size:12px">@c.Name</span></h5>
-											// <div class="nav-item row">
-											// 	<a style="margin-left:14px" asp-controller="Home" asp-action="PostsByCategory" asp-route-id="@c.Id" class="nav-link active col" aria-current="page">@c.Name</a>
-											//
+									<div class="d-flex flex-wrap">
+										@{
+											bool b_Overflow = tagLabels.Count > 20;
+											int iterator = 0;
+											@foreach (var @c in tagLabels)
+											{
+												<h5><span class="badge bg-info mx-1 text-dark" style="font-size:12px">@c.Name</span></h5>
+												iterator++;
+												if (iterator > 20)
+													break;
+											}
+											<hr />
+											if (b_Overflow)
+											{
+												// <a class="badge btn bg-warning">See all tags</a>
+												<div class="d-flex flex-column align-items-center">
+													<a href="#"><p class="badge mx-2 mt-1 bg-secondary" style="font-size:12px">See all tags</p></a>
+												</div>
+											}
 										}
 									</div>
 								}

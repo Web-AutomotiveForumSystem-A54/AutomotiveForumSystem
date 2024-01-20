@@ -15,7 +15,8 @@ namespace AutomotiveForumSystem.Repositories
 
 		public Tag Create(Tag tag)
 		{
-			throw new NotImplementedException();
+			applicationContext.Tags.Add(tag);
+			return tag;
 		}
 
 		public bool Delete(Tag tag)
