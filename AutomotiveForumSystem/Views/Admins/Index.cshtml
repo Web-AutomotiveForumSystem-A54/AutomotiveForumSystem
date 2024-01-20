@@ -2,6 +2,7 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center gap-2" style="height: 60%">
     <h3 class="text-light">Search User</h3>
+    <p class="text-light">(populate one field only)</p>
     <form asp-controller="Admins" asp-action="Search" class="d-flex flex-column gap-2" method="get">
         <input asp-for="@Model.Username" class="p-2" type="text" placeholder="Username" />
         <input asp-for="@Model.Email" class="p-2" type="text" placeholder="Email" />

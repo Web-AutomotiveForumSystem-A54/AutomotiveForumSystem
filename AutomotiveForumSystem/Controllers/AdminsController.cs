@@ -45,31 +45,31 @@ namespace AutomotiveForumSystem.Controllers
             GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
                     usersService, postService, categoryModelMapper);
 
-            if (string.IsNullOrEmpty(model.Username)
-                && string.IsNullOrEmpty(model.Email)
-                && string.IsNullOrEmpty(model.FirstName))
+            try
             {
+                if (!string.IsNullOrEmpty(model.Username))
+                {
+                    var user = this.usersService.GetByUsername(model.Username);
+                    return RedirectToAction("Index", "Users", new { username = user.Username });
+                }
+                else if (!string.IsNullOrEmpty(model.Email))
+                {
+                    var user = this.usersService.GetByEmail(model.Email);
+                    return RedirectToAction("Index", "Users", new { username = user.Username });
+                }
+                else if (!string.IsNullOrEmpty(model.FirstName))
+                {
+                    var users = this.usersService.GetByFirstName(model.FirstName);
+                    return View("UsersList", users);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-
-            if (!string.IsNullOrEmpty(model.Username))
+            catch (Exception)
             {
-                var user = this.usersService.GetByUsername(model.Username);
-                return RedirectToAction("Index", "Users", new { username = user.Username });
+                ViewData["ErrorMessage"] = "No such user found";
+                return View("Error");
             }
-            else if (!string.IsNullOrEmpty(model.Email))
-            {
-                var user = this.usersService.GetByEmail(model.Email);    
-                return RedirectToAction("Index", "Users", new { username = user.Username });
-            }
-            else if (!string.IsNullOrEmpty(model.FirstName))
-            {
-                var users = this.usersService.GetByFirstName(model.FirstName);
-                return View("UsersList", users);
-            }
-
-            ViewData["ErrorMessage"] = "No such user found";
-            return View("Error");
         }
     }
 }
