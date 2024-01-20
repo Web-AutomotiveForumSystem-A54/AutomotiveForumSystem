@@ -2,6 +2,7 @@
 
 @{
 	var tagLabels = ViewData["TagLabels"] as List<Tag>;
+
 }
 
 <script>
@@ -35,16 +36,24 @@
 			</div>
 
 			<div class="d-flex flex-column bg-dark rounded mb-3 p-2" style="width:50%; height:30%;">
-				<div class="d-flex flex-wrap align-content-start " style="overflow-y:auto; width:100%; height:325px; gap: 0.1em">
+				<div id="tags-container" class="d-flex flex-wrap align-content-start" style="overflow-y:auto; width:100%; height:285px; gap: 0.5em">
 					@{
 						if (tagLabels != null)
 						{
+							// int iterator = 0;
 							foreach (var tag in tagLabels)
 							{
-								<button type="button" class="badge bg-info text-dark tag-button" style="font-size:12px" data-tag="@tag.Name">@tag.Name.ToString()</button>
+								// <button type="button" class="btn btn-outline-info text-light tag-button-element" style="font-size:12px; box-shadow: none" data-id="@iterator" data-tag="@tag.Name">@tag.Name.ToString()</button>
+								// iterator++;
 							}
 						}
 					}
+				</div>
+
+				<div class="d-flex flex-row text-light mb-2">
+					<p class="d-flex flex-grow-1 justify-content-center align-items-center m-0" style="height:100%; width:100%">Add new tag</p>
+					<input id="custom-tag-input" class="d-flex flex-grow-1" type="text" pattern="[a-zA-Z0-9.]+" id="floatingInput" placeholder="" data-tag="value" class="form-control bg-light" style="cursor:default" />
+					@* <input type="text" pattern="[a-zA-Z0-9.]+" title="Only numbers, letters, and dots are allowed" /> *@
 				</div>
 			</div>
 		</div>
@@ -58,12 +67,15 @@
 
 			</div>
 
-
 			<div>
-
-				<a href="@Context.Request.Headers.Referer.ToString()" style="text-decoration: none">
-					<a class="btn btn-danger mx-2">Cancel</a>
-				</a>
+				@if (Context.Request.Headers.Referer.ToString().Contains(Context.Request.Path))
+				{
+					<a asp-controller="Home" asp-action="Index" class="btn btn-danger mx-2" style="text-decoration: none">Cancel</a>
+				}
+				else
+				{
+					<a href="@Context.Request.Headers.Referer.ToString()" class="btn btn-danger mx-2" style="text-decoration: none">Cancel</a>
+				}
 
 				<input type="submit" value="Create" class="btn btn-primary" />
 			</div>
@@ -73,36 +85,27 @@
 
 <script>
 	$(document).ready(function () {
-		// Initialize an array to store clicked tags
-		var clickedTagsArray = [];
 
-		// Attach click event handler to tags with class 'tag-button'
-		$('.tag-button').on('click', function () {
-			// Get the clicked tag's text
-			var clickedTag = $(this).data('tag');
+		// Attach click event handler to tags with class 'tag-button-element'
+		$('tag-button-element').on('click', BindTagClick);
 
-			// Add the clicked tag to the array
-			if (clickedTag !== undefined && clickedTag !== null) {
-				var index = clickedTagsArray.indexOf(clickedTag);
+		// Used to handle the input for custom tags
+		$('#custom-tag-input').keypress(OnCustomTagInputChanged);
 
-				// Check if the tag is not already in the array
-				if (index === -1) {
-					if (clickedTagsArray.length < 5)
-						clickedTagsArray.push(clickedTag);
-					else {
-						alert("Up to 5 tags")
-					}
-				} else {
-					// Remove the tag from the array
-					clickedTagsArray.splice(index, 1);
-				}
+		// Create a new JS array with all tags from the C# tag list
+		tagsArray = @Html.Raw(Json.Serialize(tagLabels.Select(item => item.Name).ToArray()));
+		{
+			// Get the container element where you want to append the buttons
+			var container = document.getElementById('tags-container');
 
-				// Debug: Log the current state of the clicked tags array
-				console.log(clickedTagsArray);
+			// Loop through the array and create buttons
+			for (var i = 0; i < tagsArray.length; i++) {
 
-				// Update the input field by joining the array elements
-				$('#tags-input').val(clickedTagsArray.join(', '));
+				var id = i;
+				var value = tagsArray[i];
+
+				AddTagToContainer(id, value);
 			}
-		});
+		}
 	});
 </script>

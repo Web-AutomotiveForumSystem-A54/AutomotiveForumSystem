@@ -166,7 +166,7 @@ namespace AutomotiveForumSystem.Controllers
 					var inputTags = postCreateViewModel.Tags.Split(' ');
 					foreach (var item in inputTags)
 					{
-						var _sent_tag = item.Replace(",", "").ToLower();
+						var _sent_tag = item.ToLower();
 						
 						var tag = tagsService.GetByName(_sent_tag);
 						if (tag != null)
