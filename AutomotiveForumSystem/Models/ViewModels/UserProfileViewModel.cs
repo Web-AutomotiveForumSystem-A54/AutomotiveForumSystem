@@ -17,5 +17,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
         public IList<PostPreViewModel> Posts { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public bool IsBlocked { get; set; }
     }
 }

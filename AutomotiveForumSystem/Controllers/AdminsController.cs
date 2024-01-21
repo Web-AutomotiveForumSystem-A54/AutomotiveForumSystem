@@ -71,5 +71,41 @@ namespace AutomotiveForumSystem.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        public IActionResult Block([FromQuery] string username)
+        {
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
+
+            var user = this.usersService.GetByUsername(username);
+            _ = this.usersService.Block(user);
+
+            return RedirectToAction("Index", "Users", new { username = user.Username });
+        }
+
+        [HttpGet]
+        public IActionResult Unblock([FromQuery] string username)
+        {
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
+
+            var user = this.usersService.GetByUsername(username);
+            _ = this.usersService.Unblock(user);
+
+            return RedirectToAction("Index", "Users", new { username = user.Username });
+        }
+
+        [HttpGet]
+        public IActionResult SetAdmin([FromQuery] string username)
+        {
+            GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+                    usersService, postService, categoryModelMapper);
+
+            var user = this.usersService.GetByUsername(username);
+            _ = this.usersService.SetAdmin(user);
+
+            return RedirectToAction("Index", "Users", new { username = user.Username });
+        }
     }
 }
