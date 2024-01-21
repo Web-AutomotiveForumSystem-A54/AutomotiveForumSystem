@@ -77,51 +77,96 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpPost]
 		public IActionResult CreateComment(int postId, PostDataViewModel postModel)
 		{
-			var user = usersService.GetByUsername(HttpContext.Session.GetString("CurrentUser"));
-			var post = postService.GetPostById(postId);
-
-			if (string.IsNullOrEmpty(postModel.Comment.Content) || postModel.Comment.Content.Length > 8192)
+			var blockedResult = CheckUserBlockedStatus();
+			if (blockedResult != null)
 			{
-				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
-
-				ViewData["ErrorMessage"] = "Content must be between 1 and 8192 characters.";
-				return View("Error", postModel.Comment.Content);
+				return blockedResult;
 			}
 
-			var newComment = new Comment()
+			try
 			{
-				PostID = post.Id,
-				UserID = user.Id,
-				Content = postModel.Comment.Content,
-				CreateDate = DateTime.Now,
-			};
-			commentsService.CreateComment(user, post, newComment, null);
+				var user = usersService.GetByUsername(HttpContext.Session.GetString("CurrentUser"));
+				var post = postService.GetPostById(postId);
 
-			return RedirectToAction("Index", "Posts", new { id = post.Id });
+				if (string.IsNullOrEmpty(postModel.Comment.Content) || postModel.Comment.Content.Length > 8192)
+				{
+					GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+						usersService, postService, categoryModelMapper);
+
+					ViewData["ErrorMessage"] = "Content must be between 1 and 8192 characters.";
+					return View("Error", postModel.Comment.Content);
+				}
+
+				var newComment = new Comment()
+				{
+					PostID = post.Id,
+					UserID = user.Id,
+					Content = postModel.Comment.Content,
+					CreateDate = DateTime.Now,
+				};
+				commentsService.CreateComment(user, post, newComment, null);
+
+				return RedirectToAction("Index", "Posts", new { id = post.Id });
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpPost]
 		public IActionResult UpdateComment([FromQuery] int commentId, PostDataViewModel postModel)
 		{
+			var blockedResult = CheckUserBlockedStatus();
+			if (blockedResult != null)
+			{
+				return blockedResult;
+			}
 
-			var comment = this.commentsService.GetCommentById(commentId);
-			var postId = comment.PostID;
-			var user = comment.User;
-			this.commentsService.UpdateComment(user, commentId, postModel.Comment.Content);
+			try
+			{
+				var comment = this.commentsService.GetCommentById(commentId);
+				var postId = comment.PostID;
+				var user = comment.User;
+				this.commentsService.UpdateComment(user, commentId, postModel.Comment.Content);
 
-
-			return RedirectToAction("Index", "Posts", new { id = postId });
+				return RedirectToAction("Index", "Posts", new { id = postId });
+			}
+			catch (AuthorizationException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
 		public IActionResult DeleteComment([FromQuery] int postId, [FromQuery] int commentId)
 		{
-			// TODO : check if user is logged in
-
 			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
 			{
 				return RedirectToAction("Login", "Auth");
+			}
+
+			var blockedResult = CheckUserBlockedStatus();
+			if (blockedResult != null)
+			{
+				return blockedResult;
 			}
 
 			try
@@ -170,7 +215,7 @@ namespace AutomotiveForumSystem.Controllers
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
 
-			
+
 			if (!ModelState.IsValid)
 			{
 				InitializeCategoriesInViewModel(postCreateViewModel);
