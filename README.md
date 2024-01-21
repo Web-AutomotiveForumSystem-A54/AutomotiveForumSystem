@@ -1,5 +1,13 @@
 # AutomotiveForumSystem
 
+<h1 align="center" id="title">Automotive Forum</h1>
+
+<p align="center"><img src="https://github.com/Web-AutomotiveForumSystem-A54/AutomotiveForumSystem" alt="project-image"></p>
+
+<p id="description">This an web application forum like where users can create posts share ideas or start a discussion.</p>
+
+
+
 > A Forum System For Car Enthusiasts
 
 To access SwaggerUI documentation, launch the program on your local machine and visit:
