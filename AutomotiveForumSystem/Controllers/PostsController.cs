@@ -46,32 +46,53 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult Index([FromRoute] int id)
 		{
-			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
-
-			var post = this.postService.GetPostById(id);
-			var userName = HttpContext.Session.GetString("CurrentUser");
-			var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
-			if (userName != null)
+			try
 			{
-				var user = this.usersService.GetByUsername(userName);
-				var like = post.Likes.FirstOrDefault(l => l.UserId == user.Id && l.IsDeleted == false);
-				postDataViewModel.LikedByCurrentUser = like != null;
-			}
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+							usersService, postService, categoryModelMapper);
 
-			return View(postDataViewModel);
+				var post = this.postService.GetPostById(id);
+				var userName = HttpContext.Session.GetString("CurrentUser");
+				var postDataViewModel = this.postModelMapper.MapPostToDataViewModel(post);
+				if (userName != null)
+				{
+					var user = this.usersService.GetByUsername(userName);
+					var like = post.Likes.FirstOrDefault(l => l.UserId == user.Id && l.IsDeleted == false);
+					postDataViewModel.LikedByCurrentUser = like != null;
+				}
+
+				return View(postDataViewModel);
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
 		public IActionResult Search(PostQueryParameters postQueryParameters)
 		{
-			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
+			try
+			{
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+							usersService, postService, categoryModelMapper);
 
-			ViewData["SearchQuery"] = postQueryParameters.Title;
-			var posts = this.postService.GetAll(postQueryParameters);
-			var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
-			return View(postViewModelList);
+				ViewData["SearchQuery"] = postQueryParameters.Title;
+				var posts = this.postService.GetAll(postQueryParameters);
+				var postViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
+				return View(postViewModelList);
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpPost]
@@ -186,22 +207,30 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpGet]
 		public IActionResult CreatePost()
 		{
-			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+			try
 			{
-				return RedirectToAction("Login", "Auth");
-			}
-			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
+				if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+				{
+					return RedirectToAction("Login", "Auth");
+				}
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+						usersService, postService, categoryModelMapper);
 
-			var blockedResult = CheckUserBlockedStatus();
-			if (blockedResult != null)
+				var blockedResult = CheckUserBlockedStatus();
+				if (blockedResult != null)
+				{
+					return blockedResult;
+				}
+
+				var postCreateModel = new PostCreateViewModel();
+				InitializeCategoriesInViewModel(postCreateModel);
+				return View(postCreateModel);
+			}
+			catch (Exception ex)
 			{
-				return blockedResult;
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
 			}
-
-			var postCreateModel = new PostCreateViewModel();
-			InitializeCategoriesInViewModel(postCreateModel);
-			return View(postCreateModel);
 		}
 
 		[HttpPost]
@@ -270,79 +299,141 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				return View(postCreateViewModel);
 			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
 		public IActionResult Edit([FromRoute] int id)
 		{
-			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+			try
 			{
-				return RedirectToAction("Login", "Auth");
+				if (!HttpContext.Session.Keys.Contains("CurrentUser"))
+				{
+					return RedirectToAction("Login", "Auth");
+				}
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+						usersService, postService, categoryModelMapper);
+
+
+				var post = this.postService.GetPostById(id);
+				var tagNames = string.Join(" ", post.Tags.Select(tag => tag.Name));
+				var postEditViewModel = new PostEditViewModel()
+				{
+					Id = post.Id,
+					Title = post.Title,
+					Content = post.Content,
+					CategoryID = post.CategoryID,
+					UserID = post.UserID,
+					Tags = tagNames
+				};
+				InitializeCategoriesInViewModel(postEditViewModel);
+
+				return View(postEditViewModel);
 			}
-			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
-
-
-			var post = this.postService.GetPostById(id);
-			var tagNames = string.Join(" ", post.Tags.Select(tag => tag.Name));
-			var postEditViewModel = new PostEditViewModel()
+			catch (EntityNotFoundException ex)
 			{
-				Id = post.Id,
-				Title = post.Title,
-				Content = post.Content,
-				CategoryID = post.CategoryID,
-				UserID = post.UserID,
-				Tags = tagNames
-			};
-			InitializeCategoriesInViewModel(postEditViewModel);
-
-			return View(postEditViewModel);
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpPost]
 		public IActionResult Edit([FromRoute] int id, PostEditViewModel postEditViewModel)
 		{
-			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
-					usersService, postService, categoryModelMapper);
+			try
+			{
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+							usersService, postService, categoryModelMapper);
 
-			if (!ModelState.IsValid)
-			{
-				InitializeCategoriesInViewModel(postEditViewModel);
-				return View(postEditViewModel);
+				if (!ModelState.IsValid)
+				{
+					InitializeCategoriesInViewModel(postEditViewModel);
+					return View(postEditViewModel);
+				}
+				var post = this.postService.GetPostById(id);
+				var updatedPost = new Post()
+				{
+					Title = postEditViewModel.Title,
+					Content = postEditViewModel.Content,
+					CategoryID = postEditViewModel.CategoryID
+				};
+				this.postService.Update(id, updatedPost, post.User);
+				return RedirectToAction("Index", "Posts", new { id });
 			}
-			var post = this.postService.GetPostById(id);
-			var updatedPost = new Post()
+			catch (AuthorizationException ex)
 			{
-				Title = postEditViewModel.Title,
-				Content = postEditViewModel.Content,
-				CategoryID = postEditViewModel.CategoryID
-			};
-			this.postService.Update(id, updatedPost, post.User);
-			return RedirectToAction("Index", "Posts", new { id });
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
 		public IActionResult DeletePost([FromQuery] int postId)
 		{
-			var currentUsername = HttpContext.Session.GetString("CurrentUser");
-			var user = this.usersService.GetByUsername(currentUsername);
-			this.postService.DeletePost(postId, user);
-			return RedirectToAction("Index", "Home");
+			try
+			{
+				var currentUsername = HttpContext.Session.GetString("CurrentUser");
+				var user = this.usersService.GetByUsername(currentUsername);
+				this.postService.DeletePost(postId, user);
+				return RedirectToAction("Index", "Home");
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
 		public IActionResult LikePost([FromQuery] int postId)
 		{
-			var currentUsername = HttpContext.Session.GetString("CurrentUser");
-			var user = this.usersService.GetByUsername(currentUsername);
-			var like = new Like()
+			try
 			{
-				PostId = postId,
-				UserId = user.Id,
-			};
+				var currentUsername = HttpContext.Session.GetString("CurrentUser");
+				var user = this.usersService.GetByUsername(currentUsername);
+				var like = new Like()
+				{
+					PostId = postId,
+					UserId = user.Id,
+				};
 
-			this.likesService.LikePost(like, postId, user.Id);
-			return RedirectToAction("Index", "Posts", new { id = postId });
+				this.likesService.LikePost(like, postId, user.Id);
+				return RedirectToAction("Index", "Posts", new { id = postId });
+			}
+			catch (EntityNotFoundException ex)
+			{
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
+			}
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		[HttpGet]
@@ -354,13 +445,18 @@ namespace AutomotiveForumSystem.Controllers
 				var user = this.usersService.GetByUsername(currentUsername);
 
 				this.likesService.RemoveLike(postId, user.Id);
+				return RedirectToAction("Index", "Posts", new { id = postId });
 			}
-			catch (EntityNotFoundException)
+			catch (EntityNotFoundException ex)
 			{
-
-				throw;
+				ViewData["ErrorMessage"] = ex.Message;
+				return View("Error");
 			}
-			return RedirectToAction("Index", "Posts", new { id = postId });
+			catch (Exception ex)
+			{
+				ViewData["ErrorMessage"] = "Unexpected error: " + ex.Message;
+				return View("Error");
+			}
 		}
 
 		private void InitializeCategoriesInViewModel(PostCreateViewModel postCreateViewModel)
