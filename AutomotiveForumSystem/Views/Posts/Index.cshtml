@@ -30,11 +30,23 @@
 
 		</div>
 		<h5>@Model.Content</h5>
+		<div class="d-flex">
+
+		@{
+			foreach (var item in Model.Tags)
+			{
+				<div class="badge bg-danger m-1">@item.Name</div>
+			}
+		}
+		</div>
 		<div class="d-flex justify-content-between mb-md-2">
 			<div class="d-flex flex-column justify-content-between mt-4">
 				<div class="d-flex">
 					<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
-					<p class="ps-2">@Model.CreatedBy</p>
+					@* <p class="ps-2">@Model.CreatedBy</p> *@
+
+					<a asp-controller="Users" asp-action="Index" asp-route-username="@Model.CreatedBy" class="ps-2 text-light" style="text-decoration: none;">@Model.CreatedBy</a>
+
 				</div>
 
 				<div class="d-flex">
@@ -153,7 +165,7 @@
 						<div class="d-flex row align-items-end justify-content-between">
 							<div>
 								<img src="~/images/user-128-dark.png" class="bg-light rounded-circle p-1" style="max-width:28px; max-height:28px" />
-								<label class="col text-start m-auto ps-2">@comment.User.Username</label>
+								<a asp-controller="Users" asp-action="Index" asp-route-username="@comment.User.Username" class="ps-2 text-light" style="text-decoration: none;">@comment.User.Username</a>
 							</div>
 							<div class="mt-2 p-1">
 								<label class="col text-end ps-2 m-auto">@comment.CreateDate.ToString("MM.dd HH:mm")</label>

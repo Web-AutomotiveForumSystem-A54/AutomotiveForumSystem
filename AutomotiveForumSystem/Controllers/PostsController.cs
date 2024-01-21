@@ -135,9 +135,14 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				return RedirectToAction("Login", "Auth");
 			}
-
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
+
+			var blockedResult = CheckUserBlockedStatus();
+			if (blockedResult != null)
+			{
+				return blockedResult;
+			}
 
 			var postCreateModel = new PostCreateViewModel();
 			InitializeCategoriesInViewModel(postCreateModel);
@@ -155,6 +160,13 @@ namespace AutomotiveForumSystem.Controllers
 			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 					usersService, postService, categoryModelMapper);
 
+			
+			if (!ModelState.IsValid)
+			{
+				InitializeCategoriesInViewModel(postCreateViewModel);
+				return View(postCreateViewModel);
+			}
+
 			try
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
@@ -167,7 +179,7 @@ namespace AutomotiveForumSystem.Controllers
 					foreach (var item in inputTags)
 					{
 						var _sent_tag = item.ToLower();
-						
+
 						var tag = tagsService.GetByName(_sent_tag);
 						if (tag != null)
 						{
@@ -204,8 +216,9 @@ namespace AutomotiveForumSystem.Controllers
 				return View(postCreateViewModel);
 			}
 		}
+
 		[HttpGet]
-		public IActionResult Edit([FromRoute]int id)
+		public IActionResult Edit([FromRoute] int id)
 		{
 			if (!HttpContext.Session.Keys.Contains("CurrentUser"))
 			{
@@ -234,6 +247,14 @@ namespace AutomotiveForumSystem.Controllers
 		[HttpPost]
 		public IActionResult Edit([FromRoute] int id, PostEditViewModel postEditViewModel)
 		{
+			GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
+			if (!ModelState.IsValid)
+			{
+				InitializeCategoriesInViewModel(postEditViewModel);
+				return View(postEditViewModel);
+			}
 			var post = this.postService.GetPostById(id);
 			var updatedPost = new Post()
 			{
@@ -295,6 +316,20 @@ namespace AutomotiveForumSystem.Controllers
 		private void InitializeCategoriesInViewModel(PostEditViewModel postEditViewModel)
 		{
 			postEditViewModel.Categories = new SelectList(this.categoriesService.GetAll(), "Id", "Name");
+		}
+
+		private IActionResult CheckUserBlockedStatus()
+		{
+			var currentUser = HttpContext.Session.GetString("CurrentUser");
+			var user = this.usersService.GetByUsername(currentUser);
+
+			if (user.IsBlocked)
+			{
+				ViewData["ErrorMessage"] = "You are blocked from creating new posts!";
+				return View("Error");
+			}
+
+			return null; // Indicates that the user is not blocked
 		}
 	}
 }

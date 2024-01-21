@@ -13,7 +13,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 		public string Content { get; set; } = "";
 		public int UserID { get; set; }
 		public int CategoryID { get; set; }
-		public SelectList Categories { get; set; }
-		public string Tags { get; set; }
+		public SelectList? Categories { get; set; }
+		public string? Tags { get; set; }
 	}
 }
