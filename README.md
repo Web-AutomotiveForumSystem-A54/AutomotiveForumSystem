@@ -1,26 +1,5 @@
 # AutomotiveForumSystem
 
-<h1 align="center" id="title">Automotive Forum</h1>
-
-<p align="center"><img src="https://github.com/Web-AutomotiveForumSystem-A54/AutomotiveForumSystem" alt="project-image"></p>
-
-<p id="description">This an web application forum like where users can create posts share ideas or start a discussion.</p>
-
-<h2>🛠️ Installation Steps:</h2>
-
-<p>1. Be sure to have Microsoft SQLExpress Server installed</p>
-
-```
-https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16
-```
-
-<p>2. Clone the github project</p>
-
-```
-Use visual studio to clone it or download a copy
-```
-
-
 > A Forum System For Car Enthusiasts
 
 To access SwaggerUI documentation, launch the program on your local machine and visit:
