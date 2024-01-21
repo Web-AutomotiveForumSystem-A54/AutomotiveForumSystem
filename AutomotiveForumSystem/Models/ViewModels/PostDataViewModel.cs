@@ -23,6 +23,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 
 		public List<Like> Likes { get; set; } = new();
 
+		[Required]
 		public CommentCreateDTO Comment { get; set; } = new CommentCreateDTO();
 
 		public bool LikedByCurrentUser { get; set; } = false;

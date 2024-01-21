@@ -79,6 +79,16 @@ namespace AutomotiveForumSystem.Controllers
 		{
 			var user = usersService.GetByUsername(HttpContext.Session.GetString("CurrentUser"));
 			var post = postService.GetPostById(postId);
+
+			if (string.IsNullOrEmpty(postModel.Comment.Content) || postModel.Comment.Content.Length > 8192)
+			{
+				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
+					usersService, postService, categoryModelMapper);
+
+				ViewData["ErrorMessage"] = "Content must be between 1 and 8192 characters.";
+				return View("Error", postModel.Comment.Content);
+			}
+
 			var newComment = new Comment()
 			{
 				PostID = post.Id,
