@@ -35,24 +35,14 @@
 
 			<div class="d-flex flex-column bg-dark rounded mb-3 p-2" style="width:50%; height:30%;">
 				<div id="tags-container" class="d-flex flex-wrap align-content-start" style="overflow-y:auto; width:100%; height:285px; gap: 0.5em">
-					@{
-						if (tagLabels != null)
-						{
-							// int iterator = 0;
-							foreach (var tag in tagLabels)
-							{
-								// <button type="button" class="btn btn-outline-info text-light tag-button-element" style="font-size:12px; box-shadow: none" data-id="@iterator" data-tag="@tag.Name">@tag.Name.ToString()</button>
-								// iterator++;
-							}
-						}
-					}
+					<!-- AUTOMATICALLY POPULATED WITH TAG ELEMENTS USING JS -->
 				</div>
 
 				<div class="d-flex flex-row text-light mb-2">
 					<p class="d-flex flex-grow-1 justify-content-center align-items-center m-0" style="height:100%; width:100%">Add new tag</p>
-					<input class="d-flex flex-grow-1" maxlength="15" type="text" pattern="[a-zA-Z0-9.]+" id="floatingInput" placeholder=""
-						   data-custom-tag-input="custom-tag_input" data-tag="value" class="form-control bg-light" style="cursor:default" />
-					@* <input type="text" pattern="[a-zA-Z0-9.]+" title="Only numbers, letters, and dots are allowed" /> *@
+
+					<input id="custom-tag-input"class="d-flex flex-grow-1 form-control bg-light" maxlength="15" type="text" pattern="[a-zA-Z0-9.]+" placeholder=""
+						   data-custom-tag-input="custom-tag_input" data-tag="value" style="cursor:default" />
 				</div>
 			</div>
 		</div>

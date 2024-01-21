@@ -89,13 +89,12 @@ function BindTagClick() {
             clickedTagsArray.splice(index, 1);
         }
 
-        // 
-        var inputElement = document.querySelector('[data-custom-tag-input="custom-tag_input"]');
-        
         // Update the input field by joining the array elements
         var tagsInput = document.querySelector('[data-tags-input="tags-input"]');
         tagsInput.value = clickedTagsArray.join(' ');
         
+        // Manage custom tag input field
+        var inputElement = document.querySelector('[data-custom-tag-input="custom-tag_input"]');
         if (clickedTagsArray.length == 5) {
             inputElement.setAttribute('readonly', true);
             inputElement.setAttribute('disabled', true);
@@ -146,18 +145,21 @@ function OnCustomTagInputChanged (event) {
         if (event.which === 13) { // 13 is the key code for Enter
             event.preventDefault(); // Prevent the default behavior of the Enter key
 
-            // Call your function with the input value
-            var inputValue = $(this).val().toLowerCase();
+            if ($(this).val().length > 0) {
 
-            if (tagsArray.includes(inputValue)) {
-                alert('Tag is already created');
-            }
-            else {
-                if (clickedTagsArray.length < 5) {
-                    AddNewTag(inputValue);
+                // Call your function with the input value
+                var inputValue = $(this).val().toLowerCase();
 
-                    // Optionally, clear the input field after pressing Enter
-                    $(this).val('');
+                if (tagsArray.includes(inputValue)) {
+                    alert('Tag is already created');
+                }
+                else {
+                    if (clickedTagsArray.length < 5) {
+                        AddNewTag(inputValue);
+
+                        // Optionally, clear the input field after pressing Enter
+                        $(this).val('');
+                    }
                 }
             }
         }
