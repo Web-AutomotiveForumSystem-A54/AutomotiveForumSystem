@@ -21,7 +21,7 @@
 	<div class="d-flex vh-100 overflow-hidden">
 
 		<!-- SIDE BAR-->
-		<nav class="d-flex flex-column bg-dark bg-gradient px-2 py-2 col-auto navbar-dark" style="height:100%; width:300px;">
+		<nav class="d-flex flex-column bg-dark bg-gradient px-2 py-2 col-auto navbar-dark shadow" style="height:100%; width:300px;">
 
 			<!-- FORUM NAME LABEL -->
 			<div class="d-flex justify-content-center" style="margin-bottom:10px">
@@ -114,21 +114,26 @@
 
 		<div class="container-fluid col px-0">
 			<header>
-				<nav class="navbar navbar-expand-lg navbar-light fs-5" style="background-color: #DCE0D9;">
+				<nav class="navbar navbar-expand-lg navbar-light fs-5" style="background-color: #88A3A5" ;">
 					<div class="container-fluid">
 
 						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbarText">
-							<div class="navbar-nav me-auto mb-2 mb-lg-0">
-								<span class="navbar-text p-2">Members: @membersCount</span>
-								<span class="navbar-text p-2">Posts: @totalPostCount</span>
+							<div class="navbar-nav me-auto mx-2">
+								<div class="d-flex flex-row mx-1 justify-content-center">
+									<img class="opacity-75 " src="~/images/members_dark.png" title="Members" style="width:28px; height:28px; align-self:center" />
+									<span class="navbar-text p-2">@membersCount</span>
+								</div>
+								<div class="d-flex flex-row mx-1 justify-content-center">
+									<img class="opacity-75 " src="~/images/blogging.png" title="Members" style="width:28px; height:28px; align-self:center" />
+									<span class="navbar-text p-2">@totalPostCount</span>
+								</div>
 								<div class="d-flex">
-
 									<form asp-controller="Posts" asp-action="Search" method="get" class="d-flex">
 										<input name="title" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-										<button class="btn btn-outline-dark" type="submit">Search</button>
+										<button class="btn btn-outline-light opacity-75" type="submit">Search</button>
 									</form>
 								</div>
 							</div>
@@ -141,7 +146,7 @@
 								else
 								{
 									<div class="d-flex align-items-center">
-										<a asp-controller="Users" asp-action="Index" asp-route-username="@Context.Session.GetString("CurrentUser")" style="margin: 0; margin-right: 10px;">@currentUserName</a>
+										<a asp-controller="Users" asp-action="Index" asp-route-username="@Context.Session.GetString("CurrentUser")" class="badge rounded-pill bg-dark" style="text-decoration:none; font-size:18px !important; margin: 0; margin-right: 10px;">@currentUserName</a>
 										<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
 									</div>
 								}

@@ -2,14 +2,14 @@
 @{
 	Layout = "_LoginLayout";
 }
-<div class="container container-md container-sm border rounded" style="">
+<div class="container container-md container-sm" style="">
 	<div class="background">
 		<div class="shape"></div>
 		<div class="shape"></div>
 	</div>
 	<form asp-controller="Auth" asp-action="Register" class="d-flex flex-column justify-content-between register-form" method="post">
 		<div>
-			<h2 style="text-align: center; padding-bottom: 20px">Register Here</h2>
+			<h2 style="color:#F5F5F5; text-align: center; padding-bottom: 20px">Register Here</h2>
 			<div class="form-floating mb-3">
 				<input asp-for="Username" type="text" id="floatingInput" placeholder="name@example.com" class="form-control" required />
 				<label asp-for="Username" class="form-label">Username</label>
