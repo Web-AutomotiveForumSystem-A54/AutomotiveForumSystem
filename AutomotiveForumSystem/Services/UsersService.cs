@@ -66,10 +66,14 @@ namespace AutomotiveForumSystem.Services
             return this.users.SetAdmin(user);
         }
 
-        public User UpdateProfileInformation(int id, User user)
+        public User UpdateProfileInformation(int id, User newUser)
         {
-            this.EnsureEmailIsUnique(user.Email);
-            return this.users.UpdateProfileInformation(id, user);
+            var user = this.users.GetById(id);
+
+            if (user.Email != newUser.Email)
+			    this.EnsureEmailIsUnique(newUser.Email);
+
+            return this.users.UpdateProfileInformation(id, newUser);
         }
 
         public void Delete(User userToDelete)
@@ -88,9 +92,9 @@ namespace AutomotiveForumSystem.Services
 
         private void EnsureEmailIsUnique(string email)
         {
-            var user = this.users.GetAll().FirstOrDefault(u => u.Email == email);
+			var user = this.users.GetAll().FirstOrDefault(u => u.Email == email);
 
-            if (user != null)
+			if (user != null)
                 throw new DuplicateEntityException($"Email {email} is already used.");
         }       
 

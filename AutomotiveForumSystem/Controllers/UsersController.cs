@@ -52,6 +52,7 @@ namespace AutomotiveForumSystem.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Posts = this.postMapper.MapPostsToPreViewModel(posts),
+                IsBlocked = user.IsBlocked,
                 IsAdmin = user.IsAdmin
             };
 

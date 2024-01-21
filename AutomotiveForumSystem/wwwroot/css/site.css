@@ -144,3 +144,8 @@ hr {
     max-width: 100%;
     text-align: left;
 }
+
+a.user-item:hover {
+    background-color: lightgrey !important; 
+    color: black !important;
+}

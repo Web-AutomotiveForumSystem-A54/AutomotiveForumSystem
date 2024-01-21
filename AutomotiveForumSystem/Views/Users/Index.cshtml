@@ -1,7 +1,11 @@
-﻿@model UserProfileViewModel
+﻿@using AutomotiveForumSystem.Services.Contracts;
+
+@inject IUsersService usersService;
+@model UserProfileViewModel
 
 @{
     var currentUsername = Context.Session.GetString("CurrentUser");
+    var loggedUser = usersService.GetByUsername(currentUsername);
 }
 
 <div class="row bg-secondary shadow rounded-3" style="height: calc(100% - 50px); overflow-y:hidden;">
@@ -17,19 +21,36 @@
 
         @if (currentUsername == Model.Username)
         {
-            <a class="btn text-light bg-light bg-opacity-25 my-4 shadow" asp-controller="Users" asp-action="Edit" asp-route-username="@currentUsername"> Edit Profile </a>
+            <a class="btn text-light bg-light bg-opacity-25 mt-4 shadow" asp-controller="Users" asp-action="Edit" asp-route-username="@currentUsername"> Edit Profile </a>
         }
 
-        @if (Model.IsAdmin)
+        @if (loggedUser.IsAdmin)
         {
-            <a asp-controller="Admins" asp-action="Index" class="btn btn-secondary bg-light text-black mb-1">Search User</a>
+            <a asp-controller="Admins" asp-action="Index" class="btn btn-secondary bg-light text-black mt-5 mb-4">Search User</a>
+
+            if (loggedUser.Username != Model.Username)
+            {
+                if (!@Model.IsAdmin)
+                {
+                    <a asp-controller="Admins" asp-action="SetAdmin" asp-route-username="@Model.Username" class="btn btn-secondary bg-success text-black mb-4">Set Admin</a>
+                }
+
+                if (@Model.IsBlocked)
+                {
+                    <a asp-controller="Admins" asp-action="Unblock" asp-route-username="@Model.Username" class="btn btn-secondary bg-primary text-black">Unblock User</a>
+                }
+                else
+                {
+                    <a asp-controller="Admins" asp-action="Block" asp-route-username="@Model.Username" class="btn btn-secondary bg-danger text-black">Block User</a>
+                }
+            }
         }
-        
+
     </div>
     <div class="col bg-light bg-opacity-25" style="overflow-y:auto; height: 100%">
         @foreach (var post in Model.Posts)
         {
             @Html.Partial("_PostCardTemplate", post)
-        }       
+        }
     </div>
 </div>
