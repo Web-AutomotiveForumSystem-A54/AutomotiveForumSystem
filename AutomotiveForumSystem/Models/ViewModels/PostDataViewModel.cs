@@ -22,6 +22,7 @@ namespace AutomotiveForumSystem.Models.ViewModels
 		public List<Comment> Comments { get; set; } = new();
 
 		public List<Like> Likes { get; set; } = new();
+		public List<Tag> Tags { get; set; } = new();
 
 		[Required]
 		public CommentCreateDTO Comment { get; set; } = new CommentCreateDTO();

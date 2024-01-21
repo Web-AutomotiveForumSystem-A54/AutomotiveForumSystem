@@ -74,7 +74,8 @@ namespace AutomotiveForumSystem.Helpers
 				CreateDate = post.CreateDate.ToString(),
 				CreatedBy = post.User.Username,
                 Comments = post.Comments.ToList(),
-                Likes = post.Likes.ToList()
+                Likes = post.Likes.ToList(),
+                Tags = post.Tags.ToList()
 			};
 			return postDataViewModel;
 		}
