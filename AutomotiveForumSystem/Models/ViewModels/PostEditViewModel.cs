@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutomotiveForumSystem.Models.ViewModels
 {
-	public class PostCreateViewModel
+	public class PostEditViewModel
 	{
+		public int Id { get; set; }
 		[Required, MinLength(16), MaxLength(64)]
 		public string Title { get; set; } = "";
 

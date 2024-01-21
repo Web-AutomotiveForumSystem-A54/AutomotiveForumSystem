@@ -44,7 +44,9 @@ namespace AutomotiveForumSystem.Controllers
 				var user = authManager.TryGetUser($"{loginViewModel.Username}:{loginViewModel.Password}");
 
 				HttpContext.Session.SetString("CurrentUser", user.Username);
+				HttpContext.Session.SetString("CurrentUserBlocked", user.IsBlocked ? "true" : "false");
 				HttpContext.Session.SetString("IsAdmin", user.IsAdmin ? "true" : "false");
+				
 
 				return RedirectToAction("Index", "Home");
 			}

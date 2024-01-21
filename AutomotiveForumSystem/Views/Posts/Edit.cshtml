@@ -1,4 +1,4 @@
-﻿@model PostCreateViewModel
+﻿@model PostEditViewModel
 
 @{
 	var tagLabels = ViewData["TagLabels"] as List<Tag>;
@@ -7,9 +7,9 @@
 
 <div class="d-flex flex-column align-items-center " style="width: 100%;">
 	<div class="d-flex" style="width:70%">
-		<h4 class="text-light rounded p-2">CREATE A POST</h4>
+		<h4 class="text-light rounded p-2">EDIT POST</h4>
 	</div>
-	<form asp-controller="Posts" asp-action="CreatePost" style="width: 70%;" method="post">
+	<form asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.Id" style="width: 70%;" method="post">
 
 		<div class="d-flex" style="gap: 1em;">
 			<div class="d-flex flex-column" style="width: 100%;">
@@ -49,9 +49,9 @@
 				</div>
 
 				<div class="d-flex flex-row text-light mb-2">
-					<p class="d-flex flex-grow-1 justify-content-center align-items-center m-0" style="height:100%; width:100%">Add new tag</p>
-					<input class="d-flex flex-grow-1" maxlength="15" type="text" pattern="[a-zA-Z0-9.]+" id="floatingInput" placeholder=""
-						   data-custom-tag-input="custom-tag_input" data-tag="value" class="form-control bg-light" style="cursor:default" />
+					<p class="d-flex justify-content-center align-items-center m-0" style="height:100%; width:100%">Add new tag</p>
+					<input id="custom-tag-input" maxlength="15" class="d-flex flex-shrink-1" type="text" pattern="[a-zA-Z0-9.]+" id="floatingInput" placeholder=""
+						data-custom-tag-input="custom-tag_input" data-id="" data-tag="value" class="form-control bg-light" style="cursor:default" />
 					@* <input type="text" pattern="[a-zA-Z0-9.]+" title="Only numbers, letters, and dots are allowed" /> *@
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 					<a href="@Context.Request.Headers.Referer.ToString()" class="btn btn-danger mx-2" style="text-decoration: none">Cancel</a>
 				}
 
-				<input type="submit" value="Create" class="btn btn-primary" />
+				<input type="submit" value="Save" class="btn btn-primary" />
 			</div>
 		</div>
 	</form>
@@ -94,5 +94,29 @@
 		// Create a new JS array with all tags from the C# tag list
 		tagsArray = @Html.Raw(Json.Serialize(tagLabels.Select(item => item.Name).ToArray()));
 		InitializeTagContainer();
+
+		for (var i = 0; i < tagsArray.length; i++) {
+
+			var s = "@Model.Tags";
+			console.log(s);
+
+			var tag = String(tagsArray[i]);
+			var modelTags = String(s);
+
+			if (modelTags.includes(tag))
+			{
+				clickedTagsArray.push(tag);
+				
+				var element = document.getElementById('tag-button-' + i);
+
+				// Remove existing classes
+				element.classList.remove('btn-outline-info', 'text-light');
+
+				// Add new classes
+				element.classList.add('btn-info', 'text-dark');
+			}
+		}
+
+		console.log(clickedTagsArray);
 	});
 </script>

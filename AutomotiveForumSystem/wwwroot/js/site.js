@@ -19,6 +19,20 @@ updateClock();
 var clickedTagsArray = [];
 var tagsArray = [];
 
+function InitializeTagContainer() {
+    // Get the container element where you want to append the buttons
+    var container = document.getElementById('tags-container');
+
+    // Loop through the array and create buttons
+    for (var i = 0; i < tagsArray.length; i++) {
+
+        var id = i;
+        var value = tagsArray[i];
+
+        AddTagToContainer(id, value);
+    }
+}
+
 function AddNewTag(value) {
 
     var button = AddTagToContainer(tagsArray.length, value);
@@ -33,6 +47,7 @@ function AddTagToContainer(id, value) {
 
     // Set attributes and styles for the button
     button.type = 'button';
+    button.id = 'tag-button-' + id;
     button.className = 'btn btn-outline-info text-light tag-button-element';
     button.style.fontSize = '12px';
     button.style.boxShadow = 'none';
@@ -74,20 +89,22 @@ function BindTagClick() {
             clickedTagsArray.splice(index, 1);
         }
 
-        console.log("Is it readonly " + document.getElementById('custom-tag-input').getAttribute('readonly'));
+        // 
+        var inputElement = document.querySelector('[data-custom-tag-input="custom-tag_input"]');
         
         // Update the input field by joining the array elements
-        $('#tags-input').val(clickedTagsArray.join(' '));
+        var tagsInput = document.querySelector('[data-tags-input="tags-input"]');
+        tagsInput.value = clickedTagsArray.join(' ');
         
         if (clickedTagsArray.length == 5) {
-            document.getElementById('custom-tag-input').setAttribute('readonly', true);
-            document.getElementById('custom-tag-input').setAttribute('disabled', true);
-            $('#custom-tag-input').val('Up to 5 tags')
+            inputElement.setAttribute('readonly', true);
+            inputElement.setAttribute('disabled', true);
+            inputElement.value = 'Up to 5 tags';
         }
         else {
-            document.getElementById('custom-tag-input').removeAttribute('readonly');
-            document.getElementById('custom-tag-input').removeAttribute('disabled');
-            $('#custom-tag-input').val('')
+            inputElement.removeAttribute('readonly');
+            inputElement.removeAttribute('disabled');
+            inputElement.value = '';
         }
     }
 

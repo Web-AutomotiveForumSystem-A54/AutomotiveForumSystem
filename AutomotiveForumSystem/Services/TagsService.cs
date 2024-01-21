@@ -40,7 +40,7 @@ namespace AutomotiveForumSystem.Services
 
 		public Tag Update(Tag tag)
 		{
-			throw new NotImplementedException();
+			return tagsRepository.Update(tag);
 		}
 	}
 }
