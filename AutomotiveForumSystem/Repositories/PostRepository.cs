@@ -26,11 +26,7 @@ namespace AutomotiveForumSystem.Repositories
 			currentUser.Posts.Add(post);
 			applicationContext.SaveChanges();
 
-			var createdPost = applicationContext.Posts
-			.Include(p => p.Category)
-			.FirstOrDefault(p => p.Id == post.Id);
-
-			return createdPost;
+			return post;
 		}
 
 		public IList<Post> GetAll(PostQueryParameters postQueryParameters)
@@ -39,7 +35,7 @@ namespace AutomotiveForumSystem.Repositories
 				.Include(p => p.Category)
 				.Include(p => p.Comments)
 				.Include(p => p.User)
-				.Where(p => !p.IsDeleted)//TODO: should this be in the service or repo
+				.Where(p => !p.IsDeleted)
 				.AsEnumerable();
 
 			if (!string.IsNullOrEmpty(postQueryParameters.Category))
@@ -73,10 +69,8 @@ namespace AutomotiveForumSystem.Repositories
 
 		public IList<Post> GetAll()
 		{
-			// TODO : check if including comments is needed here
 			return this.applicationContext.Posts
 				.Include(p => p.Category)
-				//.Include(p => p.Comments)
 				.Include(p => p.Tags)
 				.Where(p => !p.IsDeleted)
 				.ToList();
@@ -104,9 +98,26 @@ namespace AutomotiveForumSystem.Repositories
 			{
 				postsToReturn = postsToReturn.Where(p => p.Category.Name == postQueryParameters.Category);
 			}
+
 			if (!string.IsNullOrEmpty(postQueryParameters.Title))
 			{
-				postsToReturn = postsToReturn.Where(p => p.Title.Contains(postQueryParameters.Title));
+				string[] titleKeywords = postQueryParameters.Title.Split(' ');
+				postsToReturn = postsToReturn.Where(p => titleKeywords.All(keyword => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase)));
+			}
+			if (!string.IsNullOrEmpty(postQueryParameters.Tag))
+			{
+				postsToReturn = postsToReturn.Where(p => p.Tags.Any(t => t.Name == postQueryParameters.Tag));
+			}
+			if (!string.IsNullOrEmpty(postQueryParameters.SortBy))
+			{
+				if (postQueryParameters.SortBy == "likes")
+				{
+					postsToReturn = postsToReturn.OrderByDescending(p => p.TotalLikesCount);
+				}
+				else if (postQueryParameters.SortBy == "date")
+				{
+					postsToReturn = postsToReturn.OrderByDescending(p => p.CreateDate);
+				}
 			}
 			return postsToReturn.Include(p => p.Category).ToList();
 		}
