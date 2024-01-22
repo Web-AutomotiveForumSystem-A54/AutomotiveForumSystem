@@ -146,6 +146,7 @@ hr {
 }
 
 a.user-item:hover {
-    background-color: lightgrey !important; 
+    background-color: #88A3A5 !important;
     color: black !important;
+    transition: ease 0.3s;
 }
