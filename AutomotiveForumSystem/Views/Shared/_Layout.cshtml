@@ -4,6 +4,7 @@
 	var totalPostCount = ViewData["TotalPostsCount"];
 	var membersCount = ViewData["MembersCount"];
 	var currentUserName = Context.Session.GetString("CurrentUser");
+	var isAsdmin = Context.Session.GetString("IsAdmin");
 }
 
 <!DOCTYPE html>
@@ -146,7 +147,7 @@
 								else
 								{
 									<div class="d-flex align-items-center">
-										<a asp-controller="Users" asp-action="Index" asp-route-username="@Context.Session.GetString("CurrentUser")" class="badge rounded-pill bg-dark" style="text-decoration:none; font-size:18px !important; margin: 0; margin-right: 10px;">@currentUserName</a>
+										<a asp-controller="Users" asp-action="Index" asp-route-username="@Context.Session.GetString("CurrentUser")" class="badge rounded-pill bg-dark" style="text-decoration:none; font-size:18px !important; margin: 0; margin-right: 10px;">@currentUserName @(isAsdmin == "true" ? "(admin)" : "")</a>
 										<a type="button" class="navbar-text btn btn-outline-dark nav-login-button" asp-controller="Auth" asp-action="Logout" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
 									</div>
 								}
