@@ -339,3 +339,84 @@ Authorization: Bearer <your_jwt_token_here>
 ```
 
 __________________________________________________________________________________________
+
+### Users
+
+--**GET /api/users**
+  -Description: Creates a new user profile.
+  -Authorization: Not required.
+  -Request Body:
+    -Type: JSON
+    -Content: UserCreateDTO containing user information.
+  -Success Response:
+    -Status Code: 201 Created
+    -Content: JSON representation of the created user.
+  -Error Responses:
+    -409 Conflict: If a user with the same data already exists (DuplicateEntityException).
+
+#### Example Request
+```
+POST /api/users/create
+
+{
+  "username": "exampleUser",
+  "password": "examplePassword",
+  "firstName": "exampleFirstName",
+  "lastName": "exampleLastName",
+  "email": "example@example.com",
+  "phoneNumber": null (optional)
+}
+```
+__________________________________________________________________________________________
+
+--**PUT /api/users**
+  -Description: Updates the profile information of the authenticated user.
+  -Authorization: Required (Authorization header containing a valid token).
+  -Request Headers:
+    -Authorization: Bearer [Access Token]
+  -Request Body:
+    -Type: JSON
+    -Content: UserUpdateProfileInformationDTO containing updated user information.
+  -Success Response:
+    -Status Code: 200 OK
+    -Content: JSON representation of the updated user.
+  -Error Responses:
+    -401 Unauthorized: If the provided token is invalid or expired (AuthenticationException).
+    -400 Bad Request: If the user is blocked (UserBlockedException).
+    -404 Not Found: If the user is not found (EntityNotFoundException).
+
+#### Example Request
+```
+PUT /api/users
+Authorization: Bearer <your_token_here>
+
+{
+  "firstName": "exampleFirstName",
+  "lastName": "exampleLastName",
+  "email": "example@example.com"
+  "phoneNumber": null (optional)
+}
+```
+__________________________________________________________________________________________
+
+--**DELETE /api/users**
+  -Description: Deletes the profile of the authenticated user.
+  -Authorization: Required (Authorization header containing a valid token).
+  -Request Headers:
+    -Authorization: Bearer [Access Token]
+  -Success Response:
+    -Status Code: 200 OK
+  -Error Responses:
+    -401 Unauthorized: If the provided token is invalid or expired (AuthenticationException).
+    -404 Not Found: If the user is not found (EntityNotFoundException).
+
+#### Example Request
+```
+DELETE /api/users
+Authorization: Bearer <your_token_here>
+
+{
+  DELETE /api/users
+  Authorization: Bearer <your_token_here>
+}
+```
