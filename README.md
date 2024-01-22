@@ -32,29 +32,15 @@ cd automotive-forum
 
 <p>4. Download and install the .NET Core SDK.</p>
 
-<p>5. Build the Application:</p>
+<p>5. Apply Database Migrations:</p>
 
-```
-dotnet build
-```
+<p>6. Build and run the Application:</p>
 
-<p>6. Apply Database Migrations:</p>
+<p>7. Navigate to http://localhost:5000 to access the Automotive Forum Web App.</p>
 
-```
-dotnet ef database update
-```
+<p>8. Log in or create an account to explore the forum create posts and engage with the community.</p>
 
-<p>7. Run the Application:</p>
-
-```
-dotnet run
-```
-
-<p>8. Navigate to http://localhost:5000 to access the Automotive Forum Web App.</p>
-
-<p>9. Log in or create an account to explore the forum create posts and engage with the community.</p>
-
-<p>10. If desired use SSMS to create a backup of your SQL Server database for data security.</p>
+<p>9. If desired use SSMS to create a backup of your SQL Server database for data security.</p>
 
   
   
