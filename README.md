@@ -32,9 +32,9 @@ cd automotive-forum
 
 <p>4. Download and install the .NET Core SDK.</p>
 
-<p>5. Apply Database Migrations:</p>
+<p>5. Apply Database Migrations.</p>
 
-<p>6. Build and run the Application:</p>
+<p>6. Build and run the Application.</p>
 
 <p>7. Navigate to http://localhost:5000 to access the Automotive Forum Web App.</p>
 
