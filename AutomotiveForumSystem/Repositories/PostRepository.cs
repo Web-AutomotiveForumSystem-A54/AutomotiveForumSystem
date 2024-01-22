@@ -134,6 +134,7 @@ namespace AutomotiveForumSystem.Repositories
 
 			postToUpdate.Title = updatedPost.Title;
 			postToUpdate.Content = updatedPost.Content;
+			postToUpdate.Tags = updatedPost.Tags;
 
 			if (postToUpdate.CategoryID != updatedPost.CategoryID)
 			{

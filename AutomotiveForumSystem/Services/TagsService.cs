@@ -38,6 +38,19 @@ namespace AutomotiveForumSystem.Services
 			return tagsRepository.GetByName(name);
 		}
 
+		public IList<Tag> TryAddTags(List<Tag> tagsToAdd)
+		{
+			foreach (var tag in tagsToAdd)
+			{
+				if (!tagsRepository.IsTagPresent(tag))
+				{
+					Create(tag);
+				}
+			}
+
+			return tagsToAdd;
+		}
+
 		public Tag Update(Tag tag)
 		{
 			return tagsRepository.Update(tag);

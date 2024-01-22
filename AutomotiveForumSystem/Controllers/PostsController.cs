@@ -255,30 +255,11 @@ namespace AutomotiveForumSystem.Controllers
 			{
 				var currentUser = HttpContext.Session.GetString("CurrentUser");
 
+				List<Tag> requestTags = ManageIncomeTags(postCreateViewModel.Tags);
 				List<Tag> tags = new List<Tag>();
-
-				if (postCreateViewModel.Tags != null)
+				foreach (var tag in requestTags)
 				{
-					var inputTags = postCreateViewModel.Tags.Split(' ');
-					foreach (var item in inputTags)
-					{
-						var _sent_tag = item.ToLower();
-
-						var tag = tagsService.GetByName(_sent_tag);
-						if (tag != null)
-						{
-							tags.Add(tagsService.GetByName(_sent_tag));
-						}
-						else
-						{
-							Tag _tag = new Tag()
-							{
-								Name = _sent_tag,
-							};
-							var newTag = tagsService.Create(_tag);
-							tags.Add(_tag);
-						}
-					}
+					tags.Add(tagsService.GetByName(tag.Name));
 				}
 
 				var user = this.usersService.GetByUsername(currentUser);
@@ -317,7 +298,6 @@ namespace AutomotiveForumSystem.Controllers
 				}
 				GlobalQueries.InitializeLayoutBasedData(this, categoriesService, tagsService,
 						usersService, postService, categoryModelMapper);
-
 
 				var post = this.postService.GetPostById(id);
 				var tagNames = string.Join(" ", post.Tags.Select(tag => tag.Name));
@@ -359,12 +339,21 @@ namespace AutomotiveForumSystem.Controllers
 					InitializeCategoriesInViewModel(postEditViewModel);
 					return View(postEditViewModel);
 				}
+				
+				List<Tag> requestTags = ManageIncomeTags(postEditViewModel.Tags);
+				List<Tag> tags = new List<Tag>();
+				foreach (var tag in requestTags)
+				{
+					tags.Add(tagsService.GetByName(tag.Name));
+				}
+
 				var post = this.postService.GetPostById(id);
 				var updatedPost = new Post()
 				{
 					Title = postEditViewModel.Title,
 					Content = postEditViewModel.Content,
-					CategoryID = postEditViewModel.CategoryID
+					CategoryID = postEditViewModel.CategoryID,
+					Tags = tags,
 				};
 				this.postService.Update(id, updatedPost, post.User);
 				return RedirectToAction("Index", "Posts", new { id });
@@ -481,6 +470,29 @@ namespace AutomotiveForumSystem.Controllers
 			}
 
 			return null; // Indicates that the user is not blocked
+		}
+
+		private List<Tag> ManageIncomeTags(string _tags)
+		{
+			List<Tag> tags = new List<Tag>();
+
+			if (_tags != null)
+			{
+				var inputTags = _tags.Split(' ');
+				foreach (var item in inputTags)
+				{
+					var _sent_tag = item.ToLower();
+
+					Tag _tag = new Tag()
+					{
+						Name = _sent_tag,
+					};
+					tags.Add(_tag);
+				}
+				tags = (List<Tag>)tagsService.TryAddTags(tags);
+			}
+
+			return tags;
 		}
 	}
 }

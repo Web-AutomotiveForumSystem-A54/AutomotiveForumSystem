@@ -10,5 +10,6 @@ namespace AutomotiveForumSystem.Repositories.Contracts
 		Tag Create(Tag tag);
 		Tag Update(Tag tag);
 		bool Delete(Tag tag);
+		bool IsTagPresent(Tag tag);
 	}
 }

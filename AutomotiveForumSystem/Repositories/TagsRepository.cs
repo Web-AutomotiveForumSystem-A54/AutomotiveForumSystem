@@ -17,12 +17,14 @@ namespace AutomotiveForumSystem.Repositories
 		public Tag Create(Tag tag)
 		{
 			applicationContext.Tags.Add(tag);
+			applicationContext.SaveChanges();
 			return tag;
 		}
 
 		public bool Delete(Tag tag)
 		{
 			applicationContext.Tags.Remove(tag);
+			applicationContext.SaveChanges();
 			return true;
 		}
 
@@ -43,9 +45,15 @@ namespace AutomotiveForumSystem.Repositories
 				?? throw new EntityNotFoundException($"Tag with name {name} not found");
 		}
 
+		public bool IsTagPresent(Tag tag)
+		{
+			return applicationContext.Tags.Any(x => x.Name == tag.Name);
+		}
+
 		public Tag Update(Tag tag)
 		{
 			applicationContext.Update(tag);
+			applicationContext.SaveChanges();
 			return tag;
 		}
 	}
