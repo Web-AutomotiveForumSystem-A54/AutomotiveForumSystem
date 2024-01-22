@@ -1,6 +1,87 @@
 # AutomotiveForumSystem
 
-> A Forum System For Car Enthusiasts
+<p id="description">The Automotive Forum Web App is a dynamic and engaging platform designed for automotive enthusiasts to connect share and explore a wide range of automotive topics. This web application provides a seamless and user-friendly experience for users passionate about cars and everything related to the automotive world.</p>
+
+  
+  
+<h2>🧐 Features</h2>
+
+Here're some of the project's best features:
+
+*   Effortlessly explore the Automotive Forum through a well-designed sidebar for quick access to home post creation and category/tag sections.
+*   Enhance searchability by enriching posts with relevant tags enabling quick identification of topics.
+*   Streamline user experience with a powerful search bar for finding specific posts.
+*   Stay informed about community growth with real-time updates on member and post counts.
+*   Enjoy personalized interactions and track contributions securely through user authentication.
+
+<h2>🛠️ Installation Steps:</h2>
+
+<p>1. Clone the repository.</p>
+
+```
+git clone https://github.com/Web-AutomotiveForumSystem-A54/AutomotiveForumSystem.git
+```
+
+<p>2. Navigate to the project directory.</p>
+
+```
+cd automotive-forum
+```
+
+<p>3. Configure Database Connection: Open the appsettings.json file. Update the connection string under the "DefaultConnection" key to point to your SQL Server database.</p>
+
+<p>4. Download and install the .NET Core SDK.</p>
+
+<p>5. Build the Application:</p>
+
+```
+dotnet build
+```
+
+<p>6. Apply Database Migrations:</p>
+
+```
+dotnet ef database update
+```
+
+<p>7. Run the Application:</p>
+
+```
+dotnet run
+```
+
+<p>8. Navigate to http://localhost:5000 to access the Automotive Forum Web App.</p>
+
+<p>9. Log in or create an account to explore the forum create posts and engage with the community.</p>
+
+<p>10. If desired use SSMS to create a backup of your SQL Server database for data security.</p>
+
+  
+  
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   ASP.NET Core
+*   Razor Pages (CSHTML)
+*   Bootstrap
+*   jQuery
+*   Entity Framework Core
+*   HTML/CSS
+*   JavaScript
+*   SQL
+*   Git
+
+<h2>🛡️ License:</h2>
+
+This project is licensed under the MIT License
+
+## Like our work?💖
+
+## Project Support 🚗 Welcome to the Automotive Forum Web App! If you have any questions encounter issues or simply want to chat about all things automotive we're here to help! Feel free to reach out by creating an issue in the \[Issues\](https://github.com/Web-AutomotiveForumSystem-A54/AutomotiveForumSystem/issues) section. Let's build a vibrant community together! Happy coding! 🏎️ The Automotive Forum Team
+
+__________________________________________________________________________________________
+
 
 To access SwaggerUI documentation, launch the program on your local machine and visit:
 http://localhost:5000/swagger/index.html
@@ -8,9 +89,11 @@ http://localhost:5000/swagger/index.html
 Swagger raw JSON file: 
 http://localhost:5000/swagger/v1/swagger.json
 
+__________________________________________________________________________________________
+
 How to use the AutomotiveForumSystemAPI:
 
-## Endpoints
+## API Endpoints
 
 ### Auth
 
