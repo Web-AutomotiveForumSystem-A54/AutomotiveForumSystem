@@ -78,7 +78,7 @@ namespace AutomotiveForumSystem.Controllers
 				IList<Post> posts = category.Posts
 					.Where(p => !p.IsDeleted)
 					.ToList();
-				IList<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
+				List<PostPreViewModel> postsDataViewModelList = this.postModelMapper.MapPostsToPreViewModel(posts);
 				return View(postsDataViewModelList);
 			}
 			catch (EntityNotFoundException ex)
